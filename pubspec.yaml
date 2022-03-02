@@ -1,0 +1,36 @@
+name: al_furqan_school
+description: A new Flutter project.
+publish_to: 'none'
+version: 1.0.0+1
+environment:
+  sdk: ">=2.16.0 <3.0.0"
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  provider: ^6.0.2
+  cached_network_image: ^3.2.0
+  shared_preferences: ^2.0.13
+  carousel_slider: ^4.0.0
+  webview_flutter: ^2.1.0
+  dio: ^4.0.4
+  flutter_html: ^2.1.0
+  url_launcher: ^6.0.20
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^1.0.0
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - i18n/ar.json
+    - i18n/en.json
+  fonts:
+    - family: DroidKufi
+      fonts:
+        - asset: assets/fonts/DroidKufiRegular.ttf
+        - asset: assets/fonts/DroidKufiBold.ttf
+          weight: 700
