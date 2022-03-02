@@ -9,7 +9,7 @@ Color mainColor = const Color(0xFF8A1538);
 Color mainTextColor = const Color(0xFF0c1f38);
 Color accent = Colors.cyan;
 Color teal = const Color(0xFF97BFB4);
-Color white = const Color(0xFFFFFFFF);
+Color white = const Color(0xFFF5EEDC);
 Color splash = Colors.blue;
 
 ///////////////////////////////////////////////////////////
