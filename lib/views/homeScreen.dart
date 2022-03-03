@@ -1,5 +1,8 @@
 // ignore_for_file: file_names
 
+import 'dart:ffi';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:al_furqan_school/I10n/app_localizations.dart';
@@ -76,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             )
           : ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
               shrinkWrap: true,
               children: [
                 const SizedBox(
@@ -103,21 +106,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   }).toList(),
                 ),
                 const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    AppLocalizations.of(context)!.translate('aboutTheSchool')!,
-                    style: appText.copyWith(
-                        color: mainColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
-                  ),
-                ),
-                const SizedBox(
                   height: 5,
                 ),
+                Container(
+
+                  width: double.infinity,
+                  color: mainColor,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Text(
+                      AppLocalizations.of(context)!.translate('aboutTheSchool')!,
+                      style: appText.copyWith(
+                         color: white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    ),
+                  ),
+                ),
+
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.2,
@@ -150,21 +156,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
 // ====================================================================
-                const SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    AppLocalizations.of(context)!.translate('news')!,
-                    style: appText.copyWith(
-                        color: mainColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
+
+                Container(
+                  width: double.infinity,
+                  color: mainColor,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Text(
+                      AppLocalizations.of(context)!.translate('news')!,
+                      style: appText.copyWith(
+                          color: white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
@@ -196,17 +201,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
 // ====================================================================
 // ====================================================================
-                const SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    AppLocalizations.of(context)!.translate('PhotosAlbum')!,
-                    style: appText.copyWith(
-                        color: mainColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
+                Container(
+                  width: double.infinity,
+                  color: mainColor,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      AppLocalizations.of(context)!.translate('PhotosAlbum')!,
+                      style: appText.copyWith(
+                          color: white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -215,36 +221,75 @@ class _HomeScreenState extends State<HomeScreen> {
                 CarouselSlider(
                   options: CarouselOptions(height: 150.0, autoPlay: true),
                   items: list.map((i) {
+
                     return Builder(
                       builder: (BuildContext context) {
-                        return Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage("${i.img}"),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(15))),
+                        return CachedNetworkImage(
+                          fit: BoxFit.cover,
+                            imageUrl: "${i.img}",
+                          imageBuilder: ((context, image){
+                             return  Container(
+                                 width: MediaQuery.of(context).size.width,
+                                 margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                                 decoration: BoxDecoration(
+                                 image: DecorationImage(
+                                 image: image,
+                            fit: BoxFit.cover,
+                            ),
+                                     borderRadius:
+                                     const BorderRadius.all(Radius.circular(15))
+
+                                 )
+                             );
+                          }),
+                          placeholder: (context, image){
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  color: mainColor,
+                                  backgroundColor: white,
+                                ),
+                              );
+                          },
+                          errorWidget: (context, url, error){
+                              return Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                                  decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage("assets/images/imageplaceholder-image.jpg"),
+                                        fit: BoxFit.cover,
+                                      ),
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(15))
+
+                                  )
+                              );
+                          },
                         );
                       },
                     );
                   }).toList(),
                 ),
-// ====================================================================
-// ====================================================================
                 const SizedBox(
-                  height: 20,
+                  height: 5,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    AppLocalizations.of(context)!.translate('videosAlbum')!,
-                    style: appText.copyWith(
-                        color: mainColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
+// ====================================================================
+// ====================================================================
+                  const SizedBox(
+                    height: 5,
+                  ),
+                Container(
+                  width: double.infinity,
+                  color: mainColor,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Text(
+                      AppLocalizations.of(context)!.translate('videosAlbum')!,
+                      style: appText.copyWith(
+                          color: white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -255,22 +300,56 @@ class _HomeScreenState extends State<HomeScreen> {
                   items: list2.map((i) {
                     return Builder(
                       builder: (BuildContext context) {
-                        return Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage("${i.img}"),
-                                fit: BoxFit.cover,
+                        return CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          imageUrl: "${i.img}",
+                          imageBuilder: ((context, image){
+                            return  Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: image,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    borderRadius:
+                                    const BorderRadius.all(Radius.circular(15))
+
+                                )
+                            );
+                          }),
+                          placeholder: (context, image){
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: mainColor,
+                                backgroundColor: white,
                               ),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(15))),
+                            );
+                          },
+                          errorWidget: (context, url, error){
+                            return Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                                decoration: const BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage("assets/images/imageplaceholder-image.jpg"),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(15))
+
+                                )
+                            );
+                          },
                         );
                       },
                     );
                   }).toList(),
                 ),
 // ====================================================================
+                const SizedBox(
+                  height: 5,
+                ),
               ],
             ),
     );

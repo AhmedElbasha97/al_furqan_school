@@ -33,7 +33,7 @@ class _SchoolWordState extends State<SchoolWord> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: white,
       appBar: AppBar(
         iconTheme:  IconThemeData(color: white),
         backgroundColor: mainColor,

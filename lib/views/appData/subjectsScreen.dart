@@ -59,7 +59,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                       },
                       child: ListTile(
                         title: Text("${subjects[index].miName}"),
-                        trailing: const Icon(Icons.arrow_forward_ios),
+                        trailing:  Icon(Icons.arrow_forward_ios,color: mainColor,),
                       ),
                     ),
                   );

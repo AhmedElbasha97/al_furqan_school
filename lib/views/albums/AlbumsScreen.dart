@@ -97,10 +97,10 @@ class _AlbumsScreenState extends State<AlbumsScreen> {
                             ),
                             Container(
                               width: 200,
-                              decoration: const BoxDecoration(
-                                  color: Colors.black,
+                              decoration:  BoxDecoration(
+                                  color: mainColor,
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
+                                      const BorderRadius.all(Radius.circular(10))),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SizedBox(
@@ -109,7 +109,7 @@ class _AlbumsScreenState extends State<AlbumsScreen> {
                                     "${widget.isImg ? list[index].title : listVideos[index].title}",
                                     textAlign: TextAlign.center,
                                     overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(color: Colors.white),
+                                    style:  TextStyle(color:white),
                                   ),
                                 ),
                               ),

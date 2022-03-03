@@ -51,11 +51,11 @@ class _AppDrawerState extends State<AppDrawer> {
       backgroundColor: mainColor,
       child: ListView(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset("assets/images/logo1.jpeg"),
-          ),
-          const SizedBox(height: 50),
+          Container(
+            color: white,
+
+              child: Image.asset("assets/images/logo1.png")),
+          const SizedBox(height: 10),
           ListTile(
             title: Text(
               "${AppLocalizations.of(context)!.translate('homePage')}",
@@ -316,6 +316,7 @@ class _AppDrawerState extends State<AppDrawer> {
             endIndent: 30,
             indent: 30,
           ),
+
           userLogged
               ? ListTile(
                   title: Text(
@@ -337,7 +338,7 @@ class _AppDrawerState extends State<AppDrawer> {
                   },
                 )
               : Container(),
-
+          const SizedBox(height: 15,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -380,7 +381,7 @@ class _AppDrawerState extends State<AppDrawer> {
               const Padding(padding: EdgeInsets.symmetric(horizontal: 1)),
             ],
           ),
-          const Padding(padding: EdgeInsets.symmetric(vertical: 15)),
+          const SizedBox(height: 15,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Text(

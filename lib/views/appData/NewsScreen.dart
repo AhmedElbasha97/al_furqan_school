@@ -61,7 +61,7 @@ class _NewsScreenState extends State<NewsScreen> {
                       child: ListTile(
                         title: Text("${news[index].title}"),
                         subtitle: Text("${news[index].brief}"),
-                        trailing: const Icon(Icons.arrow_forward_ios),
+                        trailing:  Icon(Icons.arrow_forward_ios,color: mainColor,),
                       ),
                     ),
                   );

@@ -100,15 +100,15 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     prefixIcon: const Icon(Icons.people),
                     counterText: "",
                     hintText: AppLocalizations.of(context)!.translate('name'),
-                    focusedBorder: const OutlineInputBorder(
+                    focusedBorder:  OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: Color(0xFF184e7a), width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                          BorderSide(color: mainColor, width: 2.0),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
                     ),
-                    enabledBorder: const OutlineInputBorder(
+                    enabledBorder:  OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: Color(0xFF184e7a), width: 1.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                          BorderSide(color: mainColor, width: 1.0),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
                     ),
                   ),
                   validator: (value) {
@@ -134,15 +134,15 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     counterText: "",
                     hintText:
                         AppLocalizations.of(context)!.translate('phoneNumber'),
-                    focusedBorder: const OutlineInputBorder(
+                    focusedBorder:  OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: Color(0xFF184e7a), width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                          BorderSide(color:mainColor, width: 2.0),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
                     ),
-                    enabledBorder: const OutlineInputBorder(
+                    enabledBorder:  OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: Color(0xFF184e7a), width: 1.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                          BorderSide(color:mainColor, width: 1.0),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
                     ),
                   ),
                   validator: (value) {
@@ -167,15 +167,15 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     prefixIcon: const Icon(Icons.email),
                     counterText: "",
                     hintText: AppLocalizations.of(context)!.translate('email'),
-                    focusedBorder: const OutlineInputBorder(
+                    focusedBorder:  OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: Color(0xFF184e7a), width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                          BorderSide(color: mainColor, width: 2.0),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
                     ),
-                    enabledBorder: const OutlineInputBorder(
+                    enabledBorder:  OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: Color(0xFF184e7a), width: 1.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                          BorderSide(color: mainColor, width: 1.0),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
                     ),
                   ),
                   validator: (value) {
@@ -204,15 +204,15 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   textAlign: TextAlign.right,
                   decoration: InputDecoration(
                     hintText: AppLocalizations.of(context)!.translate('typeMsg'),
-                    focusedBorder: const OutlineInputBorder(
+                    focusedBorder:  OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: Color(0xFF184e7a), width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                          BorderSide(color: mainColor, width: 2.0),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
                     ),
-                    enabledBorder: const OutlineInputBorder(
+                    enabledBorder:  OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: Color(0xFF184e7a), width: 1.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                          BorderSide(color: mainColor, width: 1.0),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
                     ),
                   )),
               const SizedBox(
