@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "942256929814",
+    "project_id": "alfarquan-c4250",
+    "storage_bucket": "alfarquan-c4250.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942256929814:android:5d76e63fd87420adc28937",
+        "android_client_info": {
+          "package_name": "com.example.al_furqan_school"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "942256929814-oh3ambh1mpajoo7n7haqgrt0ceja6kcl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9DU-7S7yMm6oqSwjIivefYFcC8g-UR7g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "942256929814-oh3ambh1mpajoo7n7haqgrt0ceja6kcl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
