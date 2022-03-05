@@ -6,7 +6,9 @@ import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/views/loggedUser/Messages/sendMessageStudent.dart';
 import 'package:al_furqan_school/views/parents/AttendanceScreen.dart';
 import 'package:al_furqan_school/views/parents/ReportsScreen.dart';
+import 'package:al_furqan_school/views/parents/students_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import '../globals/commonStyles.dart';
 import 'loggedUser/Messages/MessagesScreen.dart';
 import 'loggedUser/Messages/sentMessageScreen.dart';
@@ -29,6 +31,53 @@ class _MyAccountParentState extends State<MyAccountParent> {
         body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListView(children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    const CircleAvatar(
+                      radius: 30,
+                      backgroundImage:AssetImage("assets/images/imageplaceholder-image.jpg") ,
+                        ),
+                    const SizedBox(width: 20,),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("اسم ولى الامر",style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: mainColor
+                        ),
+                        ),
+                        const Text("الطالب المختار:اسم الطالب",style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.grey
+                        ),
+                        ),
+                        InkWell(
+                          onTap: (){
+                            pushPage(
+                                context,
+                                const StudentListScreen());
+                          },
+                          child: Row(
+                            children: [
+                               Text("قأمة الطلاب المسجلين",style: TextStyle(
+
+                                fontSize: 10,
+                                color: teal
+                              ),
+                              ),
+                              Icon(Icons.arrow_forward_ios_rounded,color: teal,size: 15,)
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              Divider(color: mainColor,),
               ListTile(
                 onTap: () {
                   pushPage(context, const ReportScreen());
@@ -38,7 +87,7 @@ class _MyAccountParentState extends State<MyAccountParent> {
                 ),
                 trailing:  Icon(Icons.book,color: mainColor),
               ),
-              const Divider(),
+               Divider(color: mainColor,),
               ListTile(
                   onTap: () {
                     pushPage(context, const AttendanceScreen());
