@@ -10,9 +10,10 @@ import 'package:al_furqan_school/models/AppInfo/subjectDetails.dart';
 import 'package:dio/dio.dart';
 
 class AppInfoService {
+  String baseURL = "https://alforqanschools.sch.qa/site/api/";
   String sliderLink = "${baseUrl}slide.php";
-  String aboutSchool = "${baseUrl}about.php";
-  String schoolWord = "${baseUrl}school_desc.php";
+  String aboutSchool = "about.php";
+  String schoolWord = "school_desc.php";
   String aboutApp = "${baseUrl}about_app.php";
   String privacyPolicy = "${baseUrl}privacy.php";
   String subjects = "${baseUrl}subjects.php";
@@ -37,7 +38,7 @@ class AppInfoService {
     AboutSchool data;
     Response response;
     response = await Dio().get(
-      aboutSchool,
+      baseURL + aboutSchool,
     );
     var resData = response.data;
     data = AboutSchool.fromJson(resData[0]);
@@ -48,7 +49,7 @@ class AppInfoService {
     AboutSchool data;
     Response response;
     response = await Dio().get(
-      schoolWord,
+      baseURL+schoolWord,
     );
     var resData = response.data;
     data = AboutSchool.fromJson(resData[0]);
@@ -59,7 +60,7 @@ class AppInfoService {
     AboutSchool data;
     Response response;
     response = await Dio().get(
-      aboutApp,
+     aboutApp,
     );
     var resData = response.data;
     data = AboutSchool.fromJson(resData[0]);

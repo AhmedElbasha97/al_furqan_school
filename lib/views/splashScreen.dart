@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:al_furqan_school/globals/commonStyles.dart';
-import 'package:al_furqan_school/views/homeScreen.dart';
+import 'package:al_furqan_school/views/startScreens/choose_state_screen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(
         const Duration(seconds: 3),
         () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
+              builder: (context) => const ChooseStateScreen(),
             )));
   }
 
@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset("assets/images/logo1.png"),
+          Image.asset("assets/images/logo 2020 new.png"),
           const SizedBox(height: 20),
           CircularProgressIndicator(
             color: mainColor,

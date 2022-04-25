@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:al_furqan_school/globals/commonStyles.dart';
+import 'package:al_furqan_school/views/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:al_furqan_school/models/AppInfo/aboutSchool.dart';
@@ -39,10 +40,7 @@ class _SchoolWordState extends State<SchoolWord> {
         backgroundColor: mainColor,
       ),
       body: loading
-          ?  Center(child: CircularProgressIndicator(
-        color: mainColor,
-        backgroundColor: white,
-      ))
+          ?  const Loader()
           : ListView(
               children: [
                 Container(

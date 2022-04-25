@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
 
+import 'package:al_furqan_school/models/new/gallery_model.dart';
+import 'package:al_furqan_school/models/new/videos_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +10,7 @@ import 'package:al_furqan_school/globals/commonStyles.dart';
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/globals/widgets/DrawerWidget.dart';
 import 'package:al_furqan_school/globals/widgets/HomeCard.dart';
-import 'package:al_furqan_school/models/AppInfo/photoAlbum.dart';
 import 'package:al_furqan_school/models/AppInfo/sliderPhotos.dart';
-import 'package:al_furqan_school/models/AppInfo/videos.dart';
 import 'package:al_furqan_school/services/albums.dart';
 import 'package:al_furqan_school/services/appInfoService.dart';
 
@@ -25,7 +25,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<SliderData> sliderData = [];
-  List<PhotoAlbum> list = [];
+  List<Gallery> list = [];
   List<Videos> list2 = [];
 
   bool loading = true;
@@ -62,8 +62,10 @@ class _HomeScreenState extends State<HomeScreen> {
         iconTheme:  IconThemeData(color: white),
         backgroundColor: mainColor,
         title: Image.asset(
-          "assets/images/logo.png",
-          scale: 4.5,
+          "assets/images/logo 2020 new.png",
+          fit: BoxFit.fitHeight,
+          height: MediaQuery.of(context).size.height*0.07,
+          width: MediaQuery.of(context).size.width*0.1,
         ),
         centerTitle: true,
       ),
@@ -106,18 +108,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 5,
                 ),
-                Container(
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    width: MediaQuery.of(context).size.width*0.7,
 
-                  width: double.infinity,
-                  color: mainColor,
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Text(
-                      AppLocalizations.of(context)!.translate('aboutTheSchool')!,
-                      style: appText.copyWith(
-                         color: white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        AppLocalizations.of(context)!.translate('aboutTheSchool')!,
+                        style: appText.copyWith(
+                           color: white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
                     ),
                   ),
                 ),
@@ -155,17 +163,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
 // ====================================================================
 
-                Container(
-                  width: double.infinity,
-                  color: mainColor,
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Text(
-                      AppLocalizations.of(context)!.translate('news')!,
-                      style: appText.copyWith(
-                          color: white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    width: MediaQuery.of(context).size.width*0.7,
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        AppLocalizations.of(context)!.translate('news')!,
+                        style: appText.copyWith(
+                            color: white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
                     ),
                   ),
                 ),
@@ -199,17 +214,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
 // ====================================================================
 // ====================================================================
-                Container(
-                  width: double.infinity,
-                  color: mainColor,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      AppLocalizations.of(context)!.translate('PhotosAlbum')!,
-                      style: appText.copyWith(
-                          color: white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    width: MediaQuery.of(context).size.width*0.7,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        AppLocalizations.of(context)!.translate('PhotosAlbum')!,
+                        style: appText.copyWith(
+                            color: white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
                     ),
                   ),
                 ),
@@ -276,17 +297,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(
                     height: 5,
                   ),
-                Container(
-                  width: double.infinity,
-                  color: mainColor,
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Text(
-                      AppLocalizations.of(context)!.translate('videosAlbum')!,
-                      style: appText.copyWith(
-                          color: white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    width: MediaQuery.of(context).size.width*0.7,
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        AppLocalizations.of(context)!.translate('videosAlbum')!,
+                        style: appText.copyWith(
+                            color: white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
                     ),
                   ),
                 ),

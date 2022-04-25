@@ -1,23 +1,25 @@
 import 'package:al_furqan_school/globals/CommonSetting.dart';
 import 'package:al_furqan_school/models/AppInfo/photo.dart';
-import 'package:al_furqan_school/models/AppInfo/photoAlbum.dart';
-import 'package:al_furqan_school/models/AppInfo/videos.dart';
+import 'package:al_furqan_school/models/new/gallery_model.dart';
+import 'package:al_furqan_school/models/new/videos_model.dart';
+
 import 'package:dio/dio.dart';
 
 
 class AlbumsService {
-  String photoAlbums = "${baseUrl}gallery.php";
-  String videoAlbums = "${baseUrl}videos.php";
+  String baseURL = "https://alforqanschools.sch.qa/site/api/";
+  String photoAlbums = "gallery.php";
+  String videoAlbums = "videos.php";
 
-  Future<List<PhotoAlbum>> getphotoAlbums() async {
-    List<PhotoAlbum> list = [];
+  Future<List<Gallery>> getphotoAlbums() async {
+    List<Gallery> list = [];
     Response response;
     response = await Dio().get(
-      photoAlbums,
+      baseURL+photoAlbums,
     );
     var data = response.data;
     data.forEach((element) {
-      list.add(PhotoAlbum.fromJson(element));
+      list.add(Gallery.fromJson(element));
     });
     return list;
   }
@@ -26,7 +28,7 @@ class AlbumsService {
     List<Videos> list = [];
     Response response;
     response = await Dio().get(
-      videoAlbums,
+      baseURL+videoAlbums,
     );
     var data = response.data ?? [];
     data.forEach((element) {
@@ -39,7 +41,7 @@ class AlbumsService {
     List<Photo> list = [];
     Response response;
     response = await Dio().get(
-      "$photoAlbums?gid=$id",
+      "${baseURL + photoAlbums}?gid=$id",
     );
     var data = response.data;
     data.forEach((element) {

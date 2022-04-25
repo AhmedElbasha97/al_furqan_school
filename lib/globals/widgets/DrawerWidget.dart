@@ -7,7 +7,7 @@ import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/views/albums/AlbumsScreen.dart';
 import 'package:al_furqan_school/views/appData/NewsScreen.dart';
 import 'package:al_furqan_school/views/appData/aboutApp.dart';
-import 'package:al_furqan_school/views/appData/contact_us_screen.dart';
+import 'package:al_furqan_school/views/appData/contact_us/contact_us_screen.dart';
 import 'package:al_furqan_school/views/appData/privacyPolicyScreen.dart';
 import 'package:al_furqan_school/views/appData/subjectsScreen.dart';
 import 'package:al_furqan_school/views/auth/login.dart';
@@ -53,8 +53,10 @@ class _AppDrawerState extends State<AppDrawer> {
         children: [
           Container(
             color: white,
-
-              child: Image.asset("assets/images/logo1.png")),
+              child: Image.asset("assets/images/logo 2020 new.png",
+                fit: BoxFit.fitHeight,
+                height: MediaQuery.of(context).size.height*0.3,
+                width: MediaQuery.of(context).size.width*0.4,)),
           const SizedBox(height: 10),
           ListTile(
             title: Text(
