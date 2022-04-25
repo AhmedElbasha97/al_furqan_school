@@ -5,7 +5,6 @@ import 'package:al_furqan_school/globals/commonStyles.dart';
 
 import 'package:get/get.dart';
 
-import '../../alertDialogue.dart';
 
 class ContactUsScreen extends StatefulWidget {
   const ContactUsScreen({Key? key}) : super(key: key);
@@ -15,7 +14,6 @@ class ContactUsScreen extends StatefulWidget {
 }
 
 class _ContactUsScreenState extends State<ContactUsScreen> {
-
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +67,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         borderRadius: const BorderRadius.all(Radius.circular(10)),
                       ),
                     ),
-                    validator: (value) {
-                     controller.nameValidator(value);
-                    },
+                    validator: controller.nameValidator,
                   ),
                 ),
                 const SizedBox(
@@ -99,10 +95,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         borderRadius: const BorderRadius.all(Radius.circular(10)),
                       ),
                     ),
-                    validator: (value) {
-                     controller.phoneValidator(value);
-                      return null;
-                    },
+                    validator: controller.phoneValidator,
                   ),
                 ),
                 const SizedBox(
@@ -129,21 +122,15 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         borderRadius: const BorderRadius.all(Radius.circular(10)),
                       ),
                     ),
-                    validator: (value) {
-                      controller.emailValidate(value);
-                      return null;
-
-                    },
+                    validator: controller.emailValidate,
                   ),
                 ),
                 const SizedBox(
                   height: 15,
                 ),
                 TextFormField(
-                    validator: (value) {
-                     controller.massageValidator(value);
-                      return null;
-                    },
+                    validator:controller.massageValidator,
+
                     focusNode: controller.msgNode,
                     controller: controller.msgController,
                     maxLines: 4,
@@ -169,10 +156,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     padding: const EdgeInsets.only(top: 30),
                     child: InkWell(
                       onTap: () {
-                        // controller.sendMessage();
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const AlertDialogue(),
-                        ));
+                        controller.sendMessage(context);
+
 
                       },
                       child: Container(

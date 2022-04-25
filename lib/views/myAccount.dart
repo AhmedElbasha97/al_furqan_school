@@ -8,7 +8,7 @@ import 'package:al_furqan_school/views/Student/bookScreen.dart';
 import 'package:al_furqan_school/views/loggedUser/Messages/MessagesScreen.dart';
 import 'package:al_furqan_school/views/loggedUser/Messages/sendMessageStudent.dart';
 import 'package:al_furqan_school/views/loggedUser/Messages/sentMessageScreen.dart';
-import 'package:al_furqan_school/views/loggedUser/homeWork.dart';
+import 'package:al_furqan_school/views/loggedUser/homework/homeWork.dart';
 import 'package:al_furqan_school/views/loggedUser/importantFilesScreen.dart';
 import 'package:al_furqan_school/views/loggedUser/questionBank.dart';
 

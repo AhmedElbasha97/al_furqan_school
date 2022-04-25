@@ -10,7 +10,7 @@ import 'package:al_furqan_school/views/appData/aboutApp.dart';
 import 'package:al_furqan_school/views/appData/contact_us/contact_us_screen.dart';
 import 'package:al_furqan_school/views/appData/privacyPolicyScreen.dart';
 import 'package:al_furqan_school/views/appData/subjectsScreen.dart';
-import 'package:al_furqan_school/views/auth/login.dart';
+import 'package:al_furqan_school/views/auth/login/login.dart';
 import 'package:al_furqan_school/views/myAccount.dart';
 import 'package:al_furqan_school/views/myAccountTeacher.dart';
 import 'package:al_furqan_school/views/myAccoutParent.dart';

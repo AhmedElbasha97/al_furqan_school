@@ -1,6 +1,5 @@
 // ignore_for_file: file_names
-
-import 'package:al_furqan_school/globals/CommonSetting.dart';
+import 'package:al_furqan_school/models/new/requests.dart';
 import 'package:dio/dio.dart';
 
 class ContactUsService {
@@ -11,9 +10,11 @@ class ContactUsService {
   sendComplain(String name, String message, String email, String subject,
       String mobile) async {
     Response response;
-
     response = await Dio().post(
-      "$baseurl$complainsUrl?name=$name&email=$email&subject=$subject $message&mobile=$mobile",
+      "$baseurl$complainsUrl?name=$name&email=$email&subject=$subject&message=$message&mobile=$mobile",
     );
+    var resData = response.data;
+   return Requsts.fromJson(response.data).status;
+
   }
 }
