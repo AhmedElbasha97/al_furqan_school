@@ -28,7 +28,7 @@ class LoggedUser {
     List<Files> list = [];
     Response response;
     response = await Dio().get(
-      "$filesLink?student_id=$id",
+      filesLink+"?student_id=$id",
     );
     var data = response.data;
     if (response.data != null) {
@@ -43,7 +43,7 @@ class LoggedUser {
     List<ImportantFile> list = [];
     Response response;
     response = await Dio().get(
-      "$importantFile?student_id=$id",
+     importantFile+"?student_id=$id",
     );
     var data = response.data;
     if (response.data != null) {
@@ -58,7 +58,7 @@ class LoggedUser {
     List<FileDetails> list = [];
     Response response;
     response = await Dio().get(
-      "$fileDetails?student_id=$id&file_id=$fileID",
+      fileDetails+"?student_id=$id&file_id=$fileID",
     );
     var data = response.data;
     if (response.data != null) {
@@ -73,7 +73,7 @@ class LoggedUser {
     List<HomeWork> list = [];
     Response response;
     response = await Dio().get(
-      "$homeWorks?student_id=$id",
+      homeWorks+"?student_id=$id",
     );
     if (response.data != null) {
       var data = response.data;
@@ -89,7 +89,7 @@ class LoggedUser {
     List<HomeWorkDetails> list = [];
     Response response;
     response = await Dio().get(
-      "$homeWorkDetails?student_id=$id&homework_id=$homeWorkId",
+      homeWorkDetails+"?student_id=$id&homework_id=$homeWorkId",
     );
     var data = response.data;
     if (response.data != null) {
@@ -104,7 +104,7 @@ class LoggedUser {
     List<Question> list = [];
     Response response;
     response = await Dio().get(
-      "$questionBank?student_id=$id",
+       questionBank+"?student_id=$id",
     );
     var data = response.data;
     if (response.data != null) {
@@ -120,7 +120,7 @@ class LoggedUser {
     List<QuestionDetails> list = [];
     Response response;
     response = await Dio().get(
-      "$questionDetails?student_id=$id&file_id=$qId",
+     questionBank+"?student_id=$id&file_id=$qId",
     );
     var data = response.data;
     if (response.data != null) {
@@ -135,7 +135,7 @@ class LoggedUser {
     List<Books> list = [];
     Response response;
     response = await Dio().get(
-      "$books?student_id=$id",
+      books+"?student_id=$id",
     );
     var data = response.data;
     if (response.data != null) {
@@ -150,7 +150,7 @@ class LoggedUser {
     List<AskedQuestion> list = [];
     Response response;
     response = await Dio().get(
-      "$askedQuestions?student_id=$id",
+      books+"?student_id=$id",
     );
     var data = response.data;
     if (response.data != null) {
@@ -166,7 +166,7 @@ class LoggedUser {
     List<AskedQuestionDetails> list = [];
     Response response;
     response = await Dio().get(
-      "$books?student_id=$id&&msg_id=$qid",
+      books+"?student_id=$id&&msg_id=$qid",
     );
     var data = response.data;
     if (response.data != null) {

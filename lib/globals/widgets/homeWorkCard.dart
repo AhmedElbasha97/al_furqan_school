@@ -18,20 +18,18 @@ class _HomeWorkCardState extends State<HomeWorkCard> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: UICard(
-            cardContent: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(widget.title,textAlign: TextAlign.center,),
-                  Text(widget.date,style: TextStyle(color: mainColor),),
-                  Text(widget.teacherName)
-                ],
-              ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: UICard(
+          cardContent: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(widget.title,textAlign: TextAlign.center,),
+                Text(widget.date,style: TextStyle(color: mainColor),),
+                Text(widget.teacherName)
+              ],
             ),
           ),
         ),

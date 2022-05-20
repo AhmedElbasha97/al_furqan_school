@@ -4,22 +4,15 @@
 import 'package:al_furqan_school/views/loader.dart';
 import 'package:al_furqan_school/views/loggedUser/homework/controller/home_work_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/globals/widgets/homeWorkCard.dart';
-import 'package:al_furqan_school/models/homeWork.dart';
 import 'package:al_furqan_school/views/loggedUser/homeworkdetails/HomeWorkDetailsScreen.dart';
 import 'package:get/get.dart';
 
 import '../../../globals/commonStyles.dart';
 
-class HomeWorkScreen extends StatefulWidget {
+class HomeWorkScreen extends StatelessWidget {
   const HomeWorkScreen({Key? key}) : super(key: key);
 
-  @override
-  _HomeWorkScreenState createState() => _HomeWorkScreenState();
-}
-
-class _HomeWorkScreenState extends State<HomeWorkScreen> {
 
 
 
@@ -27,7 +20,7 @@ class _HomeWorkScreenState extends State<HomeWorkScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
-      init:  HomeWorkController(),
+      init:  HomeWorkController(context),
       builder: (HomeWorkController controller) =>  Scaffold(
         appBar: AppBar(
           iconTheme:  IconThemeData(color: white),
@@ -39,7 +32,7 @@ class _HomeWorkScreenState extends State<HomeWorkScreen> {
         controller.hasNoData?RefreshIndicator(
           onRefresh: () async {controller.getData();},
           child: SingleChildScrollView(
-            child: Container(
+            child: SizedBox(
               height: MediaQuery.of(context).size.height ,
               width: MediaQuery.of(context).size.width,
               child: Column(
@@ -61,10 +54,9 @@ class _HomeWorkScreenState extends State<HomeWorkScreen> {
                     return InkWell(
                       onTap: () {
                         Get.to(const HomeWorkDetailsScreen(),
-                            transition: Transition.rightToLeft,
-                            duration: const Duration(seconds: 1),
+
                             arguments: [controller.homeworks[index].id??""],
-                            preventDuplicates: true);
+                        );
 
                       },
                       child: Padding(

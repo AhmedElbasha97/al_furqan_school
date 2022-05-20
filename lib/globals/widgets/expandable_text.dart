@@ -7,8 +7,7 @@ class ExpandableText extends StatefulWidget {
       this.text, {
          Key? key,
         this.trimLines = 3, required this.readMoreButtonTitle, required this.readLessButtonTitle, required this.readMoreStyle, required this.textStyle,
-      })  : assert(text != null),
-        super(key: key);
+      })  : super(key: key);
 
   final String text;
   final int trimLines;
@@ -24,7 +23,7 @@ class ExpandableText extends StatefulWidget {
 }
 
 class ExpandableTextState extends State<ExpandableText> {
-  bool _readMore = true;
+  final bool _readMore = true;
   void _onTapLink() {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => const MoreInformationScreen(),
@@ -69,7 +68,7 @@ class ExpandableTextState extends State<ExpandableText> {
           textSize.height,
         ));
         endIndex = textPainter.getOffsetBefore(pos.offset);
-        var textSpan;
+        TextSpan textSpan;
         if (textPainter.didExceedMaxLines) {
           textSpan = TextSpan(
             text: _readMore

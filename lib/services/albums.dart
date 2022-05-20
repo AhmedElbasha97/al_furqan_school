@@ -2,20 +2,21 @@ import 'package:al_furqan_school/globals/CommonSetting.dart';
 import 'package:al_furqan_school/models/AppInfo/photo.dart';
 import 'package:al_furqan_school/models/new/gallery_model.dart';
 import 'package:al_furqan_school/models/new/videos_model.dart';
-
 import 'package:dio/dio.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AlbumsService {
-  String baseURL = "https://alforqanschools.sch.qa/site/api/";
-  String photoAlbums = "gallery.php";
-  String videoAlbums = "videos.php";
+  String photoAlbums = "${baseUrl}gallery.php";
+  String videoAlbums = "${baseUrl}videos.php";
 
-  Future<List<Gallery>> getphotoAlbums() async {
+  Future<List<Gallery>> getPhotoAlbums() async {
     List<Gallery> list = [];
     Response response;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var type = prefs.getString("schoolType")??"";
     response = await Dio().get(
-      baseURL+photoAlbums,
+
+     photoAlbums+"?school_type=$type",
     );
     var data = response.data;
     data.forEach((element) {
@@ -27,8 +28,10 @@ class AlbumsService {
   Future<List<Videos>> getVideoAlbums() async {
     List<Videos> list = [];
     Response response;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var type = prefs.getString("schoolType")??"";
     response = await Dio().get(
-      baseURL+videoAlbums,
+      videoAlbums+"?school_type=$type",
     );
     var data = response.data ?? [];
     data.forEach((element) {
@@ -37,11 +40,11 @@ class AlbumsService {
     return list;
   }
 
-  Future<List<Photo>> getphotoAlbum(String? id) async {
+  Future<List<Photo>> getPhotoAlbum(String? id) async {
     List<Photo> list = [];
     Response response;
     response = await Dio().get(
-      "${baseURL + photoAlbums}?gid=$id",
+      "$photoAlbums?gid=$id",
     );
     var data = response.data;
     data.forEach((element) {
@@ -50,16 +53,4 @@ class AlbumsService {
     return list;
   }
 
-  Future<List<Photo>> getVideoAlbum(String id) async {
-    List<Photo> list = [];
-    Response response;
-    response = await Dio().get(
-      "$videoAlbums?gid=$id",
-    );
-    var data = response.data;
-    data.forEach((element) {
-      list.add(Photo.fromJson(element));
-    });
-    return list;
-  }
 }

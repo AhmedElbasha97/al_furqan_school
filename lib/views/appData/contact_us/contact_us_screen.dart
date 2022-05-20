@@ -6,19 +6,14 @@ import 'package:al_furqan_school/globals/commonStyles.dart';
 import 'package:get/get.dart';
 
 
-class ContactUsScreen extends StatefulWidget {
+class ContactUsScreen extends StatelessWidget {
   const ContactUsScreen({Key? key}) : super(key: key);
 
-  @override
-  _ContactUsScreenState createState() => _ContactUsScreenState();
-}
-
-class _ContactUsScreenState extends State<ContactUsScreen> {
 
   @override
   Widget build(BuildContext context) {
     return  GetBuilder(
-        init:  ContactUsController(),
+        init:  ContactUsController(context),
         builder: (ContactUsController controller) =>  GestureDetector(
         onTap: () => controller.unFocus(),
         child: Scaffold(

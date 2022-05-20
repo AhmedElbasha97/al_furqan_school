@@ -1,12 +1,11 @@
 import 'package:al_furqan_school/globals/commonStyles.dart';
 import 'package:al_furqan_school/views/auth/login/controller/login_controller.dart';
+import 'package:al_furqan_school/views/startScreens/choose_state_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:al_furqan_school/I10n/app_localizations.dart';
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/globals/widgets/mainButton.dart';
 import 'package:al_furqan_school/globals/widgets/textFiled.dart';
-import 'package:al_furqan_school/services/authService.dart';
-import 'package:al_furqan_school/views/homeScreen.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -22,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
-      init:  LoginController(),
+      init:  LoginController(context),
       builder: (LoginController controller) =>  Scaffold(
           key: controller.scaffoldKey,
           backgroundColor: white,
@@ -107,8 +106,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 AppBtn(
                   onClick: () async {
                     controller.validate();
-                    if(await controller.login()){
-                      pushPageReplacement(context, const HomeScreen());
+                    if(await controller.login(context)){
+                      pushPageReplacement(context, const ChooseStateScreen());
                     }
                   },
                   label: "${AppLocalizations.of(context)!.translate('login')}",

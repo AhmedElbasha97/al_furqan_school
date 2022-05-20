@@ -74,7 +74,7 @@ void showTheDialog(BuildContext context, String title, String body,
     builder: (BuildContext context) {
       List<Widget> actions = [];
       actions.add(
-        FlatButton(
+        ElevatedButton(
           child: Text(AppLocalizations.of(context)!.translate('back')!),
           onPressed: () {
             Navigator.of(context).pop();
@@ -102,10 +102,15 @@ void showTheDialog(BuildContext context, String title, String body,
   );
 }
 
-launchURL(String url) async {
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
+launchURL(String url,String socialAppName,context) async {
+  if(url!="") {
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    } else {
+      showTheDialog(context,"لا يمكن فتح $socialAppName","غير متاح اي لينك للتواصل علي هذه المنصه لان حاول لاحقا");
+      throw 'Could not launch $url';
+    }
+  }else{
+    showTheDialog(context,"لا يمكن فتح $socialAppName","غير متاح اي لينك للتواصل علي هذه المنصه لان حاول لاحقا");
   }
 }

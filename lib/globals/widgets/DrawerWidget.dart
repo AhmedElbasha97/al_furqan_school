@@ -1,22 +1,27 @@
 // ignore_for_file: file_names
 import 'dart:io';
+import 'package:al_furqan_school/models/new/social_link.dart';
+import 'package:al_furqan_school/services/appInfoService.dart';
+import 'package:al_furqan_school/views/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:al_furqan_school/I10n/app_localizations.dart';
 import 'package:al_furqan_school/globals/commonStyles.dart';
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/views/albums/AlbumsScreen.dart';
-import 'package:al_furqan_school/views/appData/NewsScreen.dart';
-import 'package:al_furqan_school/views/appData/aboutApp.dart';
+import 'package:al_furqan_school/views/appData/newsScreen/NewsScreen.dart';
+import 'package:al_furqan_school/views/appData/about/aboutApp.dart';
 import 'package:al_furqan_school/views/appData/contact_us/contact_us_screen.dart';
-import 'package:al_furqan_school/views/appData/privacyPolicyScreen.dart';
-import 'package:al_furqan_school/views/appData/subjectsScreen.dart';
+import 'package:al_furqan_school/views/appData/privacypolicy/privacyPolicyScreen.dart';
+import 'package:al_furqan_school/views/appData/supject/subjectsScreen.dart';
 import 'package:al_furqan_school/views/auth/login/login.dart';
 import 'package:al_furqan_school/views/myAccount.dart';
 import 'package:al_furqan_school/views/myAccountTeacher.dart';
 import 'package:al_furqan_school/views/myAccoutParent.dart';
-import 'package:al_furqan_school/views/other/joinRequest.dart';
+import 'package:al_furqan_school/views/other/joinRequest/joinRequest.dart';
 import 'package:al_furqan_school/views/splashScreen.dart';
-
+import 'package:get/get.dart';
+import 'package:map_launcher/map_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -28,8 +33,10 @@ class AppDrawer extends StatefulWidget {
 
 class _AppDrawerState extends State<AppDrawer> {
   late bool userLogged;
+  bool isLoading=true;
   late bool isStudent;
   late bool isTeacher;
+   SocialLinkModel socials =SocialLinkModel();
 
   @override
   void initState() {
@@ -42,6 +49,8 @@ class _AppDrawerState extends State<AppDrawer> {
     userLogged = prefs.getString("id") == null ? false : true;
     isStudent = prefs.getString("type") == "STUDENT" ? true : false;
     isTeacher = prefs.getString("type") == "TEACHER" ? true : false;
+    socials= await AppInfoService().gatSocialLink();
+    isLoading = false;
     setState(() {});
   }
 
@@ -49,7 +58,7 @@ class _AppDrawerState extends State<AppDrawer> {
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: mainColor,
-      child: ListView(
+      child: isLoading? Loader(width:MediaQuery.of(context).size.width*0.8,):ListView(
         children: [
           Container(
             color: white,
@@ -171,10 +180,7 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             leading:  Icon(Icons.photo,color: white,),
             onTap: () async {
-              popPage(context);
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const AlbumsScreen(),
-              ));
+           Get.to(()=>const AlbumsScreen(),arguments: [true]);
             },
           ),
 
@@ -193,12 +199,7 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             leading:  Icon(Icons.video_library,color: white,),
             onTap: () async {
-              popPage(context);
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const AlbumsScreen(
-                  isImg: false,
-                ),
-              ));
+              Get.to(()=>const AlbumsScreen(),arguments: [false]);
             },
           ),
            Divider(
@@ -301,14 +302,37 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             leading:  Icon(Icons.share,color: white,),
             onTap: () {
-              String link =
-                  "https://play.google.com/store/apps/details?id=com.syncQatar.rayanSchool";
-              if (Platform.isIOS) {
-                link =
-                    "https://apps.apple.com/us/app/%D9%85%D8%AF%D8%B1%D8%B3%D8%A9-%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D9%86/id1563613632";
-              }
+
+    Share.share(Platform.isAndroid
+    ? socials.androidLink!
+        : socials.iosLink!,);
 
 
+
+            },
+          ),
+           Divider(
+             color: white,
+            height: 1,
+            thickness: 2,
+            endIndent: 30,
+            indent: 30,
+          ),
+          ListTile(
+            title: Text(
+              "مكان مدرسه الفرقان",
+              style: TextStyle(
+                  color: white, fontWeight: FontWeight.bold, fontSize: 14),
+            ),
+            leading:  Icon(Icons.location_on_outlined,color: white,),
+            onTap: () async {
+              await MapLauncher.showMarker(
+                mapType: Platform.isAndroid
+                    ?MapType.google:MapType.apple,
+                coords: Coords(25.31689362643027, 51.463605881113786),
+                title: "مكان مدرسه الفرقان",
+                description: "مكان مدرسه الفرقان",
+              );
             },
           ),
            Divider(
@@ -346,35 +370,35 @@ class _AppDrawerState extends State<AppDrawer> {
             children: [
               const Padding(padding: EdgeInsets.symmetric(horizontal: 1)),
               InkWell(
-                // onTap: () => launchURL("$facebookUrl"),
+                 onTap: () => launchURL(socials.facebook??"","فيس بوك",context),
                 child: Image.asset(
                   "assets/images/facebook.png",
                   scale: 1.5,
                 ),
               ),
               InkWell(
-                // onTap: () => launchURL("$instagramUrl"),
+                 onTap: () => launchURL(socials.instagram??"","انستجرام",context),
                 child: Image.asset(
                   "assets/images/instagram.png",
                   scale: 1.5,
                 ),
               ),
               InkWell(
-                // onTap: () => launchURL("$twitterUrl"),
+                 onTap: () => launchURL(socials.twitter??"","تويتر",context),
                 child: Image.asset(
                   "assets/images/twitter.png",
                   scale: 1.5,
                 ),
               ),
               InkWell(
-                // onTap: () => launchURL("https://wa.me/$whatsappUrl"),
+                 onTap: () => launchURL("https://wa.me/${socials.whatsapp??""}","واتس اب",context),
                 child: Image.asset(
                   "assets/images/whatsapp.png",
                   scale: 1.5,
                 ),
               ),
               InkWell(
-                // onTap: () => launchURL("$youtubeUrl"),
+                 onTap: () => launchURL(socials.snapchat??"","سناب شات",context),
                 child: Image.asset(
                   "assets/images/snapchat.png",
                   scale: 1.5,
@@ -398,7 +422,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 Text("${AppLocalizations.of(context)!.translate('policy2')}",
                     style:  TextStyle(fontSize: 16,color: white,)),
                 InkWell(
-                  onTap: () => launchURL("https://syncqatar.com"),
+                  onTap: () => launchURL("https://syncqatar.com","",context),
                   child:  Text(
                     "سينك",
                     style: TextStyle(

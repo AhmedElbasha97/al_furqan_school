@@ -10,14 +10,14 @@ class QuestionDetails {
 
     String? id;
     String? title;
-    DateTime? date;
+    String? date;
     String? fileDet;
     String? fileLink;
 
     factory QuestionDetails.fromJson(Map<String, dynamic> json) => QuestionDetails(
         id: json["id"],
         title: json["title"],
-        date: DateTime.parse(json["date"]),
+        date: json["date"],
         fileDet: json["file_det"],
         fileLink: json["file_link"],
     );

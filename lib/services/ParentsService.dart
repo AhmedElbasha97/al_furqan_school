@@ -5,14 +5,18 @@ import 'package:al_furqan_school/models/MessageDetailsStudent.dart';
 import 'package:al_furqan_school/models/MessageSentStudent.dart';
 import 'package:al_furqan_school/models/message.dart';
 import 'package:al_furqan_school/models/messageDetails.dart';
+import 'package:al_furqan_school/models/new/student_list_model.dart';
 import 'package:al_furqan_school/models/parents/attendance.dart';
 import 'package:al_furqan_school/models/parents/reportDetails.dart';
 import 'package:al_furqan_school/models/parents/reports.dart';
 import 'package:al_furqan_school/models/teachers.dart';
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class ParentService {
+
+  String studentList = "${baseUrl}login.php";
   String reports = "${baseUrl}parent_report_about.php";
   String reportDetails = "${baseUrl}parent_report_about_view.php";
   String attendance = "${baseUrl}parent_absence.php";
@@ -37,7 +41,24 @@ class ParentService {
     }
     return list;
   }
-
+  Future<List<StudentListModel>> getStudentList(
+      ) async {
+    List<StudentListModel> list = [];
+    Response response;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var userName = prefs.getString("usernameParent");
+    var passwordUser = prefs.getString("passwordParent");
+    response = await Dio().get(
+      "$reportDetails?type=PARENTS&username=$userName&password=$passwordUser",
+    );
+    var data = response.data;
+    if (response.data != null) {
+      data.forEach((element) {
+        list.add(StudentListModel.fromJson(element));
+      });
+    }
+    return list;
+  }
   Future<List<ReportDetails>> getReportDetails(
       {String? id, String? reportId}) async {
     List<ReportDetails> list = [];

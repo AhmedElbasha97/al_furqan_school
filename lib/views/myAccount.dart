@@ -3,26 +3,23 @@
 import 'package:flutter/material.dart';
 import 'package:al_furqan_school/I10n/app_localizations.dart';
 import 'package:al_furqan_school/globals/helpers.dart';
-import 'package:al_furqan_school/views/Student/AskedQuestion.dart';
-import 'package:al_furqan_school/views/Student/bookScreen.dart';
-import 'package:al_furqan_school/views/loggedUser/Messages/MessagesScreen.dart';
-import 'package:al_furqan_school/views/loggedUser/Messages/sendMessageStudent.dart';
-import 'package:al_furqan_school/views/loggedUser/Messages/sentMessageScreen.dart';
+import 'package:al_furqan_school/views/Student/askedQuestion/AskedQuestion.dart';
+import 'package:al_furqan_school/views/Student/books/bookScreen.dart';
+import 'package:al_furqan_school/views/loggedUser/Messages/messageScreen/MessagesScreen.dart';
+import 'package:al_furqan_school/views/loggedUser/Messages/sendMassageStudent/sendMessageStudent.dart';
+import 'package:al_furqan_school/views/loggedUser/Messages/sentMessage/sentMessageScreen.dart';
 import 'package:al_furqan_school/views/loggedUser/homework/homeWork.dart';
-import 'package:al_furqan_school/views/loggedUser/importantFilesScreen.dart';
-import 'package:al_furqan_school/views/loggedUser/questionBank.dart';
+import 'package:al_furqan_school/views/loggedUser/importantfiles/importantFilesScreen.dart';
+import 'package:al_furqan_school/views/loggedUser/quetion_bank/questionBank.dart';
+import 'package:get/get.dart';
 
 import '../globals/commonStyles.dart';
-import 'loggedUser/fileScreen.dart';
+import 'loggedUser/filescreen/fileScreen.dart';
 
-class MyAccount extends StatefulWidget {
+class MyAccount extends StatelessWidget {
   const MyAccount({Key? key}) : super(key: key);
 
-  @override
-  _MyAccountState createState() => _MyAccountState();
-}
 
-class _MyAccountState extends State<MyAccount> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,7 +85,7 @@ class _MyAccountState extends State<MyAccount> {
              ),
             ListTile(
               onTap: () {
-                pushPage(context, const SendMessageStudentScreen());
+                Get.to(()=> const SendMessageStudentScreen(),arguments: [1]);
               },
               title: Text(
                 AppLocalizations.of(context)!.translate('sendMessage')!,
@@ -139,7 +136,7 @@ class _MyAccountState extends State<MyAccount> {
              ),
             ListTile(
               onTap: () {
-                pushPage(context, const MessagesScreen());
+                Get.to(()=> const MessagesScreen(),arguments: [1]);
               },
               title: Text(
                 AppLocalizations.of(context)!.translate('messages')!,
@@ -153,7 +150,7 @@ class _MyAccountState extends State<MyAccount> {
              ),
             ListTile(
               onTap: () {
-                pushPage(context, const SentMessagesScreen());
+                Get.to(()=> const SentMessagesScreen(),arguments: [1]);
               },
               title: Text(
                 AppLocalizations.of(context)!.translate('sentMessages')!,

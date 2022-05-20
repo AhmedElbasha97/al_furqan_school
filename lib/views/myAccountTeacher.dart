@@ -2,24 +2,20 @@
 
 import 'package:al_furqan_school/I10n/app_localizations.dart';
 import 'package:al_furqan_school/globals/helpers.dart';
-import 'package:al_furqan_school/views/teacher/messages/MessagesScreen.dart';
-import 'package:al_furqan_school/views/teacher/questionBank.dart';
-import 'package:al_furqan_school/views/teacher/reportsScreen.dart';
-import 'package:al_furqan_school/views/teacher/scheduleScreen.dart';
-import 'package:al_furqan_school/views/teacher/sendReport.dart';
+import 'package:al_furqan_school/views/teacher/messages/massagescreen/MessagesScreen.dart';
+import 'package:al_furqan_school/views/teacher/questionBank/questionBank.dart';
+import 'package:al_furqan_school/views/teacher/reportScreen/reportsScreen.dart';
+import 'package:al_furqan_school/views/teacher/schedules/scheduleScreen.dart';
+import 'package:al_furqan_school/views/teacher/send_report/sendReport.dart';
 import 'package:flutter/material.dart';
 
 import '../globals/commonStyles.dart';
 
 
-class MyAccountTeacher extends StatefulWidget {
+class MyAccountTeacher extends StatelessWidget {
   const MyAccountTeacher({Key? key}) : super(key: key);
 
-  @override
-  _MyAccountTeacherState createState() => _MyAccountTeacherState();
-}
 
-class _MyAccountTeacherState extends State<MyAccountTeacher> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

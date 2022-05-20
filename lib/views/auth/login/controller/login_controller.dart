@@ -1,4 +1,6 @@
+import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/services/authService.dart';
+import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,6 +14,14 @@ class LoginController extends GetxController{
   bool isServerLoading = false;
   String? selectedType = "اختار نوع المستخدم";
   String accountType = "";
+  final BuildContext context;
+  @override
+  LoginController(this.context);
+  @override
+  void onInit() {
+    super.onInit();
+    NotificationServices.checkNotificationAppInForeground(context);
+  }
   @override
   void onClose() {
     super.onClose();
@@ -23,19 +33,23 @@ class LoginController extends GetxController{
     passwordError = passwordController.text.isEmpty;
     update();
   }
-  login() async {
-    if (!passwordError && !usernameError) {
-      String? msg = await AuthService().login(
-          password: passwordController.text,
-          userName: usernameController.text,
-          type: accountType);
-      if (msg == "done") {
-        return true;
-      } else {
-        final snackBar = SnackBar(content: Text(msg!));
-        scaffoldKey.currentState!.showSnackBar(snackBar);
-        return false;
+  login(context) async {
+    if(accountType!="") {
+      if (!passwordError && !usernameError) {
+        var msg = await AuthService().login(
+            password: passwordController.text,
+            userName: usernameController.text,
+            type: accountType);
+        if (msg == "done") {
+          return true;
+        } else {
+          showTheDialog(context,"حدث خطأ أثناء تسجيل الدخول","من فضلك راجع البيانات");
+          return false;
+        }
       }
+    }else{
+      showTheDialog(context,"لا يمكنك تسجيل الدخول","من فضلك اختار نوع صاحب الحساب");
     }
-  }
+
+    }
 }

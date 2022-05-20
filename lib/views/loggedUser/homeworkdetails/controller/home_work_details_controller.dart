@@ -1,19 +1,35 @@
+import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/homeWorkDetails.dart';
 import 'package:al_furqan_school/services/loggedUser.dart';
+import 'package:al_furqan_school/services/notification_services.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeWorkDetailsController extends GetxController{
   bool isLoading = true;
   List<HomeWorkDetails> homework = [];
   var homeWorkId= Get.arguments;
   bool hasNoData = false;
+  final BuildContext context;
+  HomeWorkDetailsController(this.context);
   @override
   Future<void> onInit() async {
-    super.onInit();
-    //Change value to name2
     await getData();
+    super.onInit();
+    NotificationServices.checkNotificationAppInForeground(context);
   }
+
+launchURL(context, index) async {
+  if (await canLaunchUrl(Uri.parse(homework[index].homeworkFile??""))) {
+    await launchUrl(Uri.parse(homework[index].homeworkFile??""));
+  } else {
+    showTheDialog(context, "لا يمكن تحميل هذا الملف", "لا يوجد ملف متاح للتحميل ");
+    throw 'Could not launch ${homework[index].homeworkFile}';
+
+  }
+}
   getData() async {
     isLoading=true;
     update();
@@ -21,7 +37,7 @@ class HomeWorkDetailsController extends GetxController{
     String? id = prefs.getString("id");
     homework =
     await LoggedUser().gethomeWorkDetails(id: id, homeWorkId: homeWorkId);
-    if(homework.isEmpty){
+    if(homework[0].homeworkDet==""){
       hasNoData=true;
     }else{
       hasNoData=false;

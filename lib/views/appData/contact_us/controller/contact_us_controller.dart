@@ -1,5 +1,6 @@
 import 'package:al_furqan_school/globals/commonStyles.dart';
 import 'package:al_furqan_school/services/contactUsService.dart';
+import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +15,13 @@ class ContactUsController extends GetxController{
   final FocusNode msgNode =  FocusNode();
   final FocusNode phoneNode =  FocusNode();
   final formKey = GlobalKey<FormState>();
-
+  final BuildContext context;
+  ContactUsController(this.context);
+  @override
+  void onInit() {
+    super.onInit();
+    NotificationServices.checkNotificationAppInForeground(context);
+  }
   unFocus() {
     emailNode.unfocus();
     nameNode.unfocus();
@@ -70,7 +77,6 @@ class ContactUsController extends GetxController{
     if (formKey.currentState!.validate()) {
       isLoading = true;
       update();
-      print("hi from validator");
 
      var result = await ContactUsService().sendComplain(
           nameController.text ,
@@ -78,7 +84,7 @@ class ContactUsController extends GetxController{
           emailController.text ,
           "api_subject",
           phoneController.text );
-     if (result == "false") {
+     if (result == "true") {
        doneMassage(context,"تم ارسال الرساله بنجاح", Icon(Icons.check_circle_outline_rounded ,color: mainColor,size: 90,),);
        Future.delayed(const Duration(milliseconds: 500), () {
          Navigator.pop(context);

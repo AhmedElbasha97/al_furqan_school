@@ -20,7 +20,7 @@ final double width;
             borderRadius: BorderRadius.circular(8),
             color: white,
             border: Border.all(width: 0.5, color: mainColor),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 color: Colors.grey,
                 blurRadius: 5, //soften the shadow
@@ -37,7 +37,7 @@ final double width;
             children: [
               Text(
                   Localizations.localeOf(context).languageCode == "en" ?"Loading":"جاري التحميل",style: TextStyle(color: mainColor),),
-              SizedBox(width: 15,),
+              const SizedBox(width: 15,),
               CircularProgressIndicator(color: mainColor,)
 
             ],

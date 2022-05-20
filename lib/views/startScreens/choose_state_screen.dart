@@ -1,31 +1,23 @@
 import 'package:al_furqan_school/globals/commonStyles.dart';
 import 'package:al_furqan_school/globals/widgets/expandable_text.dart';
-import 'package:al_furqan_school/views/homeScreen.dart';
 import 'package:al_furqan_school/views/loader.dart';
+import 'package:al_furqan_school/views/the%20_department/the_department_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:get/get.dart';
-
 import 'contreller/start_screen_controller.dart';
-class ChooseStateScreen extends StatefulWidget {
+class ChooseStateScreen extends StatelessWidget {
   const ChooseStateScreen({Key? key}) : super(key: key);
 
-  @override
-  State<ChooseStateScreen> createState() => _ChooseStateScreenState();
-}
 
-class _ChooseStateScreenState extends State<ChooseStateScreen> {
   @override
-  CarouselController _carosuelController = CarouselController();
-  int _current =0;
-  var accountType ="hii";
   Widget build(BuildContext context) {
     return  GetBuilder(
-      init: StartScreen(),
+      init: StartScreen(context),
       builder: (StartScreen controller) => Scaffold(
-        body: controller.isLoading?Loader():Container(
+        body: controller.isLoading?const Loader():SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Center(
@@ -37,21 +29,15 @@ class _ChooseStateScreenState extends State<ChooseStateScreen> {
                   Column(
                     children: [
                       CarouselSlider.builder(
-                        carouselController: _carosuelController,
+                        carouselController: controller.carosuelController,
                         itemCount: controller.imageData.length,
                         itemBuilder: (BuildContext context, int index, int realIndex) {
                           return CachedNetworkImage(imageUrl: controller.imageData[index].img??"",
                             fit: BoxFit.fill,
                             height: MediaQuery.of(context).size.height*0.45,
                             width: MediaQuery.of(context).size.width,
-                            placeholder: (context, url) => SizedBox(
-                              height: MediaQuery.of(context).size.height*0.45,
-                              width: MediaQuery.of(context).size.width,
-                              child:  FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: CircularProgressIndicator(color: mainColor,),
-                              ),
-                            ),
+                            placeholder: (context, url) => Loader(height: MediaQuery.of(context).size.height*0.45,
+                              width: MediaQuery.of(context).size.width,),
 
                             errorWidget: (context, url, error) =>SizedBox(
                               height: MediaQuery.of(context).size.height*0.45,
@@ -63,15 +49,11 @@ class _ChooseStateScreenState extends State<ChooseStateScreen> {
                         options: CarouselOptions(
                           autoPlay: controller.imageData.length == 1?false:true,
                           enlargeCenterPage: false,
-                          scrollPhysics: controller.imageData.length == 1?NeverScrollableScrollPhysics():BouncingScrollPhysics(),
+                          scrollPhysics: controller.imageData.length == 1?const NeverScrollableScrollPhysics():const BouncingScrollPhysics(),
                           height: MediaQuery.of(context).size.height*0.45,
                           viewportFraction: 1.0,
 
-                          onPageChanged: (index, reason) {
-                            setState(() {
-                              _current = index;
-                            });
-                          },
+                          onPageChanged: controller.carouseChangeIndex,
                         ),
                       ),
 
@@ -114,11 +96,7 @@ class _ChooseStateScreenState extends State<ChooseStateScreen> {
                                     ),
                                   ),
                                   ExpandableText(
-                                    "لطالما كان اختيار المدرسة المناسبة لأطفالنا مهمة صعبة، حيث أن حياتهم الاجتماعية والمهنية المستقبلية تعتمد بشكل أساسي على رحلتهم خلال التعليم المدرسي، ولذلك فأن من المهم توفير البيئة والتعليم الصحيح لهم، وتشجيع وتنمية قدراتهم الخاصة لإعدادهم للمستقبل بشكل سليم." +
-                                        "أخلاق، انضباط وتفوق. من المتفق عليه ان التعليم وحده غير كاف لتكوين شخصيات أطفالنا بكفاءة، ففي مدارس الريان الخاصة نحن لا نركز على الجانب الأكاديمي فقط، بل نعمل أيضا وبجهد على أخلاق وانضباط الطلبة، وتوجيهم حسب تقاليد وأخلاق المجتمع العربي عامة والقطري خاصة، بالإضافة الى تطوير الجانب الذهني والاجتماعي والعاطفي والبدني، لإنشاء جيل مسؤول وواعي يستطيع مواجهة تحديات المجتمع أينما وجدت" +
-                                        "وتمتلك مدارس الفرقان الخاصة إمكانيات وميزات تعليمية وتقنية فريدة لتوفير جو أكاديمي متكامل للطلبة، بالإضافة الى أنظمة عالمية متطورة تمكن أولياء الأمور من متابعة أحوال أبنائهم والتعاون مع المدرسين بشكل دوري ودائم. كما انا مدارس الفرقان الخاصة تحتوي على مساحات خضراء شاسعة وملاعب ومكتبات ومختبرات لتساعد الطلبة على تنمية الجانب الإبداعي لديهم." +
-                                        "أن جميع العاملين في مدارس الريان الخاصة من إداريين وتربويين، خططوا وعملوا معا لتوفير مستوى تعليمي متميز وبيئة صحية وأخلاقية فريدة، وندعوكم الى زيارتنا والتعرف أكثر على منشأتنا وكوادرنا، ولمساعدتكم والرد على جميع استفساراتكم." +
-                                        "مع كل الاحترام والتقدير، " , trimLines: 3, readMoreButtonTitle: 'اظهر المزيد',readLessButtonTitle: 'اظهر اقل',readMoreStyle: TextStyle(
+                                    controller.about?.brief??"" , trimLines: 3, readMoreButtonTitle: 'اظهر المزيد',readLessButtonTitle: 'اظهر اقل',readMoreStyle: TextStyle(
                                     fontSize: 16.0, color: teal, fontWeight: FontWeight.bold
                                   ),textStyle: TextStyle(
                                     fontSize: 16.0, color: mainColor,
@@ -164,35 +142,28 @@ class _ChooseStateScreenState extends State<ChooseStateScreen> {
                                         scrollOnExpand: true,
                                         scrollOnCollapse: false,
                                         child: ExpandablePanel(
-
                                           theme:  ExpandableThemeData(
-
                                             iconColor: white,
                                             headerAlignment:
                                             ExpandablePanelHeaderAlignment.center,
                                             tapBodyToCollapse: true,
                                           ),
-                                          header: Container(
+                                          header: Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "المدارس",maxLines: null,
+                                                softWrap: true,
+                                                style: TextStyle(fontSize: 15, color: white),
+                                              ),
 
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "المدارس",maxLines: null,
-                                                  softWrap: true,
-                                                  style: TextStyle(fontSize: 15, color: white),
-                                                ),
-
-                                              ],
-                                            ),
+                                            ],
                                           ),
                                           expanded:Column(
                                             children: [
                                               InkWell(
-                                                onTap: (){
-                                                  Navigator.of(context).push(MaterialPageRoute(
-                                                    builder: (context) => const HomeScreen(),
-                                                  ));
+                                                onTap: () async {
+                                                  controller.chooseSchool(0);
                                                 },
                                                 child: Container(
                                                   height: MediaQuery.of(context).size.height*0.05,
@@ -223,10 +194,8 @@ class _ChooseStateScreenState extends State<ChooseStateScreen> {
                                                 height: 10,
                                               ),
                                               InkWell(
-                                                onTap: (){
-                                                  Navigator.of(context).push(MaterialPageRoute(
-                                                    builder: (context) => const HomeScreen(),
-                                                  ));
+                                                onTap: () async {
+                                                  controller.chooseSchool(1);
                                                 },
                                                 child: Container(
                                                   height: MediaQuery.of(context).size.height*0.05,
@@ -257,10 +226,8 @@ class _ChooseStateScreenState extends State<ChooseStateScreen> {
                                                 height: 10,
                                               ),
                                               InkWell(
-                                                onTap: (){
-                                                  Navigator.of(context).push(MaterialPageRoute(
-                                                    builder: (context) => const HomeScreen(),
-                                                  ));
+                                                onTap: () async {
+                                                controller.chooseSchool(2);
                                                 },
                                                 child: Container(
                                                   height: MediaQuery.of(context).size.height*0.05,
@@ -297,7 +264,7 @@ class _ChooseStateScreenState extends State<ChooseStateScreen> {
                                           ),
                                           builder: (_, collapsed, expanded) {
                                             return Padding(
-                                              padding: EdgeInsets.only(
+                                              padding: const EdgeInsets.only(
                                                   left: 10, right: 10, bottom: 10),
                                               child: Expandable(
                                                 collapsed: collapsed,
@@ -351,124 +318,60 @@ class _ChooseStateScreenState extends State<ChooseStateScreen> {
                                             ExpandablePanelHeaderAlignment.center,
                                             tapBodyToCollapse: true,
                                           ),
-                                          header: Container(
-
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "المكاتب والأقسام",maxLines: null,
-                                                  softWrap: true,
-                                                  style: TextStyle(fontSize: 15, color: white),
-                                                ),
-
-                                              ],
-                                            ),
-                                          ),
-                                          expanded:Column(
+                                          header: Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
-                                              InkWell(
-                                                onTap: (){
-                                                  Navigator.of(context).push(MaterialPageRoute(
-                                                    builder: (context) => const HomeScreen(),
-                                                  ));
-                                                },
-                                                child: Container(
-                                                  height: MediaQuery.of(context).size.height*0.05,
-                                                  width: MediaQuery.of(context).size.width*0.9,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(15),
-                                                      color: white
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                      children: [
-                                                        Text(
-                                                          "قسم 1",
-                                                          style: TextStyle(
-                                                              color: mainColor
-                                                          ),
-                                                        ),
-                                                        Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                              InkWell(
-                                                onTap: (){
-                                                  Navigator.of(context).push(MaterialPageRoute(
-                                                    builder: (context) => const HomeScreen(),
-                                                  ));
-                                                },
-                                                child: Container(
-                                                  height: MediaQuery.of(context).size.height*0.05,
-                                                  width: MediaQuery.of(context).size.width*0.9,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(15),
-                                                      color: white
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                      children: [
-                                                        Text(
-                                                          "قسم 2",
-                                                          style: TextStyle(
-                                                              color: mainColor
-                                                          ),
-                                                        ),
-                                                        Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                              InkWell(
-                                                onTap: (){
-                                                  Navigator.of(context).push(MaterialPageRoute(
-                                                    builder: (context) => const HomeScreen(),
-                                                  ));
-                                                },
-                                                child: Container(
-                                                  height: MediaQuery.of(context).size.height*0.05,
-                                                  width: MediaQuery.of(context).size.width*0.9,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(15),
-                                                      color: white
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
-
-                                                      children: [
-                                                        Text(
-                                                          "قسم 3",
-                                                          style: TextStyle(
-                                                              color: mainColor
-                                                          ),
-                                                        ),
-                                                        Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
+                                              Text(
+                                                "المكاتب والأقسام",maxLines: null,
+                                                softWrap: true,
+                                                style: TextStyle(fontSize: 15, color: white),
                                               ),
 
                                             ],
+                                          ),
+                                          expanded:Column(
+                                            children:
+                                             controller.departmentData.map((e) =>  Column(
+                                               children: [
+                                                 InkWell(
+                                                   onTap: (){
+                                                     Get.to(() =>const DepartmentDetailScreen(),
+                                                       arguments: [e.id],
+                                                     );
+                                                   },
+                                                   child: Container(
+                                                     height: MediaQuery.of(context).size.height*0.05,
+                                                     width: MediaQuery.of(context).size.width*0.9,
+                                                     decoration: BoxDecoration(
+                                                         borderRadius: BorderRadius.circular(15),
+                                                         color: white
+                                                     ),
+                                                     child: Padding(
+                                                       padding: const EdgeInsets.all(8.0),
+                                                       child: Row(
+                                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                         crossAxisAlignment: CrossAxisAlignment.center,
+                                                         children: [
+                                                           Text(
+                                                             e.title??"",
+                                                             style: TextStyle(
+                                                                 color: mainColor
+                                                             ),
+                                                           ),
+                                                           Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
+                                                         ],
+                                                       ),
+                                                     ),
+                                                   ),
+                                                 ),
+                                                 const SizedBox(
+                                                   height: 10,
+                                                 )
+                                               ],
+                                             ),
+                                               ).toList(),
+
+
                                           ),
 
                                           collapsed: Align(
@@ -477,7 +380,7 @@ class _ChooseStateScreenState extends State<ChooseStateScreen> {
                                           ),
                                           builder: (_, collapsed, expanded) {
                                             return Padding(
-                                              padding: EdgeInsets.only(
+                                              padding: const EdgeInsets.only(
                                                   left: 10, right: 10, bottom: 10),
                                               child: Expandable(
                                                 collapsed: collapsed,
