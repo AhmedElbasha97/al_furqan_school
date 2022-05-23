@@ -13,7 +13,7 @@ class SendMessageStudentController extends GetxController{
   bool isLoading = true;
   final formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  final int id=Get.arguments[0];
+   int id=0;
   final TextEditingController titleController =  TextEditingController();
   final TextEditingController msgController =  TextEditingController();
   final FocusNode titleNode =  FocusNode();
@@ -28,16 +28,12 @@ class SendMessageStudentController extends GetxController{
   @override
   Future<void> onInit() async {
     await getTeachers();
+    id=Get.arguments[0];
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
   }
 
-  @override
-  void onClose() {
-    titleController.text="";
-    msgController.text="";
-    super.onClose();
-  }
+
   getTeachers() async {
     isLoading = true;
     update();

@@ -86,6 +86,7 @@ class MessagesService {
       String? title,
       String? type}) async {
     Response response;
+    print(msg);
     response = await Dio().post(
       sendMessageLink+"?student_id=$id&sendto_type=$type&teacher_id=$teacherId&title=$title&text=$msg",
     );

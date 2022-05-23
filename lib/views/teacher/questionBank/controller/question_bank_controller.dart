@@ -18,7 +18,7 @@ class QuestionBankController extends GetxController{
   }
 
   getData() async {
-    isLoading = false;
+    isLoading = true;
     update();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? id = prefs.getString("id");

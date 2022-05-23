@@ -18,8 +18,8 @@ class TeacherSchedule extends StatelessWidget {
       init: SchedulesController(context),
       builder: (SchedulesController controller) => Scaffold(
         appBar: AppBar(
-          iconTheme:  IconThemeData(color: mainColor),
-          backgroundColor: Colors.white,
+          iconTheme:  IconThemeData(color: white),
+          backgroundColor: mainColor,
         ),
         body: controller.isLoading
             ? const Loader()
@@ -55,14 +55,20 @@ class TeacherSchedule extends StatelessWidget {
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           const Divider(),
-                          Text("${controller.schedule[index].class1??""}"),
-                          Text("${controller.schedule[index].class2??""}"),
-                          Text("${controller.schedule[index].class3??""}"),
-                          Text("${controller.schedule[index].class4??""}"),
-                          Text("${controller.schedule[index].class5??""}"),
-                          Text("${controller.schedule[index].class6??""}"),
-                          Text("${controller.schedule[index].class7??""}"),
-                          Text("${controller.schedule[index].class8??""}"),
+                          controller.hasAnyScheduleThisDay(index)? Column(
+                            children: [
+                              Text("${controller.schedule[index].class1??""}"),
+                              Text("${controller.schedule[index].class2??""}"),
+                              Text("${controller.schedule[index].class3??""}"),
+                              Text("${controller.schedule[index].class4??""}"),
+                              Text("${controller.schedule[index].class5??""}"),
+                              Text("${controller.schedule[index].class6??""}"),
+                              Text("${controller.schedule[index].class7??""}"),
+                              Text("${controller.schedule[index].class8??""}"),
+                            ],
+                          ):Text("ليس لديك أى مواضيع متاح للك اليوم",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 30),textAlign: TextAlign.center,)
+                          ,
+
                         ],
                       ),
                     );

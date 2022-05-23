@@ -15,17 +15,20 @@ class SubjectDetailsController extends GetxController{
   @override
   Future<void> onInit() async {
     await getData();
+
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
   }
 
   getData() async {
     details = await AppInfoService().getSubjectDetails(id:subjID);
-    if(details[0].description==null){
+    if((details[0].description==null)&&(details[0].image=="")&&(details[0].title==null)){
       hasNoData=true;
     }else{
       hasNoData=false;
     }
+    print(hasNoData);
+    print(details[0].title);print(details[0].description);print(details[0].image);
     isLoading = false;
     update();
   }

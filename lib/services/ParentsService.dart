@@ -41,21 +41,21 @@ class ParentService {
     }
     return list;
   }
-  Future<List<StudentListModel>> getStudentList(
+  Future<StudentListModel?> getStudentList(
       ) async {
-    List<StudentListModel> list = [];
+    StudentListModel? list ;
     Response response;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var userName = prefs.getString("usernameParent");
     var passwordUser = prefs.getString("passwordParent");
     response = await Dio().get(
-      "$reportDetails?type=PARENTS&username=$userName&password=$passwordUser",
+      "$studentList?type=PARENTS&username=$userName&password=$passwordUser",
     );
     var data = response.data;
     if (response.data != null) {
-      data.forEach((element) {
-        list.add(StudentListModel.fromJson(element));
-      });
+
+        list =StudentListModel.fromJson(data);
+
     }
     return list;
   }
@@ -159,6 +159,7 @@ class ParentService {
       String? title,
       String? type}) async {
     Response response;
+    print(msg);
     response = await Dio().post(
       "$sendMessageLink?parent_id=$id&sendto_type=$type&teacher_id=$teacherId&title=$title&text=$msg",
     );

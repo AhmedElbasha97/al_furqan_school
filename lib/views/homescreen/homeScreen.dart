@@ -178,7 +178,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  controller.hasNoData?Container(
+                  controller.news!.isEmpty?Container(
                       height: 160,
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -190,11 +190,11 @@ class HomeScreen extends StatelessWidget {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
-                      itemCount: controller.news.length,
+                      itemCount: controller.news?.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ContainerCardWidget(
-                          title: controller.news[index].title,
-                          subTtitle: controller.news[index].brief,
+                          title: controller.news![index].title,
+                          subTtitle: controller.news![index].brief,
                         );
                       },
 

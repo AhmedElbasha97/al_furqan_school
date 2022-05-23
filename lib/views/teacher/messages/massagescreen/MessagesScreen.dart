@@ -17,7 +17,10 @@ class MessagesScreen extends StatelessWidget {
     return GetBuilder(
       init: MessageController(context),
       builder: (MessageController controller) =>  Scaffold(
-        appBar: AppBar(),
+        appBar:AppBar(
+          iconTheme:  IconThemeData(color: white),
+          backgroundColor: mainColor,
+        ),
         body: controller.isLoading
             ? const Loader()
             : controller.hasNoData?RefreshIndicator(
@@ -31,7 +34,7 @@ class MessagesScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset("assets/images/no_messages.png"),
-                    Text("لم يتم ارسال اي رساله حتى الان",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 30),)
+                    Text("لم يتم ارسال اي رساله حتى الان",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 30),textAlign: TextAlign.center,)
                   ],
                 ),
               ),

@@ -15,8 +15,11 @@ class SendReportController extends GetxController{
 
   final TextEditingController msgController =  TextEditingController();
   final FocusNode msgNode =  FocusNode();
+  Category? selectClass = Category(ctgName: "اختار الفصل");
+  Category? selectedClass;
 
   List<Category?> categories = [];
+  List<Category?> Class = [];
   List<Category?> levels = [];
   List<Student?> student = [];
 
@@ -24,7 +27,7 @@ class SendReportController extends GetxController{
   bool categoryloading = true;
   bool levelLoading = false;
   bool studentsLoading = false;
-
+  bool classLoading = false;
   Category? selectCatogory = Category(ctgName: "اختار القسم");
   Category? selectLevel = Category(ctgName: "اختار المرحلة");
   Student? selectStudent = Student(name: "اختار طالب");
@@ -39,6 +42,20 @@ class SendReportController extends GetxController{
     await getCatgories();
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
+  }
+  getClass() async {
+    Class = await TeacherService().getLevels(id: selectedLevel!.id);
+    Class.add(selectClass);
+    classLoading = false;
+    update();
+  }
+
+  selectingClass (value) {
+    selectClass = value;
+    selectedClass = value;
+    studentsLoading = true;
+    getStudent();
+    update();
   }
   selectingCategory(value) {
     selectCatogory = value;
@@ -56,8 +73,8 @@ class SendReportController extends GetxController{
   selectingLevels (value) {
     selectLevel = value;
     selectedLevel = value;
-    studentsLoading = true;
-    getStudent();
+    classLoading = true;
+    getClass();
     update();
   }
   selectingStudent(value) {
@@ -80,7 +97,7 @@ class SendReportController extends GetxController{
   }
 
   getStudent() async {
-    student = await TeacherService().getStudents(id: selectedLevel!.id);
+    student = await TeacherService().getStudents(id: selectedClass!.id);
     student.add(selectStudent);
     studentsLoading = false;
     update();

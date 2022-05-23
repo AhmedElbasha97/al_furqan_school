@@ -150,13 +150,14 @@ class TeacherService {
   Future<String?> sendMessages(
       {String? id,
       String? type,
-      String? toId,
-      String? title,
+      String? studentId,
+      String? parentId,
       String? body,
+        String?title,
       String? text}) async {
     Response response;
     response = await Dio().get(
-      "$sendMessage?teacher_id=$id&sendto_type=$type&to_id=$toId&title=$title&text=$text",
+      "$sendMessage?teacher_id=$id&sendto_type=$type&to_id=${studentId ?? parentId}&title=$title&text=$text",
     );
     var data = response.data["status"];
 
@@ -197,8 +198,10 @@ class TeacherService {
       {String? id, String? msgId}) async {
     List<MessageDetailsTeacherModel> list = [];
     Response response;
+
     response =
         await Dio().get("$sentMessageDetails??teacher_id=$id&msg_id=$msgId");
+    
     var data = response.data;
     if (response.data != null) {
       data.forEach((element) {

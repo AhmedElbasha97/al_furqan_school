@@ -6,27 +6,42 @@ class InputFiled extends StatefulWidget {
   final TextEditingController? controller;
   final String? hintText;
   final TextInputType inputType;
+  final bool isPasswordFiled;
    const InputFiled(
-      {Key? key, this.controller, this.hintText, this.inputType = TextInputType.text}) : super(key: key);
+      {Key? key, this.controller, this.hintText, this.inputType = TextInputType.text,  this.isPasswordFiled=false}) : super(key: key);
   @override
   _InputFiledState createState() => _InputFiledState();
 }
 
 class _InputFiledState extends State<InputFiled> {
   @override
+    bool _passwordVisible = false ;
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
       child: TextField(
+        obscureText: widget.isPasswordFiled?_passwordVisible:false,
         keyboardType: widget.inputType,
         controller: widget.controller,
-        textDirection: TextDirection.ltr,
+        textDirection: TextDirection.rtl,
         decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 25,
               vertical: 15,
             ),
-            border: OutlineInputBorder(
+            suffixIcon: widget.isPasswordFiled?IconButton(
+                icon: Icon(
+                    _passwordVisible ? Icons.visibility : Icons.visibility_off,color: mainColor,),
+                onPressed: () {
+                  setState(() {
+                    _passwordVisible = !_passwordVisible;
+                  });
+                }):Icon(
+              _passwordVisible ? Icons.visibility : Icons.visibility_off,color: Colors.transparent,size: 1,),
+
+                border: OutlineInputBorder(
                 borderRadius: const BorderRadius.all(Radius.circular(15)),
                 borderSide: BorderSide(color: mainColor)),
             enabledBorder: OutlineInputBorder(

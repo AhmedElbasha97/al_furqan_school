@@ -27,7 +27,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
         ),
         body: controller.isLoading
             ?  const Loader()
-            :controller.studentList.isEmpty?
+            :controller.studentList?.allStudents==null?
         RefreshIndicator(
             onRefresh: () async {
               controller.getData();
@@ -53,7 +53,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
             controller.getData();
           },
           child: ListView.builder(
-            itemCount: 10,
+            itemCount: controller.studentList?.allStudents!.length,
 
             itemBuilder:   (BuildContext context, int index) {
       return Container(
@@ -72,12 +72,12 @@ class _StudentListScreenState extends State<StudentListScreen> {
               children: [
                 Column(
                   children: [
-                    Text("اسم الطالب ",style: TextStyle(
+                    Text(controller.studentList!.allStudents![index].studentName??"",style: TextStyle(
                       color: mainColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),),
-                    const Text("المرحالة الدراسية",style: TextStyle(
+                     Text(controller.studentList!.allStudents![index].infoClass??"",style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 15,
                     ),)

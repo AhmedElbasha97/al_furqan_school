@@ -27,8 +27,8 @@ class _SendReportState extends State<SendReport> {
         child: Scaffold(
           key: controller.scaffoldKey,
           appBar: AppBar(
-            iconTheme:  IconThemeData(color: mainColor),
-            backgroundColor: Colors.white,
+            iconTheme:  IconThemeData(color: white),
+            backgroundColor: mainColor,
           ),
           body: controller.isLoading
               ? const Loader()
@@ -83,6 +83,7 @@ class _SendReportState extends State<SendReport> {
                       const SizedBox(
                         height: 15,
                       ),
+
                       SizedBox(
                         width: 300,
                         height: 50,
@@ -103,6 +104,28 @@ class _SendReportState extends State<SendReport> {
                                     onChanged:controller.selectingLevels,
                                   ),
                       ),
+                      SizedBox(
+                        width: 300,
+                        height: 50,
+                        child: controller.classLoading
+                            ? const Loader( width: 300,
+                          height: 50,)
+                            : controller.Class.isEmpty
+                            ? Container()
+                            : DropdownButton<Category>(
+                          icon: Container(),
+                          value: controller.selectClass,
+                          items: controller.Class.map((Category? value) {
+                            return DropdownMenuItem<Category>(
+                              value: value,
+                              child: Text("${value!.ctgName}"),
+                            );
+                          }).toList(),
+                          onChanged:controller.selectingClass,
+                        ),
+                      ),
+
+
                       const SizedBox(
                         height: 15,
                       ),
@@ -116,14 +139,14 @@ class _SendReportState extends State<SendReport> {
                                 ? Container()
                                 : DropdownButton<Student>(
                                     icon: Container(),
-                                    value: controller.selectedStudent,
+                                    value: controller.selectStudent,
                                     items: controller.student.map((Student? value) {
                                       return DropdownMenuItem<Student>(
                                         value: value,
                                         child: Text("${value!.name}"),
                                       );
                                     }).toList(),
-                                    onChanged:controller.selectingLevels,
+                                    onChanged:controller.selectingStudent,
                                   ),
                       ),
                       Center(

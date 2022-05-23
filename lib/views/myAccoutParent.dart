@@ -96,11 +96,7 @@ class MyAccountParent extends StatelessWidget {
                ),
               ListTile(
                 onTap: () {
-                  pushPage(
-                      context,
-                      const SentMessagesScreen(
-
-                      ));
+                  Get.to(()=> const SentMessagesScreen(),arguments: [0]);
                 },
                 title: Text(
                   AppLocalizations.of(context)!.translate('sentMessages')!,style: TextStyle(color: mainColor),

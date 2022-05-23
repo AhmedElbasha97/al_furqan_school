@@ -3,6 +3,7 @@
 import 'package:al_furqan_school/I10n/app_localizations.dart';
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/views/teacher/messages/massagescreen/MessagesScreen.dart';
+import 'package:al_furqan_school/views/teacher/messages/sentMessageTeacher/sendMessageTeacher.dart';
 import 'package:al_furqan_school/views/teacher/questionBank/questionBank.dart';
 import 'package:al_furqan_school/views/teacher/reportScreen/reportsScreen.dart';
 import 'package:al_furqan_school/views/teacher/schedules/scheduleScreen.dart';
@@ -65,7 +66,19 @@ class MyAccountTeacher extends StatelessWidget {
 
                 ),
                 trailing:  Icon(Icons.timer,color: mainColor)),
-             Divider(color: mainColor),
+            Divider(color: mainColor),
+            ListTile(
+              onTap: () {
+                pushPage(context, const SendMessageStudentScreen());
+              },
+              title: Text(
+               "ارسال رسالة",
+                style: TextStyle(color: mainColor),
+
+              ),
+              trailing:  Icon(Icons.message,color: mainColor),
+            ),
+            Divider(color: mainColor),
             ListTile(
               onTap: () {
                 pushPage(context, const MessagesScreen());

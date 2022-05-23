@@ -18,8 +18,8 @@ class ReportsDetailScreen extends StatelessWidget {
       init: ReportDetailsController(context),
       builder: (ReportDetailsController controller) => Scaffold(
         appBar: AppBar(
-          iconTheme:  IconThemeData(color: mainColor),
-          backgroundColor: Colors.white,
+          iconTheme:  IconThemeData(color: white),
+          backgroundColor: mainColor,
         ),
         body: controller.isLoading
             ? const Loader()

@@ -22,7 +22,7 @@ class NewsController extends GetxController{
     update();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final schoolType =  prefs.getString("schoolType");
-    news = await AppInfoService().getNewsData(schoolType);
+    news = (await AppInfoService().getNewsData(schoolType))!;
     if(news==[]){
       hasNoData=true;
     }

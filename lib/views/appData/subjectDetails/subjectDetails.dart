@@ -23,7 +23,18 @@ class SubjectDetailsScreen extends StatelessWidget {
         ),
         body: controller.isLoading
             ? const Loader()
-            : ListView.builder(
+            :controller.hasNoData?SizedBox(
+          height: MediaQuery.of(context).size.height ,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset("assets/images/no_books.png"),
+              Text("ليس هناك اى معلومات متاحه الان عن هذا المنهج",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 30),textAlign: TextAlign.center,)
+            ],
+          ),
+        ): ListView.builder(
                 itemCount: controller.details.length,
                 padding: const EdgeInsets.all(10),
                 itemBuilder: (BuildContext context, int index) {
@@ -51,7 +62,7 @@ class SubjectDetailsScreen extends StatelessWidget {
                         const SizedBox(
                           height: 5,
                         ),
-                        controller.hasNoData? Container():Html(data: "${controller.details[index].description}"),
+                        controller.details[index].description==null? Container():Html(data: "${controller.details[index].description}"),
                         const SizedBox(
                           height: 20,
                         ),

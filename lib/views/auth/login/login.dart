@@ -61,6 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     : Container(),
                 const Padding(padding: EdgeInsets.only(top: 10)),
                 InputFiled(
+                  isPasswordFiled: true,
                   hintText:
                       "${AppLocalizations.of(context)!.translate('password')}",
                   controller: controller.passwordController,
@@ -106,6 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 AppBtn(
                   onClick: () async {
                     controller.validate();
+                    print(await controller.login(context));
                     if(await controller.login(context)){
                       pushPageReplacement(context, const ChooseStateScreen());
                     }

@@ -15,9 +15,9 @@ class QuestionBankScreen extends StatelessWidget {
     return GetBuilder(
       init: QuestionBankController(context),
       builder: (QuestionBankController controller) => Scaffold(
-        appBar: AppBar(
-          iconTheme:  IconThemeData(color: mainColor),
-          backgroundColor: Colors.white,
+        appBar:AppBar(
+          iconTheme:  IconThemeData(color: white),
+          backgroundColor: mainColor,
         ),
         body:controller.isLoading
             ? const Loader()
@@ -35,7 +35,7 @@ class QuestionBankScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset("assets/images/no_question_bank.png"),
-                    Text("ليس متوفر الان أسأله الان في بنك الاسألة",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 30),)
+                    Text("ليس متوفر الان أسأله الان في بنك الاسألة",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 30),textAlign: TextAlign.center,)
                   ],
                 ),
               ),

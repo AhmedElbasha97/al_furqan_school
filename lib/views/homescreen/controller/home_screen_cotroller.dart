@@ -21,7 +21,7 @@ class HomeScreenController extends GetxController{
   StarScreenServices startScreenServices = StarScreenServices();
   bool loading = true;
   bool hasNoData=false;
-  List<NewsModel> news = [];
+  List<NewsModel>? news = [];
   final BuildContext context;
   HomeScreenController(this.context);
   @override
@@ -34,6 +34,7 @@ class HomeScreenController extends GetxController{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     homeWorkId = prefs.getString("schoolType")??"";
     sliderData = await startScreenServices.getSlideShowPhotos(homeWorkId);
+    print("slideHasBeen gett");
     await getAlbumsData();
     await getData();
     loading = false;
@@ -44,9 +45,8 @@ class HomeScreenController extends GetxController{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final schoolType =  prefs.getString("schoolType");
     news = await AppInfoService().getNewsData(schoolType);
-    if(news==[]){
-      hasNoData=true;
-    }
+    print(news?.isEmpty);
+  update();
 
   }
   launchURL(context,link) async {
@@ -62,6 +62,8 @@ class HomeScreenController extends GetxController{
   getAlbumsData() async {
     list = await AlbumsService().getPhotoAlbums();
     list2 = await AlbumsService().getVideoAlbums();
+    print("getphotos");
+    print("get videos");
   }
 
 

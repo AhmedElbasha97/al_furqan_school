@@ -17,7 +17,13 @@ class SchedulesController extends GetxController{
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
   }
-
+   bool hasAnyScheduleThisDay(index){
+    if(schedule[index].class1!=""&&schedule[index].class2!=""&&schedule[index].class3!=""&&schedule[index].class4!=""&&schedule[index].class5!=""&&schedule[index].class6!=""&&schedule[index].class7!=""&&schedule[index].class8!=""){
+      return false;
+    }else{
+      return true;
+    }
+   }
   getData() async {
     isLoading = true;
     update();

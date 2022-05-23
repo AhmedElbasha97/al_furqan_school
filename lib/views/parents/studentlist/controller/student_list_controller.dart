@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class StudentListController extends GetxController{
-List<StudentListModel> studentList=[];
+StudentListModel? studentList;
 bool isLoading =true;
 final BuildContext context;
 StudentListController(this.context);

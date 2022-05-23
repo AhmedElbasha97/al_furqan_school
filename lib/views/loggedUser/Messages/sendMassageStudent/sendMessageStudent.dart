@@ -47,6 +47,7 @@ class SendMessageStudentScreen extends StatelessWidget {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.8,
                         child: TextFormField(
+                          controller: controller.titleController,
                           focusNode: controller.titleNode,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(

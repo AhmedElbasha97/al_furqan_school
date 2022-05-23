@@ -104,19 +104,24 @@ class AppInfoService {
     data = SocialLinkModel.fromJson(resData[0]);
     return data;
   }
-  Future<List<NewsModel>> getNewsData(schoolType) async {
-    List<NewsModel> list =[];
-    Response response;
+  Future<List<NewsModel>?> getNewsData(schoolType) async {
+    List<NewsModel>?list =[];
+    Response? response;
 
     response = await Dio().get(
       news+"school_type=$schoolType",
     );
-    var data = response.data;
-    data.forEach((element) {
-      list.add(NewsModel.fromJson(element));
-    });
+     if(response.data!=null) {
+       print(response.data.toString());
+       var data = response.data;
+       data.forEach((element) {
+         list.add(NewsModel.fromJson(element));
+       });
+       return list;
+     }else{
+       return list;
+     }
 
-    return list;
   }
   Future<NewsDetailsModel> getNewsDetailsData(String id) async {
     NewsDetailsModel data;

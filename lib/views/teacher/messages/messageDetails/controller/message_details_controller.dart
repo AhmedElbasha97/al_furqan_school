@@ -25,11 +25,11 @@ class MessageDetailsController extends GetxController{
     String? id = prefs.getString("id");
     msg =
     await TeacherService().getsentMessageDetails(id: id, msgId:idmsg);
-    if(msg[0].text==""){
-      hasNoData=true;
-    }else{
-      hasNoData=false;
-    }
+    // if(msg[0].text==""){
+    //   hasNoData=true;
+    // }else{
+    //   hasNoData=false;
+    // }
     isLoading = false;
     update();
   }

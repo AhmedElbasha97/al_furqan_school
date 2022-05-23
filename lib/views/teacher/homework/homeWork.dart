@@ -19,8 +19,8 @@ class HomeWorkScreen extends StatelessWidget {
       init: HomeWorkController(context),
       builder: (HomeWorkController controller) => Scaffold(
         appBar: AppBar(
-          iconTheme:  IconThemeData(color: mainColor),
-          backgroundColor: Colors.white,
+          iconTheme:  IconThemeData(color: white),
+          backgroundColor: mainColor,
         ),
         body: controller.isLoading
             ? const Loader()
