@@ -19,7 +19,10 @@ class HomeScreenController extends GetxController{
   late String homeWorkId;
   List<Videos> list2 = [];
   StarScreenServices startScreenServices = StarScreenServices();
-  bool loading = true;
+  bool slideShowLoading = true;
+  bool videosShowLoading = true;
+  bool galleryShowLoading = true;
+  bool newsShowLoading = true;
   bool hasNoData=false;
   List<NewsModel>? news = [];
   final BuildContext context;
@@ -27,6 +30,9 @@ class HomeScreenController extends GetxController{
   @override
   Future<void> onInit() async {
     await getHomeData();
+    await getAlbumsData();
+    await getVideoData();
+    await getData();
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
   }
@@ -34,10 +40,7 @@ class HomeScreenController extends GetxController{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     homeWorkId = prefs.getString("schoolType")??"";
     sliderData = await startScreenServices.getSlideShowPhotos(homeWorkId);
-    print("slideHasBeen gett");
-    await getAlbumsData();
-    await getData();
-    loading = false;
+    slideShowLoading = false;
    update();
   }
   getData() async {
@@ -45,7 +48,7 @@ class HomeScreenController extends GetxController{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final schoolType =  prefs.getString("schoolType");
     news = await AppInfoService().getNewsData(schoolType);
-    print(news?.isEmpty);
+    newsShowLoading=false;
   update();
 
   }
@@ -61,9 +64,15 @@ class HomeScreenController extends GetxController{
 
   getAlbumsData() async {
     list = await AlbumsService().getPhotoAlbums();
+  galleryShowLoading=false;
+  update();
+
+  }
+  getVideoData() async {
     list2 = await AlbumsService().getVideoAlbums();
-    print("getphotos");
-    print("get videos");
+    videosShowLoading=false;
+    update();
+
   }
 
 

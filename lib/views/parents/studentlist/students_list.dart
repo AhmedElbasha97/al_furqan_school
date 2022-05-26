@@ -4,6 +4,8 @@ import 'package:al_furqan_school/views/parents/studentlist/controller/student_li
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../student_info_screen/student_info_screen.dart';
+
 class StudentListScreen extends StatefulWidget {
   const StudentListScreen({Key? key}) : super(key: key);
 
@@ -56,37 +58,42 @@ class _StudentListScreenState extends State<StudentListScreen> {
             itemCount: controller.studentList?.allStudents!.length,
 
             itemBuilder:   (BuildContext context, int index) {
-      return Container(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: mainColor,
-                width: 2
+      return InkWell(
+        onTap: (){
+          Get.to(()=>const StudentInfoScreen(),arguments: [controller.studentList!.allStudents![index].id]);
+        },
+        child: Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: mainColor,
+                  width: 2
+                ),
               ),
             ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    Text(controller.studentList!.allStudents![index].studentName??"",style: TextStyle(
-                      color: mainColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),),
-                     Text(controller.studentList!.allStudents![index].infoClass??"",style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 15,
-                    ),)
-                  ],
-                ),
-                Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Text(controller.studentList!.allStudents![index].studentName??"",style: TextStyle(
+                        color: mainColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),),
+                       Text(controller.studentList!.allStudents![index].infoClass??"",style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 17,
+                      ),)
+                    ],
+                  ),
+                  Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
+                ],
+              ),
             ),
-          ),
+        ),
       );
 
 

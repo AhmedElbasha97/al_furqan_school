@@ -35,16 +35,14 @@ class HomeScreen extends StatelessWidget {
         ),
         drawer: const AppDrawer(),
         backgroundColor: white,
-        body: controller.loading
-            ? const Loader()
-            : ListView(
+        body:  ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
                 shrinkWrap: true,
                 children: [
                   const SizedBox(
                     height: 20,
                   ),
-                  CarouselSlider(
+                  controller.slideShowLoading?Loader(width: MediaQuery.of(context).size.width,height: 150.0):CarouselSlider(
                     options: CarouselOptions(height: 150.0, autoPlay: true),
                     items: controller.sliderData.map((i) {
                       return Builder(
@@ -178,7 +176,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  controller.news!.isEmpty?Container(
+                  controller.newsShowLoading?Loader(width: MediaQuery.of(context).size.width,height: 150.0):controller.news!.isEmpty?Container(
                       height: 160,
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -236,7 +234,7 @@ class HomeScreen extends StatelessWidget {
                       margin: const EdgeInsets.symmetric(horizontal: 5.0),
                       child: Center(
                           child:  Text("ليس هناك صور متاحه الان",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 30),textAlign: TextAlign.center,)
-                      )) :CarouselSlider(
+                      )) :controller.galleryShowLoading?Loader(width: MediaQuery.of(context).size.width,height: 150.0):CarouselSlider(
                     options: CarouselOptions(height: 150.0, autoPlay: true),
                     items: controller.list.map((i) {
 
@@ -330,7 +328,7 @@ class HomeScreen extends StatelessWidget {
                     child: Center(
                       child:  Text("ليس هناك فيديوهات متاحه الان",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 30),textAlign: TextAlign.center,)
                     ),
-                  ):CarouselSlider(
+                  ):controller.videosShowLoading?Loader(width: MediaQuery.of(context).size.width,height: 150.0):CarouselSlider(
                     options: CarouselOptions(height: 150.0, autoPlay: true),
                     items: controller.list2.map((i) {
                       return Builder(

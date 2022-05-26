@@ -2,7 +2,6 @@
 import 'dart:io';
 import 'package:al_furqan_school/models/new/social_link.dart';
 import 'package:al_furqan_school/services/appInfoService.dart';
-import 'package:al_furqan_school/views/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:al_furqan_school/I10n/app_localizations.dart';
 import 'package:al_furqan_school/globals/commonStyles.dart';
@@ -24,6 +23,8 @@ import 'package:map_launcher/map_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../views/startScreens/choose_state_screen.dart';
+
 class AppDrawer extends StatefulWidget {
   const AppDrawer({Key? key}) : super(key: key);
 
@@ -32,16 +33,17 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
-  late bool userLogged;
+  late bool userLogged =false;
   bool isLoading=true;
   late bool isStudent;
   late bool isTeacher;
-   SocialLinkModel socials =SocialLinkModel();
+  late SocialLinkModel socials =SocialLinkModel();
 
   @override
   void initState() {
     super.initState();
     checkData();
+    getData();
   }
 
   checkData() async {
@@ -49,16 +51,19 @@ class _AppDrawerState extends State<AppDrawer> {
     userLogged = prefs.getString("id") == null ? false : true;
     isStudent = prefs.getString("type") == "STUDENT" ? true : false;
     isTeacher = prefs.getString("type") == "TEACHER" ? true : false;
-    socials= await AppInfoService().gatSocialLink();
-    isLoading = false;
+
     setState(() {});
   }
-
+getData() async {
+  socials= await AppInfoService().gatSocialLink();
+  isLoading = false;
+  setState(() {});
+}
   @override
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: mainColor,
-      child: isLoading? Loader(width:MediaQuery.of(context).size.width*0.8,):ListView(
+      child: ListView(
         children: [
           Container(
             color: white,
@@ -75,7 +80,7 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             leading: Icon(Icons.home,color: white,),
             onTap: () {
-              popPage(context);
+              Get.to(()=>const ChooseStateScreen());
             },
           ),
            Divider(
@@ -294,7 +299,7 @@ class _AppDrawerState extends State<AppDrawer> {
             endIndent: 30,
             indent: 30,
           ),
-          ListTile(
+          isLoading? Container():ListTile(
             title: Text(
               "${AppLocalizations.of(context)!.translate('share')}",
               style: TextStyle(
@@ -365,7 +370,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 )
               : Container(),
           const SizedBox(height: 15,),
-          Row(
+          isLoading? Container():Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               const Padding(padding: EdgeInsets.symmetric(horizontal: 1)),

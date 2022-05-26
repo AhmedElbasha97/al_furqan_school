@@ -49,8 +49,10 @@ class MessagesScreen extends StatelessWidget {
                               const MessageDetailsScreen(),
                               arguments: [controller.type,controller.messages[index].msgId]);
                         },
-                        title: Text("${controller.messages[index].title}"),
-                        trailing: Text("${controller.messages[index].date}",style: TextStyle(color: mainColor),),
+                        title: Text("${controller.messages[index].title}",style: TextStyle(
+                          fontWeight: controller.messages[index].read == 0?FontWeight.bold:FontWeight.normal
+                        ),),
+                        trailing: Text("${controller.messages[index].date}",style: TextStyle(color: mainColor,fontWeight:  controller.messages[index].read == 0?FontWeight.bold:FontWeight.normal),),
                       ),
                     );
                   },

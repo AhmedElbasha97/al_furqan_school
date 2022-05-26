@@ -5,6 +5,7 @@ import 'package:al_furqan_school/models/MessageDetailsStudent.dart';
 import 'package:al_furqan_school/models/MessageSentStudent.dart';
 import 'package:al_furqan_school/models/message.dart';
 import 'package:al_furqan_school/models/messageDetails.dart';
+import 'package:al_furqan_school/models/new/student_info_model.dart';
 import 'package:al_furqan_school/models/new/student_list_model.dart';
 import 'package:al_furqan_school/models/parents/attendance.dart';
 import 'package:al_furqan_school/models/parents/reportDetails.dart';
@@ -26,7 +27,19 @@ class ParentService {
   String sentMessages = "${baseUrl}parent_msg_sent.php";
   String sentMessagesDetails = "${baseUrl}parent_msg_sent_view.php";
   String teachers = "${baseUrl}teachers_list.php";
-
+  String studentInfo ="${baseUrl}student_info.php";
+  Future<StudentInfoModel?> getStudentInfo({String? id}) async {
+    StudentInfoModel? list ;
+    Response response;
+    response = await Dio().get(
+      "$studentInfo?student_id=$id",
+    );
+    var data = response.data;
+    if (response.data != null) {
+    list =StudentInfoModel.fromJson(data[0]);
+    }
+    return list;
+  }
   Future<List<Report>> getReports({String? id}) async {
     List<Report> list = [];
     Response response;
@@ -41,6 +54,7 @@ class ParentService {
     }
     return list;
   }
+
   Future<StudentListModel?> getStudentList(
       ) async {
     StudentListModel? list ;

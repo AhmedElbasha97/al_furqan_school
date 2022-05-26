@@ -9,6 +9,7 @@ class ReportController extends GetxController{
   bool isLoading = true;
   List<Report> reports = [];
   bool hasNoData = true;
+  String? studentID= Get.arguments[0];
   final BuildContext context;
   ReportController(this.context);
   @override
@@ -21,9 +22,15 @@ class ReportController extends GetxController{
   getData() async {
     isLoading = true;
     update();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? id = prefs.getString("id");
-    reports = await ParentService().getReports(id: id);
+
+    if(studentID!=null){
+      reports = await ParentService().getReports(id: studentID);
+    }else{
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? id = prefs.getString("id");
+      reports = await ParentService().getReports(id: id);
+    }
+
     if(reports.isEmpty){
       hasNoData = true;
     }else{

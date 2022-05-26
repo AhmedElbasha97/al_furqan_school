@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class StartScreen extends GetxController{
   var isLoading=true;
+
   final CarouselController carosuelController = CarouselController();
   int current =0;
   StarScreenServices startScreenServices = StarScreenServices();
@@ -22,13 +23,16 @@ class StartScreen extends GetxController{
   StartScreen(this.context);
   @override
   Future<void> onInit() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.containsKey("schoolType")){
+      prefs.remove("schoolType");
+    }
     await getPhotoSliderData();
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
   }
   chooseSchool(int index) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    switch(index){
+    SharedPreferences prefs = await SharedPreferences.getInstance();    switch(index){
       case 0:{
         prefs.setString("schoolType", "j");
       }
