@@ -20,9 +20,8 @@ class ImportantFilesController extends GetxController{
     NotificationServices.checkNotificationAppInForeground(context);
   }
   launchURL(context, index) async {
-    if (await canLaunchUrl(Uri.parse(files[index].file??""))) {
-      await launchUrl(Uri.parse(files[index].file??""));
-    } else {
+    if (await launchUrl(Uri.parse(files[index].file??""))) {
+
       showTheDialog(context, "لا يمكن تحميل هذا الملف", "لا يوجد ملف متاح للتحميل ");
       throw 'Could not launch ${files[index].file}';
 

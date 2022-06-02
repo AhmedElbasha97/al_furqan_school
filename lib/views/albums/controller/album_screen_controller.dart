@@ -17,9 +17,8 @@ class AlbumController extends GetxController{
     super.onInit();
   }
   launchURL(context, index) async {
-    if (await canLaunchUrl(Uri.parse(listVideos[index].link??""))) {
-      await launchUrl(Uri.parse(listVideos[index].link??""));
-    } else {
+    if ( await launchUrl(Uri.parse(listVideos[index].link??""),mode: LaunchMode.externalApplication)) {
+
       showTheDialog(context, "للا يمكن فتح هذا الفيديو", "هذا الفيديو غير متاح");
       throw 'Could not launch ${listVideos[index].link}';
 

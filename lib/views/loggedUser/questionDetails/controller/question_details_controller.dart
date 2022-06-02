@@ -31,9 +31,8 @@ class QuestionDetailsController extends GetxController{
     update();
   }
   launchURL(context, index) async {
-    if (await canLaunchUrl(Uri.parse(questions[index].fileLink??""))) {
-      await launchUrl(Uri.parse(questions[index].fileLink??""));
-    } else {
+    if (await launchUrl(Uri.parse(questions[index].fileLink??""))) {
+
       showTheDialog(context, "لا يمكن تحميل هذا الملف", "لا يوجد ملف متاح للتحميل لهذا السؤال");
       throw 'Could not launch ${questions[index].fileLink}';
 

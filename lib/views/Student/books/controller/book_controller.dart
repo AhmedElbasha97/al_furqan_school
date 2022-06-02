@@ -21,9 +21,8 @@ class BookController extends GetxController{
   }
 
   launchURL(context, index) async {
-    if (await canLaunchUrl(Uri.parse(books[index].file ??""))) {
-      await launchUrl(Uri.parse(books[index].file??""));
-    } else {
+    if (await launchUrl(Uri.parse(books[index].file??""))) {
+
       showTheDialog(context, "لا يمكن تحميل هذا الملف", "لا يوجد ملف متاح للتحميل ");
       throw 'Could not launch ${books[index].file}';
 

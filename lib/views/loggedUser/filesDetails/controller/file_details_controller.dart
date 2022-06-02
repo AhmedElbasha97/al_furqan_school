@@ -33,9 +33,7 @@ class FilesDetailsScreen extends GetxController{
     return files[index].fileDet != null;
   }
   launchURL(context, index) async {
-    if (await canLaunchUrl(Uri.parse(files[index].fileLink??""))) {
-      await launchUrl(Uri.parse(files[index].fileLink??""));
-    } else {
+    if (await launchUrl(Uri.parse(files[index].fileLink??""))) {
       showTheDialog(context, "لا يمكن تحميل هذا الملف", "لا يوجد ملف متاح للتحميل ");
       throw 'Could not launch ${files[index].fileLink}';
 

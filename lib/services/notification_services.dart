@@ -2,10 +2,14 @@ import 'dart:io';
 
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/notification.dart';
+import 'package:al_furqan_school/views/loggedUser/homework/homeWork.dart';
+import 'package:al_furqan_school/views/loggedUser/quetion_bank/questionBank.dart';
+import 'package:al_furqan_school/views/teacher/messages/massagescreen/MessagesScreen.dart';
 import 'package:al_furqan_school/views/teacher/reportScreen/reportsScreen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -84,14 +88,33 @@ class NotificationServices{
      // var type= prefs.getString("type");
 
     switch(route){
-      case "chat":
+      case "teacher_msg ":
         {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) =>  const ReportScreen()),
-          );
+          Get.to(()=> const MessagesScreen());
         }
         break;
-      case "update":{
+      case "parent_msg ":{
+        Get.to(()=> const MessagesScreen(),arguments: [0]);
+      }
+      break;  case "student_msg ":{
+      Get.to(()=> const MessagesScreen(),arguments: [1]);
+
+    }
+      break;  case "student_homework ":{
+      pushPage(context, const HomeWorkScreen());
+      }
+      break;  case "student_quest ":{
+      pushPage(context, const QuestionBankScreen());
+      }
+      break;  case "parent_quest ":{
+      pushPage(context, const QuestionBankScreen());
+
+      }
+      break;  case "student_report ":{
+      pushPage(context, const HomeWorkScreen());
+
+    }
+      break;  case "update":{
         launchURL(Platform.isAndroid
             ? "https://play.google.com/store/apps/details?id=com.syncapps.manpower"
             : "https://apps.apple.com/us/app/id1573160692",);

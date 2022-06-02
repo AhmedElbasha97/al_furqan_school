@@ -23,9 +23,8 @@ class NewsDetailsController extends GetxController{
     NotificationServices.checkNotificationAppInForeground(context);
   }
   launchURL(context) async {
-    if (await canLaunchUrl(Uri.parse(news.video??""))) {
-    await launchUrl(Uri.parse(news.video??""));
-    } else {
+    if (await launchUrl(Uri.parse(news.video??""))) {
+
     showTheDialog(context, "لايمكن عرض الفيديو", "ليس متوفر فيديو لهذا الخبر");
     throw 'Could not launch ${news.video}';
 

@@ -12,6 +12,8 @@ import 'package:al_furqan_school/views/loggedUser/homework/homeWork.dart';
 import 'package:al_furqan_school/views/loggedUser/importantfiles/importantFilesScreen.dart';
 import 'package:al_furqan_school/views/loggedUser/quetion_bank/questionBank.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../globals/commonStyles.dart';
 import 'loggedUser/filescreen/fileScreen.dart';
@@ -97,7 +99,16 @@ class MyAccount extends StatelessWidget {
                  color: mainColor
              ),
             ListTile(
-              onTap: () {},
+              onTap: ()async{
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                String? id = prefs.getString("id");
+                if ( await launchUrl(Uri.parse("https://alforqanschools.sch.qa/site/reportyear.php?studentid=$id"),mode: LaunchMode.externalApplication)) {
+
+                showTheDialog(context, "حدث خطأ الان", "لا يمكن الآن الذهاب الى هذه الصفحه الان");
+                throw 'Could not launch ${"https://alforqanschools.sch.qa/site/reportyear.php?studentid=$id"}';
+
+                }
+              },
               title: Text(
                 AppLocalizations.of(context)!.translate('results')!,
                 style: TextStyle(color: mainColor),

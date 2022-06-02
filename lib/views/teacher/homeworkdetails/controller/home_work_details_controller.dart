@@ -21,9 +21,8 @@ class HomeWorkDetailsController extends GetxController{
     NotificationServices.checkNotificationAppInForeground(context);
   }
   launchURL(context, index) async {
-    if (await canLaunchUrl(Uri.parse(homework[index].homeworkFile??""))) {
-      await launchUrl(Uri.parse(homework[index].homeworkFile??""));
-    } else {
+    if (await launchUrl(Uri.parse(homework[index].homeworkFile??""))) {
+
       showTheDialog(context, "لا يمكن تحميل هذا الملف", "لا يوجد ملف متاح للتحميل ");
       throw 'Could not launch ${homework[index].homeworkFile}';
 
