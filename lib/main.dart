@@ -1,4 +1,5 @@
 import 'package:al_furqan_school/globals/commonStyles.dart';
+import 'package:al_furqan_school/services/internet_services.dart';
 import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:al_furqan_school/views/parents/report/ReportsScreen.dart';
 import 'package:al_furqan_school/views/splashScreen.dart';
@@ -51,6 +52,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     NotificationServices.checkNotificationAppInBackground(context);
     NotificationServices.initialize();
+    ConnectionStatusSingleton connectionStatus = ConnectionStatusSingleton.getInstance();
+    connectionStatus.initialize();
     NotificationServices.checkNotificationAppInForeground(context);
     FirebaseMessaging.instance.getInitialMessage().then((message) {
       if (message != null) {

@@ -156,6 +156,7 @@ class TeacherService {
         String?title,
       String? text}) async {
     Response response;
+    print("$sendMessage?teacher_id=$id&sendto_type=$type&to_id=${studentId ?? parentId}&title=$title&text=$text");
     response = await Dio().get(
       "$sendMessage?teacher_id=$id&sendto_type=$type&to_id=${studentId ?? parentId}&title=$title&text=$text",
     );

@@ -1,4 +1,5 @@
 import 'package:al_furqan_school/globals/commonStyles.dart';
+import 'package:al_furqan_school/globals/widgets/offline_widget.dart';
 import 'package:al_furqan_school/views/auth/login/controller/login_controller.dart';
 import 'package:al_furqan_school/views/startScreens/choose_state_screen.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             automaticallyImplyLeading: true,
           ),
-          body: SingleChildScrollView(
+          bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),          body: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
@@ -107,7 +108,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 AppBtn(
                   onClick: () async {
                     controller.validate();
-                    print(await controller.login(context));
                     if(await controller.login(context)){
                       pushPageReplacement(context, const ChooseStateScreen());
                     }

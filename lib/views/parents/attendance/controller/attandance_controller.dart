@@ -1,3 +1,4 @@
+import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/parents/attendance.dart';
 import 'package:al_furqan_school/services/ParentsService.dart';
 import 'package:al_furqan_school/services/notification_services.dart';
@@ -7,18 +8,35 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AttendanceController extends GetxController{
   bool isLoading = true;
+  bool isOffline = false;
+
   List<Attendance> attendance = [];
-  String? studentID= Get.arguments[0];
+  String? studentID;
   bool hasNoData = false;
   final BuildContext context;
   AttendanceController(this.context);
   @override
   Future<void> onInit() async {
-    await getData();
+    if(Get.arguments!=null) {
+      studentID = Get.arguments[0];
+    }
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }
+
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
+  update();
   }
-
+  refreshFunction() async {
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }else{
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+    }
+  }
   getData() async {
     isLoading = true;
     update();

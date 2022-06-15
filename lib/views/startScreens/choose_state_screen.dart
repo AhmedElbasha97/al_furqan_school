@@ -1,5 +1,6 @@
 import 'package:al_furqan_school/globals/commonStyles.dart';
 import 'package:al_furqan_school/globals/widgets/expandable_text.dart';
+import 'package:al_furqan_school/globals/widgets/offline_widget.dart';
 import 'package:al_furqan_school/views/loader.dart';
 import 'package:al_furqan_school/views/the%20_department/the_department_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -17,7 +18,9 @@ class ChooseStateScreen extends StatelessWidget {
     return  GetBuilder(
       init: StartScreen(context),
       builder: (StartScreen controller) => Scaffold(
-        body: controller.isLoading?const Loader():SizedBox(
+         bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
+        body: controller.isLoading?
+            const Loader():SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Center(

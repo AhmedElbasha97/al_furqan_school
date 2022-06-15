@@ -1,4 +1,5 @@
 // ignore_for_file: file_names
+import 'package:al_furqan_school/globals/widgets/offline_widget.dart';
 import 'package:al_furqan_school/views/albums/AlbumsScreen.dart';
 import 'package:al_furqan_school/views/appData/newsScreen/NewsScreen.dart';
 import 'package:al_furqan_school/views/homescreen/controller/home_screen_cotroller.dart';
@@ -35,7 +36,7 @@ class HomeScreen extends StatelessWidget {
         ),
         drawer: const AppDrawer(),
         backgroundColor: white,
-        body:  ListView(
+        bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),        body:  ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
                 shrinkWrap: true,
                 children: [
@@ -143,7 +144,7 @@ class HomeScreen extends StatelessWidget {
                           },
                           title:
                               "${AppLocalizations.of(context)!.translate('schoolVision')}",
-                          imageLink: "assets/images/vision.png",
+                          imageLink: "assets/images/logo 2020 new.png",
                         ),
                       ],
                     ),

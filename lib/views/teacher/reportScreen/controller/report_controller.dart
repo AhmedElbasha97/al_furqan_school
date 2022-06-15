@@ -1,3 +1,4 @@
+import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/teacher/teacherReport.dart';
 import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:al_furqan_school/services/teachersService.dart';
@@ -9,12 +10,26 @@ class ReportController extends GetxController{
   bool isLoading = true;
   List<TeacherReport> reports = [];
   final BuildContext context;
+  bool isOffline = false;
+
   ReportController(this.context);
   @override
   Future<void> onInit() async {
-    await getData();
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
+  update();
+  }
+  refreshFunction() async {
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }else{
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+    }
   }
   getData() async {
     isLoading = true;

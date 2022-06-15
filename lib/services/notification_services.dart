@@ -5,9 +5,7 @@ import 'package:al_furqan_school/models/notification.dart';
 import 'package:al_furqan_school/views/loggedUser/homework/homeWork.dart';
 import 'package:al_furqan_school/views/loggedUser/quetion_bank/questionBank.dart';
 import 'package:al_furqan_school/views/teacher/messages/massagescreen/MessagesScreen.dart';
-import 'package:al_furqan_school/views/teacher/reportScreen/reportsScreen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -24,7 +22,7 @@ class NotificationServices{
   static checkNotificationAppInBackground(context) async{
     FirebaseMessaging.instance.getInitialMessage().then((message) {
       if (message != null) {
-        var data;
+        String? data;
         message.data.forEach((key, value) {
           if (key == "data"){
             data=notificationFromJson(value).route;
@@ -37,7 +35,7 @@ class NotificationServices{
   static checkNotificationAppInForeground(contextOfScreen) async{
     context = contextOfScreen;
     FirebaseMessaging.onMessage.listen((message) {
-
+      print(message.data.toString());
       NotificationServices.display(message);
     });
   }
@@ -62,7 +60,7 @@ class NotificationServices{
   }
 
   static void display(RemoteMessage message)async{
-    var data;
+    String? data;
     message.data.forEach((key, value) {
       if (key == "data"){
         data=notificationFromJson(value).route;

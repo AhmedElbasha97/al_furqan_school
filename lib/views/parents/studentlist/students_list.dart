@@ -1,4 +1,5 @@
 import 'package:al_furqan_school/globals/commonStyles.dart';
+import 'package:al_furqan_school/globals/widgets/offline_widget.dart';
 import 'package:al_furqan_school/views/loader.dart';
 import 'package:al_furqan_school/views/parents/studentlist/controller/student_list_controller.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class _StudentListScreenState extends State<StudentListScreen> {
           iconTheme:  IconThemeData(color: white),
           backgroundColor: mainColor,
         ),
+          bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
         body: controller.isLoading
             ?  const Loader()
             :controller.studentList?.allStudents==null?

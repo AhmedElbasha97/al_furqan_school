@@ -1,3 +1,4 @@
+import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/new/department_model.dart';
 import 'package:al_furqan_school/models/new/main_about_model.dart';
 import 'package:al_furqan_school/models/new/slide_show_model.dart';
@@ -14,6 +15,7 @@ class StartScreen extends GetxController{
 
   final CarouselController carosuelController = CarouselController();
   int current =0;
+  bool isOffline = false;
   StarScreenServices startScreenServices = StarScreenServices();
   String? selectedType = "اختار نوع المستخدم";
   MainAboutModel? about ;
@@ -27,9 +29,22 @@ class StartScreen extends GetxController{
     if(prefs.containsKey("schoolType")){
       prefs.remove("schoolType");
     }
-    await getPhotoSliderData();
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getPhotoSliderData();
+    }
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
+    update();
+  }
+  refreshFunction() async {
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+
+      await getPhotoSliderData();
+    }else{
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+    }
   }
   chooseSchool(int index) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();    switch(index){

@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:al_furqan_school/globals/widgets/offline_widget.dart';
 import 'package:al_furqan_school/views/loader.dart';
 import 'package:al_furqan_school/views/teacher/reportDetails/controller/report_details_controller.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class ReportsDetailScreen extends StatelessWidget {
           iconTheme:  IconThemeData(color: white),
           backgroundColor: mainColor,
         ),
-        body: controller.isLoading
+        bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),        body: controller.isLoading
             ? const Loader()
             : ListView.builder(
                 padding: const EdgeInsets.all(10),

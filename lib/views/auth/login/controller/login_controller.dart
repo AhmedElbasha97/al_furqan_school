@@ -12,15 +12,19 @@ class LoginController extends GetxController{
   bool usernameError = false;
   bool passwordError = false;
   bool isServerLoading = false;
+  bool isOffline = false;
   String? selectedType = "اختار نوع المستخدم";
   String accountType = "";
   final BuildContext context;
   @override
   LoginController(this.context);
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
+    isOffline = !await connectivityChecker();
+
     NotificationServices.checkNotificationAppInForeground(context);
+  update();
   }
   @override
   void onClose() {
@@ -33,8 +37,14 @@ class LoginController extends GetxController{
     passwordError = passwordController.text.isEmpty;
     update();
   }
+  refreshFunction() async {
+    isOffline = !await connectivityChecker();
+    if(isOffline){
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+    }
+  }
   login(context) async {
-    if(accountType!="") {
+    if(!isOffline){if(accountType!="") {
       if (!passwordError && !usernameError) {
         var msg = await AuthService().login(
             password: passwordController.text,
@@ -47,8 +57,11 @@ class LoginController extends GetxController{
           return false;
         }
       }
-    }else{
+    }
+    else{
       showTheDialog(context,"لا يمكنك تسجيل الدخول","من فضلك اختار نوع صاحب الحساب");
+    }}else{
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
     }
 
     }

@@ -2,8 +2,6 @@ import 'package:al_furqan_school/globals/commonStyles.dart';
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/teacher/category.dart';
 import 'package:al_furqan_school/models/teacher/student.dart';
-import 'package:al_furqan_school/models/teachers.dart';
-import 'package:al_furqan_school/services/messagesService.dart';
 import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:al_furqan_school/services/teachersService.dart';
 import 'package:al_furqan_school/views/homescreen/homeScreen.dart';
@@ -45,15 +43,28 @@ class SentMessageTeacherController extends GetxController{
   Student? selectStudent = Student(name: "اختار طالب");
   Student? selectParent = Student(parent: "اختار ولى الامر");
   final BuildContext context;
+  bool isOffline = false;
+
   SentMessageTeacherController(this.context);
   @override
   Future<void> onInit() async {
+    isOffline = !await connectivityChecker();
+
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
+  update();
+  }
+  refreshFunction() async {
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+
+    }else{
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+    }
   }
 
-
   chooseType (value) {
+    if(!isOffline){
     type = value;
     selected = type != 'الادارة' ? "other" : "admin";
     if(type != "admin"){
@@ -61,7 +72,10 @@ class SentMessageTeacherController extends GetxController{
       update();
       getCatgories();
     }
-    update();
+    update();}else{
+      showTheDialog(context,"قم باختيار مره اخرى","حاول الاتصال مره اخرى بشبكه الانترنت وقوم باختيار مره اخرى");
+
+    }
   }
 
   selectingCategory(value) {
@@ -137,6 +151,7 @@ class SentMessageTeacherController extends GetxController{
   }
 
   sendMessage(context) async {
+    if(!isOffline){
     if(selected!=null){
       if(selectedCatogory!=null){
         if(selectedLevel!=null) {
@@ -190,7 +205,10 @@ class SentMessageTeacherController extends GetxController{
     }
     }else{
   showTheDialog(context, "يجب اختيار الجهه المرسل اليها", "لا يمكن ارسال الرساله الا عند اختيار الجهه المرسل اليها");
-  }
+  }}else{
+      showTheDialog(context,"لا يمكن إرسال الرساله","حاول الاتصال مره اخرى بشبكه الانترنت و قوم بإرسال الرساله مره اخرى");
+
+    }
   }
   Future<void> doneMassage(context,String title, Icon icon) async {
     return showDialog<void>(

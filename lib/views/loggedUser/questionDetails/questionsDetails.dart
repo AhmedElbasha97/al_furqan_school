@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:al_furqan_school/globals/commonStyles.dart';
+import 'package:al_furqan_school/globals/widgets/offline_widget.dart';
 import 'package:al_furqan_school/views/loader.dart';
 import 'package:al_furqan_school/views/loggedUser/questionDetails/controller/question_details_controller.dart';
 import 'package:flutter/material.dart';
@@ -17,12 +18,13 @@ class QuestionDetailsScreen extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return GetBuilder(
-      init:  QuestionDetailsController(),
+      init:  QuestionDetailsController(context),
       builder: (QuestionDetailsController controller) =>  Scaffold(
         appBar: AppBar(
           iconTheme:  IconThemeData(color: white),
           backgroundColor: mainColor,
         ),
+        bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
         body: controller.isLoading
             ?  const Loader()
             : ListView.builder(

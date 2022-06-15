@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 import 'package:al_furqan_school/globals/commonStyles.dart';
+import 'package:al_furqan_school/globals/widgets/offline_widget.dart';
 import 'package:al_furqan_school/views/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:al_furqan_school/views/other/photoAlbums/photosAlbum.dart';
@@ -14,14 +15,16 @@ class AlbumsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  GetBuilder(
-      init:  AlbumController(),
+      init:  AlbumController(context),
       builder: (AlbumController controller) =>  Scaffold(
           appBar: AppBar(
             iconTheme:  IconThemeData(color: white),
             backgroundColor: mainColor,
           ),
-          body: controller.isLoading
-              ?  const Loader()
+          bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
+          body:
+          controller.isLoading
+              ? const Loader()
               :controller.hasNoData?
           RefreshIndicator(
               onRefresh: () async {
@@ -49,6 +52,7 @@ class AlbumsScreen extends StatelessWidget {
               controller.getGalleryData();
             },
                 child: ListView.builder(
+                  shrinkWrap: true,
                     itemCount: controller.isImg ? controller.list.length : controller.listVideos.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(

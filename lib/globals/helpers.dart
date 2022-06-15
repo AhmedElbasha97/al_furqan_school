@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -89,7 +91,7 @@ void showTheDialog(BuildContext context, String title, String body,
             borderRadius: BorderRadius.all(Radius.circular(15))),
         title: Text(title),
         content: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.1,
+          height: MediaQuery.of(context).size.height * 0.12,
           child: Column(
             children: <Widget>[
               Text(body),
@@ -101,11 +103,28 @@ void showTheDialog(BuildContext context, String title, String body,
     },
   );
 }
-
+Future<bool> connectivityChecker() async {
+  var connected = false;
+  try {
+    final result = await InternetAddress.lookup('google.com');
+    final result2 = await InternetAddress.lookup('facebook.com');
+    final result3 = await InternetAddress.lookup('microsoft.com');
+    if ((result.isNotEmpty && result[0].rawAddress.isNotEmpty) ||
+        (result2.isNotEmpty && result2[0].rawAddress.isNotEmpty) ||
+        (result3.isNotEmpty && result3[0].rawAddress.isNotEmpty)) {
+      connected = true;
+    } else {
+      connected = false;
+    }
+  } on SocketException catch (_) {
+    connected = false;
+  }
+  return connected;
+}
 launchURL(String url,String socialAppName,context) async {
   if(url!="") {
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
+    if (await launchUrl(Uri.parse(url))) {
+
     } else {
       showTheDialog(context,"لا يمكن فتح $socialAppName","غير متاح اي لينك للتواصل علي هذه المنصه لان حاول لاحقا");
       throw 'Could not launch $url';

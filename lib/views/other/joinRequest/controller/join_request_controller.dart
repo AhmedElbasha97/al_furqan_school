@@ -8,6 +8,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 class JoinRequestController extends GetxController{
   bool isLoading = false;
+  bool isOffline = false;
   var val = 0;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   bool disableBTN = true;
@@ -39,7 +40,16 @@ class JoinRequestController extends GetxController{
   @override
   Future<void> onInit() async {
     super.onInit();
+    isOffline = !await connectivityChecker();
     NotificationServices.checkNotificationAppInForeground(context);
+  update();
+  }
+  refreshFunction() async {
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+    }else{
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+    }
   }
   Future<void> doneMassage(context,String title, Icon icon) async {
     return showDialog<void>(
@@ -113,43 +123,50 @@ class JoinRequestController extends GetxController{
     update();
   }
   sendRequest(context) async {
-    isLoading = true;
-    update();
-    String? result = await JoinApplication().sendApplication(
-        name: nameController.text,
-        email: emailController.text,
-        oldSchool: oldSchoolController.text,
-        mobile: mobileController.text,
-        joinSchoolDate: joinSchoolYearController.text,
-        idNumber: idNumberController.text,
-        birthdate: birthdateController.text,
-        gender: genderController.text,
-        religion: religionController.text,
-        birthPlace: birthPlaceController.text,
-        nationalty: nationaltyController.text,
-        city: cityController.text,
-        province: provinceController.text,
-        regNumber: regNumberController.text,
-        address: addressController.text,
-        zipCode: zipCodeController.text,
-        phone: phoneController.text,
-        year: yearController.text,
-        regStatus: regStatusController.text,
-        parentName: parentNameController.text,
-        relation: relationController.text,
-        parentJob: parentJobController.text,
-        notes: notesController.text);
+    if(!isOffline) {
+      isLoading = true;
+      update();
+      String? result = await JoinApplication().sendApplication(
+          name: nameController.text,
+          email: emailController.text,
+          oldSchool: oldSchoolController.text,
+          mobile: mobileController.text,
+          joinSchoolDate: joinSchoolYearController.text,
+          idNumber: idNumberController.text,
+          birthdate: birthdateController.text,
+          gender: genderController.text,
+          religion: religionController.text,
+          birthPlace: birthPlaceController.text,
+          nationalty: nationaltyController.text,
+          city: cityController.text,
+          province: provinceController.text,
+          regNumber: regNumberController.text,
+          address: addressController.text,
+          zipCode: zipCodeController.text,
+          phone: phoneController.text,
+          year: yearController.text,
+          regStatus: regStatusController.text,
+          parentName: parentNameController.text,
+          relation: relationController.text,
+          parentJob: parentJobController.text,
+          notes: notesController.text);
 
-    isLoading = false;
-    update();
-    if (result == "true") {
-      doneMassage(context,"تم ارسال البيانات للمراجعه بنجاح", Icon(Icons.check_circle_outline_rounded ,color: mainColor,size: 90,),);
-      clearData();
-      Future.delayed(const Duration(milliseconds: 500), () {
-        pushPageReplacement(context, const ChooseStateScreen());
-      });
-    } else {
-      doneMassage(context,"لم يتم ارسال البيانات للمراجعه حاول مره اخرى لاحقا", Icon(Icons.clear ,color: mainColor,size: 90,),);
+      isLoading = false;
+      update();
+      if (result == "true") {
+        doneMassage(context, "تم ارسال البيانات للمراجعه بنجاح", Icon(
+          Icons.check_circle_outline_rounded, color: mainColor, size: 90,),);
+        clearData();
+        Future.delayed(const Duration(milliseconds: 500), () {
+          pushPageReplacement(context, const ChooseStateScreen());
+        });
+      } else {
+        doneMassage(
+          context, "لم يتم ارسال البيانات للمراجعه حاول مره اخرى لاحقا",
+          Icon(Icons.clear, color: mainColor, size: 90,),);
+      }
+    }else{
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
 
     }
   }

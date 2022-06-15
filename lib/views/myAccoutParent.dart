@@ -3,6 +3,7 @@
 
 import 'package:al_furqan_school/I10n/app_localizations.dart';
 import 'package:al_furqan_school/globals/helpers.dart';
+import 'package:al_furqan_school/globals/widgets/offline_widget.dart';
 import 'package:al_furqan_school/views/loggedUser/Messages/sendMassageStudent/sendMessageStudent.dart';
 import 'package:al_furqan_school/views/parents/attendance/AttendanceScreen.dart';
 import 'package:al_furqan_school/views/parents/report/ReportsScreen.dart';
@@ -13,9 +14,33 @@ import '../globals/commonStyles.dart';
 import 'loggedUser/Messages/messageScreen/MessagesScreen.dart';
 import 'loggedUser/Messages/sentMessage/sentMessageScreen.dart';
 
-class MyAccountParent extends StatelessWidget {
+class MyAccountParent extends StatefulWidget {
   const MyAccountParent({Key? key}) : super(key: key);
 
+  @override
+  State<MyAccountParent> createState() => _MyAccountParentState();
+}
+
+class _MyAccountParentState extends State<MyAccountParent> {
+  bool isOffline = false;
+  @override
+  void initState()  {
+    super.initState();
+    GetData();
+  }
+  GetData() async {
+    isOffline = !await connectivityChecker();
+    setState(() {  });
+  }
+  refreshFunction() async {
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+
+    }else{
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+    }
+    setState(() {  });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +48,7 @@ class MyAccountParent extends StatelessWidget {
           iconTheme:  IconThemeData(color: white),
           backgroundColor: mainColor,
         ),
+        bottomNavigationBar:isOffline?OfflineWidget(refreshedFunc: (){refreshFunction();},):const SizedBox(height: 0,width: 0,),
         body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListView(children: [

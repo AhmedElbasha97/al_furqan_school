@@ -8,6 +8,7 @@ import 'package:al_furqan_school/services/notification_services.dart';
 
 class NewsDetailsController extends GetxController{
   bool isLoading = true;
+  bool isOffline = false;
   late NewsDetailsModel news ;
   bool noPhotos= false;
   final BuildContext context;
@@ -18,9 +19,21 @@ class NewsDetailsController extends GetxController{
   NewsDetailsController(this.context);
   @override
   Future<void> onInit() async {
-    await getData();
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
+  update();
+  }
+  refreshFunction() async {
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }else{
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+    }
   }
   launchURL(context) async {
     if (await launchUrl(Uri.parse(news.video??""))) {

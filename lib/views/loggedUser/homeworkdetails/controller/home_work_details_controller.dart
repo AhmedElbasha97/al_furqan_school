@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class HomeWorkDetailsController extends GetxController{
   bool isLoading = true;
+  bool isOffline = false;
   List<HomeWorkDetails> homework = [];
   var homeWorkId= Get.arguments;
   bool hasNoData = false;
@@ -16,9 +17,21 @@ class HomeWorkDetailsController extends GetxController{
   HomeWorkDetailsController(this.context);
   @override
   Future<void> onInit() async {
-    await getData();
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
+  update();
+  }
+  refreshFunction() async {
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }else{
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+    }
   }
 
 launchURL(context, index) async {

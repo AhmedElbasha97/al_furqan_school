@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:al_furqan_school/globals/commonStyles.dart';
+import 'package:al_furqan_school/globals/widgets/offline_widget.dart';
 import 'package:al_furqan_school/views/loader.dart';
 import 'package:al_furqan_school/views/other/photoAlbums/controller/photos_albuns_controller.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +21,9 @@ class PhotosAlbum extends StatelessWidget {
 
             title: Text(controller.title),
           ),
+          bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
           body: controller.isLoading
-              ? const Loader()
+              ?const Loader()
               : controller.hasNoData?
           RefreshIndicator(
               onRefresh: () async {

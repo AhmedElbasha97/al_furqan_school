@@ -1,3 +1,4 @@
+import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/MessageSentStudent.dart';
 import 'package:al_furqan_school/services/ParentsService.dart';
 import 'package:al_furqan_school/services/messagesService.dart';
@@ -8,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SentMessageController extends GetxController{
   bool isLoading = true;
+  bool isOffline = false;
   bool hasNoData = false;
   List<MessageSentStudent> messages = [];
   var type =Get.arguments[0];
@@ -15,9 +17,21 @@ class SentMessageController extends GetxController{
   SentMessageController(this.context);
   @override
   Future<void> onInit() async {
-    await getData();
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
+  update();
+  }
+  refreshFunction() async {
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }else{
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+    }
   }
   getData() async {
     isLoading = true;

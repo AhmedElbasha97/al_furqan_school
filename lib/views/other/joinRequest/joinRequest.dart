@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 import 'package:al_furqan_school/globals/commonStyles.dart';
+import 'package:al_furqan_school/globals/widgets/offline_widget.dart';
 import 'package:al_furqan_school/views/appData/privacypolicy/privacyPolicyScreen.dart';
 import 'package:al_furqan_school/views/appData/term&condition/terms_screen.dart';
 import 'package:al_furqan_school/views/loader.dart';
@@ -26,6 +27,7 @@ class JoinRequest extends StatelessWidget {
           iconTheme:  IconThemeData(color: white),
           backgroundColor: mainColor,
         ),
+        bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
         body: controller.isLoading
             ?const Loader()
 

@@ -21,6 +21,8 @@ class HomeScreenController extends GetxController{
   StarScreenServices startScreenServices = StarScreenServices();
   bool slideShowLoading = true;
   bool videosShowLoading = true;
+  bool isOffline = false;
+
   bool galleryShowLoading = true;
   bool newsShowLoading = true;
   bool hasNoData=false;
@@ -29,12 +31,25 @@ class HomeScreenController extends GetxController{
   HomeScreenController(this.context);
   @override
   Future<void> onInit() async {
-    await getHomeData();
-    await getAlbumsData();
-    await getVideoData();
-    await getData();
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getHomeData();
+      await getAlbumsData();
+      await getVideoData();
+      await getData();
+    }
+
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
+  update();
+  }
+  refreshFunction() async {
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }else{
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+    }
   }
   getHomeData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

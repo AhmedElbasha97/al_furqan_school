@@ -1,4 +1,5 @@
 import 'package:al_furqan_school/globals/commonStyles.dart';
+import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/services/contactUsService.dart';
 import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +17,23 @@ class ContactUsController extends GetxController{
   final FocusNode phoneNode =  FocusNode();
   final formKey = GlobalKey<FormState>();
   final BuildContext context;
+  bool isOffline =false;
   ContactUsController(this.context);
   @override
-  void onInit() {
+  Future<void> onInit() async {
+    isOffline = !await connectivityChecker();
+
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
+    update();
+  }
+  refreshFunction() async {
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+
+    }else{
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+    }
   }
   unFocus() {
     emailNode.unfocus();
@@ -29,7 +42,7 @@ class ContactUsController extends GetxController{
     phoneNode.unfocus();
     update();
   }
-  bool emailvalidator(String email) {
+  bool emailValidator(String email) {
     bool emailValid = RegExp(
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(email);
@@ -74,6 +87,7 @@ class ContactUsController extends GetxController{
     super.onClose();
   }
   sendMessage(context) async {
+    if(!isOffline) {
     if (formKey.currentState!.validate()) {
       isLoading = true;
       update();
@@ -100,6 +114,9 @@ class ContactUsController extends GetxController{
       isLoading = false;
       update();
 
+    } }else{
+      showTheDialog(context,"لا يمكن ارسال البينات","حاول الاتصال مره اخرى بشبكه الانترنت و قوم بإرسال البينات مره اخرى");
+
     }
   }
   String? massageValidator( String? value){
@@ -118,7 +135,7 @@ class ContactUsController extends GetxController{
     return null;
   }
   String? emailValidate(String? value){
-    if(value == null||!emailvalidator(value)){
+    if(value == null||!emailValidator(value)){
      return "البريد الالكتروني مطلوب";
     }
     return null;

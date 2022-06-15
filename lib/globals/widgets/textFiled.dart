@@ -14,15 +14,14 @@ class InputFiled extends StatefulWidget {
 }
 
 class _InputFiledState extends State<InputFiled> {
-  @override
-    bool _passwordVisible = false ;
+  bool passwordVisible = false ;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
       child: TextField(
-        obscureText: widget.isPasswordFiled?_passwordVisible:false,
+        obscureText: widget.isPasswordFiled?passwordVisible:false,
         keyboardType: widget.inputType,
         controller: widget.controller,
         textDirection: TextDirection.rtl,
@@ -33,13 +32,13 @@ class _InputFiledState extends State<InputFiled> {
             ),
             suffixIcon: widget.isPasswordFiled?IconButton(
                 icon: Icon(
-                    _passwordVisible ? Icons.visibility : Icons.visibility_off,color: mainColor,),
+                    passwordVisible ? Icons.visibility : Icons.visibility_off,color: mainColor,),
                 onPressed: () {
                   setState(() {
-                    _passwordVisible = !_passwordVisible;
+                    passwordVisible = !passwordVisible;
                   });
                 }):Icon(
-              _passwordVisible ? Icons.visibility : Icons.visibility_off,color: Colors.transparent,size: 1,),
+              passwordVisible ? Icons.visibility : Icons.visibility_off,color: Colors.transparent,size: 1,),
 
                 border: OutlineInputBorder(
                 borderRadius: const BorderRadius.all(Radius.circular(15)),

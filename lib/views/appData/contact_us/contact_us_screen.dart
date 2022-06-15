@@ -1,3 +1,4 @@
+import 'package:al_furqan_school/globals/widgets/offline_widget.dart';
 import 'package:al_furqan_school/views/appData/contact_us/controller/contact_us_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:al_furqan_school/I10n/app_localizations.dart';
@@ -25,6 +26,7 @@ class ContactUsScreen extends StatelessWidget {
             ),
             automaticallyImplyLeading: true,
           ),
+          bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
           body: Form(
             key: controller.formKey,
             child: ListView(

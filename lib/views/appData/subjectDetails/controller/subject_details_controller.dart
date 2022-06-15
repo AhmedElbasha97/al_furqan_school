@@ -1,3 +1,4 @@
+import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/AppInfo/subjectDetails.dart';
 import 'package:al_furqan_school/services/appInfoService.dart';
 import 'package:al_furqan_school/services/notification_services.dart';
@@ -9,17 +10,29 @@ class SubjectDetailsController extends GetxController{
   bool hasNoData = false;
   List<SubjectDetails> details = [];
   var subjID = Get.arguments[0];
+  bool isOffline = false;
 
   final BuildContext context;
   SubjectDetailsController(this.context);
   @override
   Future<void> onInit() async {
-    await getData();
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }
 
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
+  update();
   }
-
+  refreshFunction() async {
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }else{
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+    }
+  }
   getData() async {
     details = await AppInfoService().getSubjectDetails(id:subjID);
     if((details[0].description==null)&&(details[0].image=="")&&(details[0].title==null)){
@@ -27,8 +40,6 @@ class SubjectDetailsController extends GetxController{
     }else{
       hasNoData=false;
     }
-    print(hasNoData);
-    print(details[0].title);print(details[0].description);print(details[0].image);
     isLoading = false;
     update();
   }

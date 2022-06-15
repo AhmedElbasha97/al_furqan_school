@@ -1,3 +1,4 @@
+import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/teacher/messagedetails.dart';
 import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:al_furqan_school/services/teachersService.dart';
@@ -8,15 +9,28 @@ import 'package:shared_preferences/shared_preferences.dart';
 class MessageDetailsController extends GetxController{
   var idmsg =Get.arguments[0];
   bool hasNoData=false;
+  bool isOffline = false;
   bool isLoading = true;
   List<MessageDetailsTeacherModel> msg = [];
   final BuildContext context;
   MessageDetailsController(this.context);
   @override
   Future<void> onInit() async {
-    await getData();
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
+    update();
+  }
+  refreshFunction() async {
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }else{
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+    }
   }
   getData() async {
     isLoading = true;

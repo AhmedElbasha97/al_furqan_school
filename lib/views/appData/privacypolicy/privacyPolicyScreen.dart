@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:al_furqan_school/globals/commonStyles.dart';
+import 'package:al_furqan_school/globals/widgets/offline_widget.dart';
 import 'package:al_furqan_school/views/appData/privacypolicy/controller/privacy_policy_controller.dart';
 import 'package:al_furqan_school/views/loader.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
           iconTheme:  IconThemeData(color: white),
           backgroundColor: mainColor,
         ),
-        body: controller.loading
+        bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),        body: controller.loading
             ? const Loader()
             : ListView(
                 children: [

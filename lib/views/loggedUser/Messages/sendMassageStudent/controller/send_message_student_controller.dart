@@ -14,6 +14,8 @@ class SendMessageStudentController extends GetxController{
   final formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
    int id=0;
+  bool isOffline = false;
+
   final TextEditingController titleController =  TextEditingController();
   final TextEditingController msgController =  TextEditingController();
   final FocusNode titleNode =  FocusNode();
@@ -27,13 +29,24 @@ class SendMessageStudentController extends GetxController{
   SendMessageStudentController(this.context);
   @override
   Future<void> onInit() async {
-    await getTeachers();
+    isOffline = !await connectivityChecker();
     id=Get.arguments[0];
+    if(!isOffline){
+      await getTeachers();
+    }
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
+  update();
   }
 
-
+  refreshFunction() async {
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getTeachers();
+    }else{
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+    }
+  }
   getTeachers() async {
     isLoading = true;
     update();
@@ -50,15 +63,25 @@ String? validateMessage(value){
 }
 
 chooseTheTeacher(value){
-   selectTeacher = value;
+  if(!isOffline){
+    selectTeacher = value;
     selectedTeacher = value;
     update();
+  }else{
+    showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+  }
+
 }
 
  chooseTheDepartment(value){
+   if(!isOffline){
      type = value;
      selected = type == 'مدرس' ? "teacher" : "admin";
-    update();
+     update();
+   }else{
+     showTheDialog(context,"قم باختيار مره اخرى","حاول الاتصال مره اخرى بشبكه الانترنت وقوم باختيار مره اخرى");
+   }
+
    }
    checkDepartmentHasBeenChosen(){
     return selected!="";
@@ -67,7 +90,7 @@ chooseTheTeacher(value){
     return selectedTeacher!=null;
    }
 sendMessage(context) async {
-    if(checkDepartmentHasBeenChosen()){
+    if(!isOffline){if(checkDepartmentHasBeenChosen()){
     if(checkTeacherHasBeenChosen()){
     if (formKey.currentState!.validate()) {
       isLoading = true;
@@ -107,6 +130,9 @@ sendMessage(context) async {
       showTheDialog(context, "يجب اختيار المدرس", "لا يمكن ارسال الرساله الا عند اختيار المدرس");
     }}else{
       showTheDialog(context, "يجب اختيار الجهه المرسل اليها", "لا يمكن ارسال الرساله الا عند اختيار الجهه المرسل اليها");
+    }}else{
+      showTheDialog(context,"لا يمكن إرسال الرساله","حاول الاتصال مره اخرى بشبكه الانترنت و قوم بإرسال الرساله مره اخرى");
+
     }
   }
   Future<void> doneMassage(context,String title, Icon icon) async {

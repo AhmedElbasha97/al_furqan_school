@@ -1,3 +1,4 @@
+import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/teacher/reportDetails.dart';
 import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:al_furqan_school/services/teachersService.dart';
@@ -7,6 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ReportDetailsController extends GetxController{
   bool isLoading = true;
+  bool isOffline = false;
+
   List<TeacherReportDetails> reports = [];
   String reportId=Get.arguments[0];
   bool hasNoData = false;
@@ -14,9 +17,21 @@ class ReportDetailsController extends GetxController{
   ReportDetailsController(this.context);
   @override
   Future<void> onInit() async {
-    await getData();
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
+  update();
+  }
+  refreshFunction() async {
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }else{
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+    }
   }
   getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -112,7 +112,6 @@ class AppInfoService {
       news+"school_type=$schoolType",
     );
      if(response.data!=null) {
-       print(response.data.toString());
        var data = response.data;
        data.forEach((element) {
          list.add(NewsModel.fromJson(element));

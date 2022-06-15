@@ -1,3 +1,4 @@
+import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/new/student_list_model.dart';
 import 'package:al_furqan_school/services/ParentsService.dart';
 import 'package:al_furqan_school/services/notification_services.dart';
@@ -8,12 +9,25 @@ class StudentListController extends GetxController{
 StudentListModel? studentList;
 bool isLoading =true;
 final BuildContext context;
+bool isOffline = false;
+
 StudentListController(this.context);
 @override
 Future<void> onInit() async {
-  await getData();
-  super.onInit();
+  isOffline = !await connectivityChecker();
+  if(!isOffline){
+    await getData();
+  }  super.onInit();
   NotificationServices.checkNotificationAppInForeground(context);
+update();
+}
+refreshFunction() async {
+  isOffline = !await connectivityChecker();
+  if(!isOffline){
+    await getData();
+  }else{
+    showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+  }
 }
 getData() async {
    isLoading =true;

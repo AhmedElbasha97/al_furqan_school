@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:al_furqan_school/globals/widgets/offline_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:al_furqan_school/I10n/app_localizations.dart';
 import 'package:al_furqan_school/globals/helpers.dart';
@@ -18,10 +19,33 @@ import 'package:url_launcher/url_launcher.dart';
 import '../globals/commonStyles.dart';
 import 'loggedUser/filescreen/fileScreen.dart';
 
-class MyAccount extends StatelessWidget {
+class MyAccount extends StatefulWidget {
   const MyAccount({Key? key}) : super(key: key);
 
+  @override
+  State<MyAccount> createState() => _MyAccountState();
+}
 
+class _MyAccountState extends State<MyAccount> {
+  bool isOffline = false;
+  @override
+  void initState()  {
+    super.initState();
+    GetData();
+  }
+  GetData() async {
+    isOffline = !await connectivityChecker();
+    setState(() {  });
+  }
+  refreshFunction() async {
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+
+    }else{
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+    }
+    setState(() {  });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +53,7 @@ class MyAccount extends StatelessWidget {
         iconTheme:  IconThemeData(color: white),
         backgroundColor: mainColor,
       ),
+      bottomNavigationBar:isOffline?OfflineWidget(refreshedFunc: (){refreshFunction();},):const SizedBox(width: 0,height: 0,),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(

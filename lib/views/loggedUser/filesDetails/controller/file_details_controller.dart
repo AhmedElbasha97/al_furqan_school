@@ -9,15 +9,28 @@ import 'package:url_launcher/url_launcher.dart';
 
 class FilesDetailsScreen extends GetxController{
   bool isLoading = true;
+  bool isOffline = false;
   List<FileDetails> files = [];
   var fileID= Get.arguments;
   final BuildContext context;
   FilesDetailsScreen(this.context);
   @override
   Future<void> onInit() async {
-    await getData();
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }
     super.onInit();
     NotificationServices.checkNotificationAppInForeground(context);
+  update();
+  }
+  refreshFunction() async {
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }else{
+      showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
+    }
   }
   getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

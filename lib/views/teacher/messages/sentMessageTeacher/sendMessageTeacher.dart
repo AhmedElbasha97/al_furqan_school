@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:al_furqan_school/globals/widgets/offline_widget.dart';
 import 'package:al_furqan_school/models/teacher/category.dart';
 import 'package:al_furqan_school/models/teacher/student.dart';
 import 'package:al_furqan_school/views/loader.dart';
@@ -23,6 +24,7 @@ class SendMessageStudentScreen extends StatelessWidget {
             iconTheme:  IconThemeData(color: white),
             backgroundColor: mainColor,
           ),
+          bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
           body: Form(
                   key: controller.formKey,
                   child: ListView(
@@ -42,6 +44,7 @@ class SendMessageStudentScreen extends StatelessWidget {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.8,
                         child: TextFormField(
+                          controller: controller.titleController,
                           focusNode: controller.titleNode,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
