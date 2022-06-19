@@ -17,6 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../globals/commonStyles.dart';
+import 'Student/schadules/schadules_screen.dart';
 import 'loggedUser/filescreen/fileScreen.dart';
 
 class MyAccount extends StatefulWidget {
@@ -197,7 +198,9 @@ class _MyAccountState extends State<MyAccount> {
             ),
              Divider(color: mainColor),
             ListTile(
-                onTap: () {},
+                onTap: () {
+                  Get.to(()=> const SchedulesScreen());
+                },
                 title: Text(
                   AppLocalizations.of(context)!.translate('schedule')!,
                   style: TextStyle(color: mainColor),

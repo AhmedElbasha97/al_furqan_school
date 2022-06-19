@@ -5,6 +5,7 @@ import 'package:al_furqan_school/models/FilesDetails.dart';
 import 'package:al_furqan_school/models/Student/AskedQuestion.dart';
 import 'package:al_furqan_school/models/Student/AskedQuestionDetails.dart';
 import 'package:al_furqan_school/models/Student/book.dart';
+import 'package:al_furqan_school/models/Student/scedules_model.dart';
 import 'package:al_furqan_school/models/files.dart';
 import 'package:al_furqan_school/models/homeWork.dart';
 import 'package:al_furqan_school/models/homeWorkDetails.dart';
@@ -24,6 +25,7 @@ class LoggedUser {
   String books = "${baseUrl}student_books.php";
   String askedQuestions = "${baseUrl}student_ask_income.php";
   String askedQuestionsDetails = "${baseUrl}student_ask_income_view.php";
+  String schedulesLink = "${baseUrl}sch.php";
   Future<List<Files>> getFiles({String? id}) async {
     List<Files> list = [];
     Response response;
@@ -158,6 +160,18 @@ class LoggedUser {
         list.add(AskedQuestion.fromJson(element));
       });
     }
+    return list;
+  }
+  Future<SchedulesModel?> getSchedules({String? classId}) async {
+    SchedulesModel? list ;
+    Response response;
+
+    response = await Dio().get(
+      schedulesLink+"?class_id=$classId",
+    );
+    var data = response.data;
+    print(data.toString());
+     list=SchedulesModel.fromJson(data[0]);
     return list;
   }
 

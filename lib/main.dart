@@ -22,6 +22,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   FirebaseMessaging.onBackgroundMessage(backGroundHandler);
   AppLanguage appLanguage = AppLanguage();
   await appLanguage.fetchLocale();

@@ -35,7 +35,8 @@ class NotificationServices{
   static checkNotificationAppInForeground(contextOfScreen) async{
     context = contextOfScreen;
     FirebaseMessaging.onMessage.listen((message) {
-      print(message.data.toString());
+      print("notification data");
+      print(message.data);
       NotificationServices.display(message);
     });
   }
