@@ -8,6 +8,7 @@ import 'package:al_furqan_school/views/homescreen/homeScreen.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_version/new_version.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StartScreen extends GetxController{
@@ -25,10 +26,18 @@ class StartScreen extends GetxController{
   StartScreen(this.context);
   @override
   Future<void> onInit() async {
+    NewVersion(
+
+      androidId: "com.sync.al_furqan_school",
+      iOSId: "com.sync.al_furqan_school",
+    ).showAlertIfNecessary(context: context);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if(prefs.containsKey("schoolType")){
       prefs.remove("schoolType");
     }
+      if(prefs.containsKey("route")){
+        NotificationServices.checkNotificationAppInBackground(context);
+      }
     isOffline = !await connectivityChecker();
     if(!isOffline){
       await getPhotoSliderData();

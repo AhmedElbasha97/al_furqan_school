@@ -19,7 +19,8 @@ class MessagesScreen extends StatelessWidget {
           iconTheme:  IconThemeData(color: white),
           backgroundColor: mainColor,
         ),
-        bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),        body: controller.isLoading
+        bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
+        body: controller.isLoading
             ? const Loader()
             :controller.hasNoData?RefreshIndicator(
             onRefresh: () async {controller.getData();},

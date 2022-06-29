@@ -15,6 +15,12 @@ class MessageScreenController extends GetxController{
   List<Messages> messages = [];
   final BuildContext context;
   MessageScreenController(this.context);
+  Future<void> onDetached() async {
+    isOffline = !await connectivityChecker();
+    if(!isOffline){
+      await getData();
+    }
+  }
   @override
   Future<void> onInit() async {
     isOffline = !await connectivityChecker();
@@ -25,6 +31,7 @@ class MessageScreenController extends GetxController{
     NotificationServices.checkNotificationAppInForeground(context);
   update();
   }
+
   refreshFunction() async {
     isOffline = !await connectivityChecker();
     if(!isOffline){

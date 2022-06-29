@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:al_furqan_school/views/teacher/messages/messageDetails/messageDetails.dart';
 import 'package:get/get.dart';
 
-class MessagesScreen extends StatelessWidget {
-  const MessagesScreen({Key? key}) : super(key: key);
+class MessagesScreenTeacher extends StatelessWidget {
+  const MessagesScreenTeacher({Key? key}) : super(key: key);
 
 
 

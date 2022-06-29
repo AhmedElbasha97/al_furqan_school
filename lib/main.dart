@@ -1,9 +1,7 @@
 import 'package:al_furqan_school/globals/commonStyles.dart';
-import 'package:al_furqan_school/services/internet_services.dart';
-import 'package:al_furqan_school/services/notification_services.dart';
-import 'package:al_furqan_school/views/parents/report/ReportsScreen.dart';
 import 'package:al_furqan_school/views/splashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_app_icon_badge/flutter_app_icon_badge.dart';
 import 'firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -15,7 +13,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'I10n/AppLanguage.dart';
 import 'I10n/app_localizations.dart';
-import 'models/notification.dart';
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,19 +23,22 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(backGroundHandler);
   AppLanguage appLanguage = AppLanguage();
   await appLanguage.fetchLocale();
-
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(MyApp(appLanguage: appLanguage));
 }
 Future<void>backGroundHandler(message)async {
-  var data;
-  // message.data.forEach((key, value) {
-  //   if (key == "data"){
-  //     print("value of route${notificationFromJson(value).route}");
-  //     data=notificationFromJson(value).route;
-  //   }
-  // });
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString("route", "$data");
+
+  var counter = prefs.getInt("route");
+  if(prefs.containsKey("counter")){
+    prefs.setInt("counter", counter!+1);
+  }else{
+    prefs.setInt("counter", 1);
+  }
+
+  FlutterAppIconBadge.updateBadge(counter??1);
+  prefs.setString("route", "${message.data["type"]}");
 }
 class MyApp extends StatefulWidget {
   final AppLanguage? appLanguage;
@@ -50,33 +50,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  void initState() {
-    NotificationServices.checkNotificationAppInBackground(context);
-    NotificationServices.initialize();
-    ConnectionStatusSingleton connectionStatus = ConnectionStatusSingleton.getInstance();
-    connectionStatus.initialize();
-    NotificationServices.checkNotificationAppInForeground(context);
-    FirebaseMessaging.instance.getInitialMessage().then((message) {
-      if (message != null) {
-        var data;
-        message.data.forEach((key, value) {
-          if (key == "data"){
-            data=notificationFromJson(value).route;
-          }
-        });
-        switch(data){
-          case "chat":
-            {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) =>  const ReportScreen()),
-              );
-            }
-            break;
-
-
-        }
-      }
-    });
+  void initState()  {
     super.initState();
   }
 

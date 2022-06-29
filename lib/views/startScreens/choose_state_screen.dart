@@ -169,7 +169,6 @@ class ChooseStateScreen extends StatelessWidget {
                                                   controller.chooseSchool(0);
                                                 },
                                                 child: Container(
-                                                  height: MediaQuery.of(context).size.height*0.05,
                                                   width: MediaQuery.of(context).size.width*0.9,
                                                   decoration: BoxDecoration(
                                                       borderRadius: BorderRadius.circular(15),
@@ -201,7 +200,6 @@ class ChooseStateScreen extends StatelessWidget {
                                                   controller.chooseSchool(1);
                                                 },
                                                 child: Container(
-                                                  height: MediaQuery.of(context).size.height*0.05,
                                                   width: MediaQuery.of(context).size.width*0.9,
                                                   decoration: BoxDecoration(
                                                       borderRadius: BorderRadius.circular(15),
@@ -233,7 +231,6 @@ class ChooseStateScreen extends StatelessWidget {
                                                 controller.chooseSchool(2);
                                                 },
                                                 child: Container(
-                                                  height: MediaQuery.of(context).size.height*0.05,
                                                   width: MediaQuery.of(context).size.width*0.9,
                                                   decoration: BoxDecoration(
                                                       borderRadius: BorderRadius.circular(15),
@@ -293,7 +290,6 @@ class ChooseStateScreen extends StatelessWidget {
                               color: mainColor,
                               border: Border.all(color: mainColor,width: 2),
                               borderRadius: BorderRadius.circular(10)
-
                           ),
                           width: MediaQuery.of(context).size.width*0.95,
                           child: Padding(
@@ -343,7 +339,7 @@ class ChooseStateScreen extends StatelessWidget {
                                                      );
                                                    },
                                                    child: Container(
-                                                     height: MediaQuery.of(context).size.height*0.05,
+
                                                      width: MediaQuery.of(context).size.width*0.9,
                                                      decoration: BoxDecoration(
                                                          borderRadius: BorderRadius.circular(15),

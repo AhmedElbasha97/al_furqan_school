@@ -108,7 +108,7 @@ class _MyAccountTeacherState extends State<MyAccountTeacher> {
             Divider(color: mainColor),
             ListTile(
               onTap: () {
-                pushPage(context, const MessagesScreen());
+                pushPage(context, const MessagesScreenTeacher());
               },
               title: Text(
                 AppLocalizations.of(context)!.translate('sentMessages')!,
