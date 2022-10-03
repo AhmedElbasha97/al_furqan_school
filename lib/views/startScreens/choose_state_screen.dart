@@ -212,7 +212,7 @@ class ChooseStateScreen extends StatelessWidget {
                                                       crossAxisAlignment: CrossAxisAlignment.center,
                                                       children: [
                                                         Text(
-                                                          "مدرسة الفرقان الاعدادية",
+                                                          "مدرسة الفرقان الإعدادية",
                                                           style: TextStyle(
                                                               color: mainColor
                                                           ),

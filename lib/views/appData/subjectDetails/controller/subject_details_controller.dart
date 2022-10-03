@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 class SubjectDetailsController extends GetxController{
   bool isLoading = true;
   bool hasNoData = false;
-  List<SubjectDetails> details = [];
+  List<SubjectDetails>? details = [];
   var subjID = Get.arguments[0];
   bool isOffline = false;
 
@@ -35,7 +35,7 @@ class SubjectDetailsController extends GetxController{
   }
   getData() async {
     details = await AppInfoService().getSubjectDetails(id:subjID);
-    if((details[0].description==null)&&(details[0].image=="")&&(details[0].title==null)){
+    if(details==null||(details![0].brief==null)&&(details![0].file=="")&&(details![0].title==null)){
       hasNoData=true;
     }else{
       hasNoData=false;

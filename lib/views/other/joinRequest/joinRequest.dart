@@ -46,14 +46,6 @@ class JoinRequest extends StatelessWidget {
               height: 15,
             ),
             InputFiled(
-              controller: controller.genderController,
-              hintText: "الجنس",
-              inputType: TextInputType.text,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            InputFiled(
               controller: controller.birthdateController,
               hintText: "تاريخ الميلاد",
               inputType: TextInputType.datetime,
@@ -62,17 +54,189 @@ class JoinRequest extends StatelessWidget {
               height: 15,
             ),
             InputFiled(
-              controller: controller.addressController,
-              hintText: "عنوان السكن",
+              controller: controller.birthPlaceController,
+              hintText:
+              "مكان الولادة",
               inputType: TextInputType.streetAddress,
+            ),
+          const SizedBox(
+              height: 15,
+            ),
+            InputFiled(
+              controller: controller.nationaltyController,
+              hintText:
+              "الجنسية",
+              inputType: TextInputType.text,
+            ),  const SizedBox(
+              height: 15,
+            ),
+            InputFiled(
+              controller: controller.yearController,
+              hintText:
+              "السنة الدراسية",
+              inputType: TextInputType.datetime,
             ),
             const SizedBox(
               height: 15,
             ),
             InputFiled(
-              controller: controller.notesController,
-              hintText: "ملاحظات",
-              inputType: TextInputType.multiline,
+              controller: controller.oldSchoolController,
+              hintText:
+              "المدرسة السابقة",
+              inputType: TextInputType.text,
+            ),const SizedBox(
+              height: 15,
+            ),
+            InputFiled(
+              controller: controller.parentNameController,
+              hintText:
+              "اسم ولي الامر",
+              inputType: TextInputType.text,
+            ),
+            const SizedBox(
+              height: 15,
+            ), InputFiled(
+              controller: controller.relationController,
+              hintText:
+              "صلة القرابة",
+              inputType: TextInputType.text,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            InputFiled(
+              controller: controller.genderController,
+              hintText: "جنسية ولى الأمر",
+              inputType: TextInputType.text,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            InputFiled(
+              controller: controller.parentJobController,
+              hintText:
+              "وظيفة ولي الامر",
+              inputType: TextInputType.text,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+
+            Container(
+              decoration: BoxDecoration(
+                color: white,
+                border: Border.all(width: 1.0,color: mainColor),
+                borderRadius: BorderRadius.circular(15),
+                boxShadow:  [
+                  BoxShadow(
+                    color: white,
+                    offset: const Offset(
+                      5.0,
+                      5.0,
+                    ),
+                    blurRadius: 10.0,
+                    spreadRadius: 2.0,
+                  ), //BoxShadow
+                  const BoxShadow(
+                    color: Colors.white,
+                    offset: Offset(0.0, 0.0),
+                    blurRadius: 0.0,
+                    spreadRadius: 0.0,
+                  ), //BoxShadow
+                ],
+              ),
+              width: 200,
+              height: 60,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: DropdownButton<String>(
+                  dropdownColor: white,
+                  icon: Container(),
+                  value: controller.selectedMaritalStatus,
+                  items: <String>[
+                    'أختر الحاله الأجتماعية',
+                    'متزوج',
+                    'أرمل',
+                    'مطلق',
+                  ].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value,style: TextStyle(color:mainColor,),),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                     controller.chooseMaritalStatus(value);
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: white,
+                border: Border.all(width: 1.0,color: mainColor),
+                borderRadius: BorderRadius.circular(15),
+                boxShadow:  [
+                  BoxShadow(
+                    color: white,
+                    offset: const Offset(
+                      5.0,
+                      5.0,
+                    ),
+                    blurRadius: 10.0,
+                    spreadRadius: 2.0,
+                  ), //BoxShadow
+                  const BoxShadow(
+                    color: Colors.white,
+                    offset: Offset(0.0, 0.0),
+                    blurRadius: 0.0,
+                    spreadRadius: 0.0,
+                  ), //BoxShadow
+                ],
+              ),
+              width: 200,
+              height: 60,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: DropdownButton<String>(
+                  dropdownColor: white,
+                  icon: Container(),
+                  value: controller.selectedMotherWorkingStatus,
+                  items: <String>[
+                    'أختر  الحالة الوظيفي للأم',
+                    ' تعمل',
+                    'لا تعمل',
+
+                  ].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value,style: TextStyle(color:mainColor,),),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    controller.chooseMotherWorkingStatus(value);
+                  },
+                ),
+              ),
+            ),const SizedBox(
+              height: 15,
+            ),
+            InputFiled(
+              controller: controller.phoneController1,
+              hintText:
+              "رقم الهاتف الأول ",
+              inputType: TextInputType.phone,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            InputFiled(
+              controller: controller.phoneController2,
+              hintText:
+              "رقم الهاتف الثانى",
+              inputType: TextInputType.phone,
             ),
             const SizedBox(
               height: 15,
@@ -87,155 +251,64 @@ class JoinRequest extends StatelessWidget {
               height: 15,
             ),
             InputFiled(
-              controller: controller.mobileController,
-              hintText:
-              "الجوال",
-              inputType: TextInputType.phone,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            InputFiled(
-              controller: controller.phoneController,
-              hintText:
-              "رقم الهاتف",
-              inputType: TextInputType.phone,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            InputFiled(
-              controller: controller.oldSchoolController,
-              hintText:
-              "المدرسة السابقة",
-              inputType: TextInputType.text,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            InputFiled(
-              controller: controller.joinSchoolYearController,
-              hintText:
-              "${AppLocalizations.of(context)!.translate('joinDate')}",
-              inputType: TextInputType.datetime,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            InputFiled(
-              controller: controller.provinceController,
-              hintText:
-              "${AppLocalizations.of(context)!.translate('province')}",
-              inputType: TextInputType.text,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            InputFiled(
-              controller: controller.regNumberController,
-              hintText:
-              "رقم القيد",
-              inputType: TextInputType.number,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-
-            InputFiled(
-              controller: controller.regStatusController,
-              hintText:
-              "حالة القيد",
-              inputType: TextInputType.text,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            InputFiled(
-              controller: controller.cityController,
-              hintText: "المدينة",
-              inputType: TextInputType.text,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            InputFiled(
-              controller: controller.religionController,
-              hintText:
-              "${AppLocalizations.of(context)!.translate('religion')}",
-              inputType: TextInputType.text,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            InputFiled(
-              controller: controller.idNumberController,
-              hintText:
-              "${AppLocalizations.of(context)!.translate('DocNo')}",
-              inputType: TextInputType.number,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            InputFiled(
-              controller: controller.yearController,
-              hintText:
-              "السنة الدراسية",
-              inputType: TextInputType.datetime,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            InputFiled(
-              controller: controller.parentNameController,
-              hintText:
-              "اسم ولي الامر",
-              inputType: TextInputType.text,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            InputFiled(
-              controller: controller.parentJobController,
-              hintText:
-              "وظيفة ولي الامر",
-              inputType: TextInputType.text,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            InputFiled(
-              controller: controller.nationaltyController,
-              hintText:
-              "الجنسية",
-              inputType: TextInputType.text,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            InputFiled(
-              controller: controller.relationController,
-              hintText:
-              "صلة القرابة",
-              inputType: TextInputType.text,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            InputFiled(
-              controller: controller.birthPlaceController,
-              hintText:
-              "مكان الولادة",
-              inputType: TextInputType.streetAddress,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            InputFiled(
               controller: controller.zipCodeController,
               hintText:
               "الصندوق البريدي",
               inputType: TextInputType.number,
             ),
+
+            const SizedBox(
+              height: 15,
+            ),
+
+            InputFiled(
+              controller: controller.notesController,
+              hintText: "ملاحظات",
+              inputType: TextInputType.multiline,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: white,
+                border: Border.all(width: 1.0,color: mainColor),
+                borderRadius: BorderRadius.circular(15),
+                boxShadow:  [
+                  BoxShadow(
+                    color: white,
+                    offset: const Offset(
+                      5.0,
+                      5.0,
+                    ),
+                    blurRadius: 10.0,
+                    spreadRadius: 2.0,
+                  ), //BoxShadow
+                  const BoxShadow(
+                    color: Colors.white,
+                    offset: Offset(0.0, 0.0),
+                    blurRadius: 0.0,
+                    spreadRadius: 0.0,
+                  ), //BoxShadow
+                ],
+              ),
+              width: 200,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Icon(Icons.assignment_late_outlined,color: mainColor,size: 30,),
+                     const Padding(
+                       padding: EdgeInsets.all(8.0),
+                       child: Text("خلال العام الدراسي سيقوم موظفونا بالتالي:   * التقاط صور ثابتة (فوتوغرافية) وعرضها للجمهور عبر الانترنت* التقاط صور متحركة (أفلام/فيديو) وعرضها للجمهور عبر الانترنت* تسجيل صوتي - الاستخدام الرقمي والالكتروني وعرضها للجمهور عبر الانترنت-"),
+                     )
+                  ],
+                ),
+              ),
+            ),
+
+
+
             const SizedBox(
               height: 30,
             ),

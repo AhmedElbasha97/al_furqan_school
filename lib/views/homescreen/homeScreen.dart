@@ -167,7 +167,7 @@ class HomeScreen extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Text(
-                            AppLocalizations.of(context)!.translate('news')!,
+                            "الإخبار",
                             style: appText.copyWith(
                                 color: white,
                                 fontWeight: FontWeight.bold,
@@ -182,7 +182,7 @@ class HomeScreen extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(horizontal: 5.0),
                       child: Center(
-                          child:  Text("ليس هناك اخبار متوفره الان",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 30),textAlign: TextAlign.center,)
+                          child:  Text("ليس هناك إخبار متوفره الان",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 30),textAlign: TextAlign.center,)
                       )):SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.23,

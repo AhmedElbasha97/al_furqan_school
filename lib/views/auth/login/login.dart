@@ -83,8 +83,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     icon: Container(),
                     value: controller.selectedType,
                     items: <String>[
-                      'اختار نوع المستخدم',
-                      'ولي امر',
+                      'أختر نوع المستخدم',
+                      'ولي أمر',
                       'مدرس',
                       'طالب',
                     ].map((String value) {
@@ -94,12 +94,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
                     }).toList(),
                     onChanged: (value) {
-                      controller.accountType = value == "ولي امر"
+                      controller.accountType = value == "ولي أمر"
                           ? "PARENTS"
                           : value == "مدرس"
                               ? "TEACHER"
                               : "STUDENT";
-                      controller.selectedType = value;
+
                       setState(() {});
                     },
                   ),

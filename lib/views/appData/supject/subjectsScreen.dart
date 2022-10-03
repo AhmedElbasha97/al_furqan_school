@@ -2,10 +2,10 @@
 
 import 'package:al_furqan_school/globals/commonStyles.dart';
 import 'package:al_furqan_school/globals/widgets/offline_widget.dart';
+import 'package:al_furqan_school/views/appData/subjectDetails/subject_details.dart';
 import 'package:al_furqan_school/views/appData/supject/controller/supject_controller.dart';
 import 'package:al_furqan_school/views/loader.dart';
 import 'package:flutter/material.dart';
-import 'package:al_furqan_school/views/appData/subjectDetails/subjectDetails.dart';
 import 'package:get/get.dart';
 
 class SubjectsScreen extends StatelessWidget {
