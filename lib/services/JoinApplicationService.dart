@@ -10,22 +10,28 @@ class JoinApplication {
       {String? name,
         String?email,
       String? oldSchool,
+      String? mobile,
+      String? joinSchoolDate,
+      String? idNumber,
       String? birthdate,
       String? gender,
+      String? religion,
       String? birthPlace,
       String? nationalty,
-        String? motherWork,
-        String? relation,
-        String? phone2,
+      String? city,
+      String? province,
+      String? regNumber,
+      String? address,
       String? zipCode,
-      String? phone1,
+      String? phone,
       String? year,
+      String? regStatus,
       String? parentName,
-      String? parentRelation,
+      String? relation,
       String? parentJob,
       String? notes}) async {
     Response response;
-    response = await Dio().get("$signUpLink?exp_fname=$name&exp_email=$email&exp_preschool=$oldSchool&exp_birthdate=$birthdate&exp_type=$gender&exp_birthplace=$birthPlace&exp_citybrth=$birthPlace&exp_zipcode=$zipCode&exp_tels=$phone1&exp_year=$year&exp_pname=$parentName&exp_relation=$relation&exp_pjob=$parentJob&exp_notes=$notes&exp_tels2=$phone2&exp_pnath=$nationalty&exp_mother=$motherWork&exp_pmel=$parentRelation",);
+    response = await Dio().get("$signUpLink?exp_fname=$name&exp_email=$email&exp_preschool=$oldSchool&exp_mob=$mobile&exp_date=$joinSchoolDate&exp_idstudent=$idNumber&exp_birthdate=$birthdate&exp_type=$gender&exp_religion=$religion&exp_birthplace=$birthPlace&exp_nationalty=$nationalty&exp_citybrth=$birthPlace&exp_provincebrth=$province&exp_registnum=$regNumber&exp_address=$address&exp_city=$city&exp_zipcode=$zipCode&exp_tels=$phone&exp_year=$year&exp_registstatus=$regStatus&exp_pname=$parentName&exp_relation=$relation&exp_pjob=$parentJob&exp_notes=$notes",);
     var data = response.data["status"];
     return data;
   }

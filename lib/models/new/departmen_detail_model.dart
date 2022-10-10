@@ -1,53 +1,33 @@
 import 'dart:convert';
 
-List<DepartmentDataModel> departmentDataModelFromJson(String str) => List<DepartmentDataModel>.from(json.decode(str).map((x) => DepartmentDataModel.fromJson(x)));
+DepartmentDataModel depatmentDataModelFromJson(String str) => DepartmentDataModel.fromJson(json.decode(str));
 
-String departmentDataModelToJson(List<DepartmentDataModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String depatmentDataModelToJson(DepartmentDataModel data) => json.encode(data.toJson());
 
 class DepartmentDataModel {
   DepartmentDataModel({
+    this.id,
     this.title,
     this.brief,
-    this.activity,
-  });
-
-  String? title;
-  String? brief;
-  List<Activity>? activity;
-
-  factory DepartmentDataModel.fromJson(Map<String, dynamic> json) => DepartmentDataModel(
-    title: json["title"],
-    brief: json["brief"],
-    activity: json["activity"] == null ? null : List<Activity>.from(json["activity"].map((x) => Activity.fromJson(x))),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "title": title,
-    "brief": brief,
-    "activity": activity == null ? null : List<dynamic>.from(activity!.map((x) => x.toJson())),
-  };
-}
-
-class Activity {
-  Activity({
-    this.title,
-    this.desc,
     this.img,
   });
 
+  String? id;
   String? title;
-  String? desc;
+  String? brief;
   String? img;
 
-  factory Activity.fromJson(Map<String, dynamic> json) => Activity(
+  factory DepartmentDataModel.fromJson(Map<String, dynamic> json) => DepartmentDataModel(
+    id: json["id"],
     title: json["title"],
-    desc: json["desc"],
+    brief: json["brief"],
     img: json["img"],
   );
 
   Map<String, dynamic> toJson() => {
+    "id": id,
     "title": title,
-    "desc": desc,
+    "brief": brief,
     "img": img,
   };
 }

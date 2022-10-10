@@ -20,8 +20,8 @@ class AppInfoService {
   String aboutApp = "${baseUrl}about_app.php";
   String privacyPolicy = "${baseUrl}privacy.php";
   String socialLinks="${baseUrl}social.php";
-  String subjects = "${baseUrl}subjects.php?";
-  String subjectsDetails = "${baseUrl}load_center.php";
+  String subjects = "${baseUrl}subjects.php";
+  String subjectsDetails = "${baseUrl}art.php";
   String news = "${baseUrl}news.php?";
   String newsDetails = "${baseUrl}news_view.php?";
 
@@ -136,13 +136,10 @@ class AppInfoService {
   }
 
   Future<List<Subjects>> getSubjects() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final schoolType = prefs.getString("schoolType");
     List<Subjects> list = [];
     Response response;
     response = await Dio().get(
-      "${subjects}school_type=$schoolType"
-      ,
+      subjects,
     );
     var data = response.data;
     data.forEach((element) {
@@ -151,18 +148,13 @@ class AppInfoService {
     return list;
   }
 
-  Future<List<SubjectDetails>?> getSubjectDetails({String? id}) async {
-    List<SubjectDetails>? list = [];
+  Future<List<SubjectDetails>> getSubjectDetails({String? id}) async {
+    List<SubjectDetails> list = [];
     Response response;
     response = await Dio().get(
-      "$subjectsDetails?id=$id",
+      "$subjectsDetails?dep_id=$id",
     );
-    print("$subjectsDetails?id=$id");
-    if(response.data==null){
-      return null;
-    }
     var data = response.data;
-    print(data);
     data.forEach((element) {
       list.add(SubjectDetails.fromJson(element));
     });

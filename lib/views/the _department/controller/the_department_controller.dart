@@ -36,7 +36,6 @@ class TheDepartmentController extends GetxController{
   }
   getPhotoSliderData() async {
     department = await departmentServices.getDepartmentData(departmentId[0]);
-    print(department!.brief??"");
     if(department == null){
       hasNoData =true;
     }
