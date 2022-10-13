@@ -1,7 +1,6 @@
 import 'package:al_furqan_school/globals/commonStyles.dart';
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/services/contactUsService.dart';
-import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,7 +23,6 @@ class ContactUsController extends GetxController{
     isOffline = !await connectivityChecker();
 
     super.onInit();
-    NotificationServices.checkNotificationAppInForeground(context);
     update();
   }
   refreshFunction() async {

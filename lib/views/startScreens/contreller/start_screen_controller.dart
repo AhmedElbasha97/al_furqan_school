@@ -35,9 +35,7 @@ class StartScreen extends GetxController{
     if(prefs.containsKey("schoolType")){
       prefs.remove("schoolType");
     }
-      if(prefs.containsKey("route")){
-        NotificationServices.checkNotificationAppInBackground(context);
-      }
+
     isOffline = !await connectivityChecker();
     if(!isOffline){
       await getPhotoSliderData();

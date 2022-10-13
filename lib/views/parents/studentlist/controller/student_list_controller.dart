@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/new/student_list_model.dart';
 import 'package:al_furqan_school/services/ParentsService.dart';
@@ -18,7 +20,6 @@ Future<void> onInit() async {
   if(!isOffline){
     await getData();
   }  super.onInit();
-  NotificationServices.checkNotificationAppInForeground(context);
 update();
 }
 refreshFunction() async {

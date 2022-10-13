@@ -1,7 +1,6 @@
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/new/news.dart';
 import 'package:al_furqan_school/services/appInfoService.dart';
-import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,7 +18,6 @@ class NewsController extends GetxController{
       await getData();
     }
     super.onInit();
-    NotificationServices.checkNotificationAppInForeground(context);
   update();
   }
   refreshFunction() async {

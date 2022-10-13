@@ -1,6 +1,5 @@
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/services/authService.dart';
-import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,7 +22,6 @@ class LoginController extends GetxController{
     super.onInit();
     isOffline = !await connectivityChecker();
 
-    NotificationServices.checkNotificationAppInForeground(context);
   update();
   }
   @override

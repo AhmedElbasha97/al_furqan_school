@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/teacher/HomeWorkDetails.dart';
 import 'package:al_furqan_school/services/notification_services.dart';
@@ -22,7 +24,6 @@ class HomeWorkDetailsController extends GetxController{
       await getData();
     }
     super.onInit();
-    NotificationServices.checkNotificationAppInForeground(context);
   update();
   }
   refreshFunction() async {

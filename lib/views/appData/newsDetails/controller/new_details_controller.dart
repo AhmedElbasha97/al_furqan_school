@@ -4,7 +4,6 @@ import 'package:al_furqan_school/services/appInfoService.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:al_furqan_school/services/notification_services.dart';
 
 class NewsDetailsController extends GetxController{
   bool isLoading = true;
@@ -24,7 +23,6 @@ class NewsDetailsController extends GetxController{
       await getData();
     }
     super.onInit();
-    NotificationServices.checkNotificationAppInForeground(context);
   update();
   }
   refreshFunction() async {

@@ -1,4 +1,3 @@
-import 'package:al_furqan_school/globals/CommonSetting.dart';
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/Student/scedules_model.dart';
 import 'package:al_furqan_school/models/teacher/category.dart';

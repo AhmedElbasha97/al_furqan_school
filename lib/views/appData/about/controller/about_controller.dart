@@ -1,6 +1,5 @@
 import 'package:al_furqan_school/models/AppInfo/aboutSchool.dart';
 import 'package:al_furqan_school/services/appInfoService.dart';
-import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../globals/helpers.dart';
@@ -18,7 +17,6 @@ class AboutController extends GetxController{
       await getData();
     }
     super.onInit();
-    NotificationServices.checkNotificationAppInForeground(context);
   update();
   }
   refreshFunction() async {
