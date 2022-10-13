@@ -3,7 +3,6 @@
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/new/student_list_model.dart';
 import 'package:al_furqan_school/services/ParentsService.dart';
-import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

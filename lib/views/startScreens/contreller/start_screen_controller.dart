@@ -2,7 +2,6 @@ import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/new/department_model.dart';
 import 'package:al_furqan_school/models/new/main_about_model.dart';
 import 'package:al_furqan_school/models/new/slide_show_model.dart';
-import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:al_furqan_school/services/start_screen_services.dart';
 import 'package:al_furqan_school/views/homescreen/homeScreen.dart';
 import 'package:carousel_slider/carousel_controller.dart';
@@ -41,7 +40,6 @@ class StartScreen extends GetxController{
       await getPhotoSliderData();
     }
     super.onInit();
-    NotificationServices.checkNotificationAppInForeground(context);
     update();
   }
   refreshFunction() async {
