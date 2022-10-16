@@ -52,7 +52,9 @@ class PdfViewerController extends GetxController{
     try {
       if (await _requestPermission(Permission.storage)) {
         Directory? directory;
-        directory = await getExternalStorageDirectory();
+         directory = Platform.isAndroid
+            ? await getExternalStorageDirectory() //FOR ANDROID
+            : await getApplicationSupportDirectory(); //FOR iOS
         String newPath = "";
         List<String> paths = directory!.path.split("/");
         for (int x = 1; x < paths.length; x++) {
