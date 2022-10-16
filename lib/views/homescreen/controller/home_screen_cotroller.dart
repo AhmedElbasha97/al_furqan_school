@@ -4,7 +4,6 @@ import 'package:al_furqan_school/models/new/slide_show_model.dart';
 import 'package:al_furqan_school/models/new/videos_model.dart';
 import 'package:al_furqan_school/services/albums.dart';
 import 'package:al_furqan_school/services/appInfoService.dart';
-import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:al_furqan_school/services/start_screen_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,7 +39,6 @@ class HomeScreenController extends GetxController{
     }
 
     super.onInit();
-    NotificationServices.checkNotificationAppInForeground(context);
   update();
   }
   refreshFunction() async {

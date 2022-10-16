@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:al_furqan_school/globals/helpers.dart';
-import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -28,7 +27,6 @@ class PdfViewerController extends GetxController{
     if(!isOffline){
       await downloadDocument();
     }
-    NotificationServices.checkNotificationAppInForeground(context);
     downloadDocument();
     update();
   }

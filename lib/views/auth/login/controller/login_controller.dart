@@ -1,6 +1,5 @@
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/services/authService.dart';
-import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,7 +22,6 @@ class LoginController extends GetxController{
     super.onInit();
     isOffline = !await connectivityChecker();
 
-    NotificationServices.checkNotificationAppInForeground(context);
   update();
   }
   @override
@@ -42,6 +40,15 @@ class LoginController extends GetxController{
     if(isOffline){
       showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
     }
+  }
+  chooseTypeOfUser(String? value){
+    accountType = value == "ولي أمر"
+        ? "PARENTS"
+        : value == "مدرس"
+        ? "TEACHER"
+        : "STUDENT";
+    selectedType=value??"";
+    update();
   }
   login(context) async {
     if(!isOffline){if(accountType!="") {

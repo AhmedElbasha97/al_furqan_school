@@ -1,7 +1,6 @@
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/questionDetails.dart';
 import 'package:al_furqan_school/services/loggedUser.dart';
-import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,7 +21,6 @@ class QuestionDetailsController extends GetxController{
     if(!isOffline){
       await getData();
     }
-    NotificationServices.checkNotificationAppInForeground(context);
   update();
   }
   refreshFunction() async {

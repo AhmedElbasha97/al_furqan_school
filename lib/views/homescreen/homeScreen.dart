@@ -167,7 +167,7 @@ class HomeScreen extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Text(
-                            "الإخبار",
+                            "الأخبار",
                             style: appText.copyWith(
                                 color: white,
                                 fontWeight: FontWeight.bold,

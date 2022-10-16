@@ -1,7 +1,6 @@
 import 'package:al_furqan_school/globals/commonStyles.dart';
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/services/JoinApplicationService.dart';
-import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:al_furqan_school/views/startScreens/choose_state_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
@@ -37,7 +36,6 @@ class JoinRequestController extends GetxController{
   Future<void> onInit() async {
     super.onInit();
     isOffline = !await connectivityChecker();
-    NotificationServices.checkNotificationAppInForeground(context);
   update();
   }
   refreshFunction() async {

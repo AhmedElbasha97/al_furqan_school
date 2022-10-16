@@ -2,7 +2,6 @@ import 'package:al_furqan_school/globals/commonStyles.dart';
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/teacher/category.dart';
 import 'package:al_furqan_school/models/teacher/student.dart';
-import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:al_furqan_school/services/teachersService.dart';
 import 'package:al_furqan_school/views/homescreen/homeScreen.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +50,6 @@ class SentMessageTeacherController extends GetxController{
     isOffline = !await connectivityChecker();
 
     super.onInit();
-    NotificationServices.checkNotificationAppInForeground(context);
   update();
   }
   refreshFunction() async {

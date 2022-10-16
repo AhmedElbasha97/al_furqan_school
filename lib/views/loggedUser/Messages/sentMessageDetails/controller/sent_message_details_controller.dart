@@ -2,7 +2,6 @@ import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/MessageDetailsStudent.dart';
 import 'package:al_furqan_school/services/ParentsService.dart';
 import 'package:al_furqan_school/services/messagesService.dart';
-import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,7 +22,6 @@ class SentMessageDetailsController extends GetxController{
       await getData();
     }
     super.onInit();
-    NotificationServices.checkNotificationAppInForeground(context);
   update();
   }
   refreshFunction() async {

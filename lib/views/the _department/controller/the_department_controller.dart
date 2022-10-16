@@ -1,6 +1,5 @@
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/new/departmen_detail_model.dart';
-import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:al_furqan_school/services/sevices_derpartment.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,7 +21,6 @@ class TheDepartmentController extends GetxController{
       await getPhotoSliderData();
     }
     super.onInit();
-    NotificationServices.checkNotificationAppInForeground(context);
   update();
   }
   refreshFunction() async {

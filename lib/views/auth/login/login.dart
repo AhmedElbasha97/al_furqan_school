@@ -94,13 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
                     }).toList(),
                     onChanged: (value) {
-                      controller.accountType = value == "ولي أمر"
-                          ? "PARENTS"
-                          : value == "مدرس"
-                              ? "TEACHER"
-                              : "STUDENT";
-
-                      setState(() {});
+                      controller.chooseTypeOfUser(value);
                     },
                   ),
                 ),

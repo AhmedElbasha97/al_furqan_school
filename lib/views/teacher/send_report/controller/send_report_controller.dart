@@ -2,7 +2,6 @@ import 'package:al_furqan_school/globals/commonStyles.dart';
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/teacher/category.dart';
 import 'package:al_furqan_school/models/teacher/student.dart';
-import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:al_furqan_school/services/teachersService.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -45,7 +44,6 @@ class SendReportController extends GetxController{
       await getCatgories();
     }
     super.onInit();
-    NotificationServices.checkNotificationAppInForeground(context);
   update();
   }
   refreshFunction() async {

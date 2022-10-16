@@ -1,6 +1,5 @@
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/new/department_model.dart';
-import 'package:al_furqan_school/services/notification_services.dart';
 import 'package:al_furqan_school/services/start_screen_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,7 +21,6 @@ class ChooseDepartmentController extends GetxController{
     }
 
     super.onInit();
-    NotificationServices.checkNotificationAppInForeground(context);
     update();
   }
   refreshFunction() async {

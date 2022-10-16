@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:942256929814:android:5d76e63fd87420adc28937",
+        "mobilesdk_app_id": "1:942256929814:android:b366b92e9887f464c28937",
         "android_client_info": {
-          "package_name": "com.example.al_furqan_school"
+          "package_name": "com.sync.al_furqan_school"
         }
       },
       "oauth_client": [
@@ -30,6 +30,13 @@
             {
               "client_id": "942256929814-oh3ambh1mpajoo7n7haqgrt0ceja6kcl.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "942256929814-5gefoltsvikcefb54j4rkkike59oc8fl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.alFurqanSchool"
+              }
             }
           ]
         }
