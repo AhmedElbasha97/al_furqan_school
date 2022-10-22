@@ -8,9 +8,9 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 class JoinRequestController extends GetxController{
   bool isLoading = false;
   bool isOffline = false;
-  String selectedMaritalStatus = "أختر الحاله الأجتماعية";
+  String selectedMaritalStatus = "إختر الحاله الأجتماعية";
   String maritalStatus = "" ;
-  String selectedMotherWorkingStatus = "أختر  الحالة الوظيفي للأم";
+  String selectedMotherWorkingStatus = "إختر  الحالة الوظيفي للأم";
   String motherWorkingStatus = "";
   var val = 0;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -93,8 +93,8 @@ class JoinRequestController extends GetxController{
     relationController.text="";
     yearController.text="";
     zipCodeController.text="";
-    selectedMaritalStatus = "أختر الحاله الأجتماعية";
-     selectedMotherWorkingStatus = "أختر  الحالة الوظيفي للأم";
+    selectedMaritalStatus = "إختر الحاله الأجتماعية";
+     selectedMotherWorkingStatus = "إختر  الحالة الوظيفي للأم";
     nationaltyController.text="";
     birthPlaceController.text="";
     genderController.text="";

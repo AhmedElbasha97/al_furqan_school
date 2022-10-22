@@ -20,6 +20,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await PushNotificationService().setupInteractedMessage();
+  FirebaseMessaging.instance.requestPermission();
+
   AppLanguage appLanguage = AppLanguage();
   await appLanguage.fetchLocale();
   SystemChrome.setPreferredOrientations(

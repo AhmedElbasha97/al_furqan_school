@@ -154,7 +154,7 @@ class JoinRequest extends StatelessWidget {
                   icon: Container(),
                   value: controller.selectedMaritalStatus,
                   items: <String>[
-                    'أختر الحاله الأجتماعية',
+                    'إختر الحاله الأجتماعية',
                     'متزوج',
                     'أرمل',
                     'مطلق',
@@ -205,7 +205,7 @@ class JoinRequest extends StatelessWidget {
                   icon: Container(),
                   value: controller.selectedMotherWorkingStatus,
                   items: <String>[
-                    'أختر  الحالة الوظيفي للأم',
+                    'إختر  الحالة الوظيفي للأم',
                     ' تعمل',
                     'لا تعمل',
 

@@ -28,7 +28,7 @@ class StartScreen extends GetxController{
     NewVersion(
 
       androidId: "com.sync.al_furqan_school",
-      iOSId: "com.sync.al_furqan_school",
+      iOSId: "com.sync.alFurqanSchool",
     ).showAlertIfNecessary(context: context);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if(prefs.containsKey("schoolType")){

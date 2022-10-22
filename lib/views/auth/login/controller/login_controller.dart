@@ -12,7 +12,7 @@ class LoginController extends GetxController{
   bool passwordError = false;
   bool isServerLoading = false;
   bool isOffline = false;
-  String selectedType = "أختر نوع المستخدم";
+  String selectedType = "إختر نوع المستخدم";
   String accountType = "";
   final BuildContext context;
   @override

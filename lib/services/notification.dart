@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 class PushNotificationService {
   Future<void> setupInteractedMessage() async {
     await Firebase.initializeApp();
+    FirebaseMessaging.instance.requestPermission();
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
         notificationSelectingAction(message);
