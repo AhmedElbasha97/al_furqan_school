@@ -83,7 +83,7 @@ class _PdfViewerState extends State<PdfViewer> {
         padding: const EdgeInsets.fromLTRB(0,0,0,80),
         child: FloatingActionButton(
           onPressed: () async {
-             print(await controller.saveFile());
+        controller.launchURL(context);
              },
           backgroundColor: mainColor,
           child: const Icon(Icons.download_for_offline_outlined),

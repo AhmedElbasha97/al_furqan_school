@@ -326,7 +326,7 @@ getData() async {
           ),
           ListTile(
             title: Text(
-              "طلب ألتحق طالب جديد",
+              "طلب التحاق طالب جديد",
               style: TextStyle(
                   color: white, fontWeight: FontWeight.bold, fontSize: 14),
             ),

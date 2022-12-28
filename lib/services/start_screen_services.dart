@@ -34,6 +34,7 @@ class StarScreenServices{
     var data = response.data;
     if (response.data != null) {
       data.forEach((element) {
+        print(element);
         list.add(SlideShowImage.fromJson(element));
       });
     }

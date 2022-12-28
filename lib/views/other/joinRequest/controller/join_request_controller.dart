@@ -8,9 +8,9 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 class JoinRequestController extends GetxController{
   bool isLoading = false;
   bool isOffline = false;
-  String selectedMaritalStatus = "إختر الحاله الأجتماعية";
+  String selectedMaritalStatus = "الحاله الاجتماعية لولي الأمر";
   String maritalStatus = "" ;
-  String selectedMotherWorkingStatus = "إختر  الحالة الوظيفي للأم";
+  String selectedMotherWorkingStatus = "الحالة الوظيفية للأم";
   String motherWorkingStatus = "";
   var val = 0;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -93,8 +93,8 @@ class JoinRequestController extends GetxController{
     relationController.text="";
     yearController.text="";
     zipCodeController.text="";
-    selectedMaritalStatus = "إختر الحاله الأجتماعية";
-     selectedMotherWorkingStatus = "إختر  الحالة الوظيفي للأم";
+    selectedMaritalStatus = "الحاله الاجتماعية لولي الأمر";
+     selectedMotherWorkingStatus = "الحالة الوظيفية للأم";
     nationaltyController.text="";
     birthPlaceController.text="";
     genderController.text="";
@@ -115,8 +115,8 @@ class JoinRequestController extends GetxController{
                   if(relationController.text!=""||relationController.text.trim().isNotEmpty){
                     if(genderController.text!=""||genderController.text.trim().isNotEmpty){
                       if(parentJobController.text!=""||parentJobController.text.trim().isNotEmpty){
-                        if(selectedMaritalStatus != "أختر الحاله الأجتماعية"){
-                          if(selectedMotherWorkingStatus != "أختر  الحالة الوظيفي للأم"){
+                        if(selectedMaritalStatus != "الحاله الاجتماعية لولي الأمر"){
+                          if(selectedMotherWorkingStatus != "الحالة الوظيفية للأم"){
                             if(phoneController1.text!=""||phoneController1.text.trim().isNotEmpty){
                               return true;
                             }else{

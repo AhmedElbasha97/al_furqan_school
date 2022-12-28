@@ -90,7 +90,7 @@ class JoinRequest extends StatelessWidget {
             InputFiled(
               controller: controller.parentNameController,
               hintText:
-              "اسم ولي الامر",
+              "اسم ولي الأمر",
               inputType: TextInputType.text,
             ),
             const SizedBox(
@@ -115,7 +115,7 @@ class JoinRequest extends StatelessWidget {
             InputFiled(
               controller: controller.parentJobController,
               hintText:
-              "وظيفة ولي الامر",
+              "وظيفة ولي الأمر",
               inputType: TextInputType.text,
             ),
             const SizedBox(
@@ -154,7 +154,7 @@ class JoinRequest extends StatelessWidget {
                   icon: Container(),
                   value: controller.selectedMaritalStatus,
                   items: <String>[
-                    'إختر الحاله الأجتماعية',
+                    'الحاله الاجتماعية لولي الأمر',
                     'متزوج',
                     'أرمل',
                     'مطلق',
@@ -205,7 +205,7 @@ class JoinRequest extends StatelessWidget {
                   icon: Container(),
                   value: controller.selectedMotherWorkingStatus,
                   items: <String>[
-                    'إختر  الحالة الوظيفي للأم',
+                    'الحالة الوظيفية للأم',
                     ' تعمل',
                     'لا تعمل',
 
@@ -300,7 +300,7 @@ class JoinRequest extends StatelessWidget {
                     Icon(Icons.assignment_late_outlined,color: mainColor,size: 30,),
                      const Padding(
                        padding: EdgeInsets.all(8.0),
-                       child: Text("خلال العام الدراسي سيقوم موظفونا بالتالي:   * التقاط صور ثابتة (فوتوغرافية) وعرضها للجمهور عبر الانترنت* التقاط صور متحركة (أفلام/فيديو) وعرضها للجمهور عبر الانترنت* تسجيل صوتي - الاستخدام الرقمي والالكتروني وعرضها للجمهور عبر الانترنت-"),
+                       child: Text("خلال العام الدراسي سيقوم موظفونا بالتالي: \n ١: التقاط صور ثابتة (فوتوغرافية) وعرضها للجمهور عبر الإنترنت.  \n ٢: التقاط صور متحركة (أفلام/فيديو) وعرضها للجمهور عبر الإنترنت.  \n ٣: تسجيل مقاطع صوتية- الاستخدام الرقمي والإليكتروني وعرضها للجمهور عبر الإنترنت."),
                      )
                   ],
                 ),
@@ -328,7 +328,7 @@ class JoinRequest extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "انا قرأت و اوافق علي ",style: TextStyle(
+                      "أنا قرأت وأوافق على",style: TextStyle(
                     color: mainColor
                 ),),
                     Row(

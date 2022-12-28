@@ -77,6 +77,7 @@ class StartScreen extends GetxController{
   }
 getPhotoSliderData() async {
 imageData = await startScreenServices.getMainSlideShowPhotos();
+print(imageData[0].img);
 getMainAbout();
 getDepartments();
 isLoading = false;

@@ -66,7 +66,7 @@ class HomeScreenController extends GetxController{
 
   }
   launchURL(context,link) async {
-    if ( await launchUrl(Uri.parse(link??""))) {
+    if ( !await launchUrl(Uri.parse(link??""))) {
 
       showTheDialog(context, "لايمكن عرض الفيديو", "ليس متوفر فيديو");
       throw 'Could not launch $link';
@@ -82,6 +82,7 @@ class HomeScreenController extends GetxController{
   }
   getVideoData() async {
     list2 = await AlbumsService().getVideoAlbums();
+    print(list2[0].img);
     videosShowLoading=false;
     update();
 

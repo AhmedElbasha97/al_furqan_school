@@ -260,7 +260,7 @@ class ChooseStateScreen extends StatelessWidget {
 
                                           collapsed: Align(
                                             alignment: Alignment.centerRight,
-                                            child: Text("اختر المرحله",style: TextStyle(fontSize: 15, color: white),),
+                                            child: Text("المرحلة الدراسية",style: TextStyle(fontSize: 15, color: white),),
                                           ),
                                           builder: (_, collapsed, expanded) {
                                             return Padding(
@@ -373,10 +373,10 @@ class ChooseStateScreen extends StatelessWidget {
 
                                           ),
 
-                                          collapsed: Align(
+                                          collapsed: const Align(
                                             alignment: Alignment.centerRight,
-                                            child: Text("اختر قسم",style: TextStyle(fontSize: 15, color: white),),
-                                          ),
+                                           ),
+
                                           builder: (_, collapsed, expanded) {
                                             return Padding(
                                               padding: const EdgeInsets.only(

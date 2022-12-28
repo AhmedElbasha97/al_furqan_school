@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PdfViewerController extends GetxController{
   bool isLoading = true;
@@ -115,6 +116,14 @@ class PdfViewerController extends GetxController{
     } catch (e) {
       print(e);
       return false;
+    }
+  }
+  launchURL(context) async {
+    if ( !await launchUrl(Uri.parse(filePath??""),mode: LaunchMode.externalApplication)) {
+
+      showTheDialog(context, "لايمكن عرض الفيديو", "ليس متوفر فيديو");
+      throw 'Could not launch $filePath';
+
     }
   }
   Future<bool> _hasAcceptedPermissions() async {

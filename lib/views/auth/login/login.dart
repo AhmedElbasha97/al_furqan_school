@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     icon: Container(),
                     value: controller.selectedType,
                     items: <String>[
-                      'إختر نوع المستخدم',
+                      'اختر نوع المستخدم',
                       'ولي أمر',
                       'مدرس',
                       'طالب',
