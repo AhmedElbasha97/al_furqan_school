@@ -62,7 +62,7 @@ class StartScreen extends GetxController{
         prefs.setString("schoolType", "p");
       }
       break;
-      case 3:{
+      case 2:{
         prefs.setString("schoolType", "s");
       }
       break;
