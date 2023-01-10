@@ -69,14 +69,27 @@ class DepartmentDetailScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-Padding(padding: const EdgeInsets.all(10),
-child: Text(controller.department!.brief??"",
-  style: appText.copyWith(
-      color: mainColor,
+                  Wrap(
+                    children:  [
+                      SizedBox(
+                        height:Get.height*0.15,
+                        child:  Expanded(
+                          flex: 1,
 
-      fontSize: 16),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,//.horizontal
 
-),),
+                            child: Text(controller.department!.brief??"",
+                              style: appText.copyWith(
+                                  color: mainColor,
+
+                                  fontSize: 16),
+                          ),
+                        ),
+                      ),
+                      ),
+                    ],
+                  ),
 
                 ],
         ),
@@ -121,7 +134,7 @@ child: Text(controller.department!.brief??"",
                                ),
                              const SizedBox(height: 10,),
                              Column(
-                               children:   controller.department!.activity!.map((e) => Column(
+                               children:   controller.department?.activity?.map((e) => Column(
                                  children: [
                                    Container(
                                      decoration: BoxDecoration(
@@ -193,7 +206,7 @@ child: Text(controller.department!.brief??"",
                                      ),),
                                    const SizedBox(height: 15,)
                                  ],
-                               )).toList(),
+                               )).toList()??[const SizedBox()],
                              )
 
                              ],

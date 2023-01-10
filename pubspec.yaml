@@ -1,7 +1,7 @@
 name: al_furqan_school
 description: A new Flutter project.
 publish_to: 'none'
-version: 2.4.0+85
+version: 2.6.0+96
 environment:
   sdk: ">=2.16.0 <3.0.0"
 dependencies:
@@ -21,7 +21,7 @@ dependencies:
   carousel_slider: ^4.0.0
   webview_flutter: ^2.1.0
   dio: ^4.0.4
-  firebase_messaging: ^13.1.0
+  firebase_messaging: ^14.2.1
   easy_pdf_viewer: ^1.0.3
   expandable: ^5.0.1
   file_picker: ^4.5.1
@@ -33,7 +33,7 @@ dependencies:
   flutter_app_icon_badge: ^2.0.0
   url_launcher: ^6.0.20
   flutter_launcher_icons: "^0.9.2"
-  firebase_core: ^1.17.0
+  firebase_core: ^2.4.1
   connectivity: ^3.0.6
 
 flutter_icons:

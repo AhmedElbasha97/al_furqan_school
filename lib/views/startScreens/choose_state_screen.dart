@@ -351,12 +351,17 @@ class ChooseStateScreen extends StatelessWidget {
                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                          crossAxisAlignment: CrossAxisAlignment.center,
                                                          children: [
-                                                           Text(
-                                                             e.title??"",
-                                                             style: TextStyle(
-                                                                 color: mainColor
+                                                           SizedBox(
+                                                             width: Get.width*0.6,
+                                                             child:  Text(
+                                                               e.title??"",
+                                                               style: TextStyle(
+                                                                   color: mainColor
+                                                               ),
+                                                               maxLines: null,
                                                              ),
                                                            ),
+
                                                            Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
                                                          ],
                                                        ),
