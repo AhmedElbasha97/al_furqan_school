@@ -1,7 +1,7 @@
 name: al_furqan_school
 description: A new Flutter project.
 publish_to: 'none'
-version: 2.6.0+96
+version: 2.7.0+98
 environment:
   sdk: ">=2.16.0 <3.0.0"
 dependencies:

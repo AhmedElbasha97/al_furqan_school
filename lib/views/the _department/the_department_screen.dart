@@ -73,20 +73,16 @@ class DepartmentDetailScreen extends StatelessWidget {
                     children:  [
                       SizedBox(
                         height:Get.height*0.15,
-                        child:  Expanded(
-                          flex: 1,
+                        child:  SingleChildScrollView(
+                          scrollDirection: Axis.vertical,//.horizontal
 
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.vertical,//.horizontal
+                          child: Text(controller.department!.brief??"",
+                            style: appText.copyWith(
+                                color: mainColor,
 
-                            child: Text(controller.department!.brief??"",
-                              style: appText.copyWith(
-                                  color: mainColor,
-
-                                  fontSize: 16),
-                          ),
+                                fontSize: 16),
                         ),
-                      ),
+                        ),
                       ),
                     ],
                   ),
