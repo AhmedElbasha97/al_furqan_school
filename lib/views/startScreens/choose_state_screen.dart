@@ -345,7 +345,7 @@ class ChooseStateScreen extends StatelessWidget {
                                                          borderRadius: BorderRadius.circular(15),
                                                          color: white
                                                      ),
-                                                     child: Padding(
+                                                     child:  Padding(
                                                        padding: const EdgeInsets.all(8.0),
                                                        child: Row(
                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
