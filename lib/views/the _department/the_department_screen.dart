@@ -179,7 +179,7 @@ class DepartmentDetailScreen extends StatelessWidget {
                                                          children:[
                                                            Padding(
                                                              padding: const EdgeInsets.all(8.0),
-                                                             child: Image.network( e.img??"",height: MediaQuery.of(context).size.height*0.2,width: MediaQuery.of(context).size.width*0.75,),
+                                                             child: e.img!=""?Image.network( e.img??"",height: MediaQuery.of(context).size.height*0.2,width: MediaQuery.of(context).size.width*0.75,):Container(),
                                                            ),
                                                            Padding(
                                                              padding: const EdgeInsets.all(8.0),
