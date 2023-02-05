@@ -12,8 +12,8 @@ class StarScreenServices{
   Future<List<SlideShowImage>> getSlideShowPhotos(String? type) async {
     List<SlideShowImage> list = [];
     Response response;
+    print(slideShow+"?school_type=$type");
     response = await Dio().get(
-
       slideShow+"?school_type=$type",
     );
     var data = response.data;

@@ -14,9 +14,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppInfoService {
 
   String sliderLink = "${baseUrl}slide.php";
-  String aboutSchool = "${baseUrl}about.php";
+  String aboutSchool = "${baseUrl}about.php?";
   String terms="${baseUrl}agreament.php";
-  String schoolWord = "${baseUrl}school_desc.php";
+  String schoolWord = "${baseUrl}school_desc.php?";
   String aboutApp = "${baseUrl}about_app.php";
   String privacyPolicy = "${baseUrl}privacy.php";
   String socialLinks="${baseUrl}social.php";
@@ -38,22 +38,24 @@ class AppInfoService {
     return list;
   }
 
-  Future<AboutSchool> getAboutSchool() async {
+  Future<AboutSchool> getAboutSchool(String schoolType) async {
     AboutSchool data;
     Response response;
+    print( aboutSchool+"school_type=$schoolType");
     response = await Dio().get(
-      aboutSchool,
+      aboutSchool+"school_type=$schoolType",
     );
     var resData = response.data;
     data = AboutSchool.fromJson(resData[0]);
     return data;
   }
 
-  Future<AboutSchool> getSchoolWord() async {
+  Future<AboutSchool> getSchoolWord(String schoolType) async {
     AboutSchool data;
     Response response;
+    print( schoolWord+"school_type=$schoolType");
     response = await Dio().get(
-      schoolWord,
+      schoolWord+"school_type=$schoolType",
     );
     var resData = response.data;
     data = AboutSchool.fromJson(resData[0]);

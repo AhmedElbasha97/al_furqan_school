@@ -112,7 +112,7 @@ sendMessage(context) async {
       if (done == "true") {
         doneMassage(context,"تم ارسال الرساله بنجاح", Icon(Icons.check_circle_outline_rounded ,color: mainColor,size: 90,),);
       Future.delayed(const Duration(milliseconds: 500), () {
-        Get.replace(()=> const HomeScreen());
+        Get.replace(()=>  HomeScreen());
       });
 
       } else {

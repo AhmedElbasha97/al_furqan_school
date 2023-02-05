@@ -15,11 +15,20 @@ import 'package:al_furqan_school/globals/widgets/HomeCard.dart';
 import 'package:get/get.dart';
 import '../../globals/widgets/news_card.dart';
 import '../appData/schoolword/schoolWord.dart';
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+
+}
+
+class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return GetBuilder(
       init:  HomeScreenController(context),
       builder: (HomeScreenController controller) =>  Scaffold(
@@ -34,7 +43,18 @@ class HomeScreen extends StatelessWidget {
           ),
           centerTitle: true,
         ),
-        drawer: const AppDrawer(),
+        drawer:  const AppDrawer(),
+        onDrawerChanged:(val){
+          if(val){
+
+          }else{
+            print("hiiiii");
+            controller.getHomeData();
+            controller.getAlbumsData();
+            controller.getVideoData();
+            controller.getData();
+          }
+        },
         backgroundColor: white,
         bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),        body:  ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
@@ -140,7 +160,7 @@ class HomeScreen extends StatelessWidget {
 
                         HomeCard(
                           onTap: () {
-                            Get.to(()=>const SchoolWord(),arguments: [false]);
+                            Get.to(()=>const SchoolWord(),arguments: [true]);
                           },
                           title:
                               "${AppLocalizations.of(context)!.translate('schoolVision')}",

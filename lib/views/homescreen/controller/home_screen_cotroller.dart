@@ -29,6 +29,7 @@ class HomeScreenController extends GetxController{
   final BuildContext context;
   HomeScreenController(this.context);
   @override
+
   Future<void> onInit() async {
     isOffline = !await connectivityChecker();
     if(!isOffline){
@@ -41,7 +42,8 @@ class HomeScreenController extends GetxController{
     super.onInit();
   update();
   }
-  refreshFunction() async {
+
+   refreshFunction() async {
     isOffline = !await connectivityChecker();
     if(!isOffline){
       await getData();

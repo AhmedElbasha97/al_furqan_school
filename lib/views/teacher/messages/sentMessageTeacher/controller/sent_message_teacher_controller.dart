@@ -176,7 +176,7 @@ class SentMessageTeacherController extends GetxController{
                     Icons.check_circle_outline_rounded, color: mainColor,
                     size: 90,),);
                   Future.delayed(const Duration(milliseconds: 500), () {
-                    Get.replace(() => const HomeScreen());
+                    Get.replace(() =>  HomeScreen());
                   });
                 } else {
                   doneMassage(context, "لم يتم ارسال الرساله حاول مره اخرى",

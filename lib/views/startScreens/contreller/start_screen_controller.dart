@@ -68,7 +68,7 @@ class StartScreen extends GetxController{
       break;
     }
 
-    Get.to(() =>const HomeScreen(),
+    Get.to(() => HomeScreen(),
     );
   }
   carouseChangeIndex(index,reason){

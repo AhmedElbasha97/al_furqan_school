@@ -4,6 +4,7 @@ import 'package:al_furqan_school/models/new/social_link.dart';
 import 'package:al_furqan_school/services/appInfoService.dart';
 import 'package:al_furqan_school/views/appData/term&condition/terms_screen.dart';
 import 'package:al_furqan_school/views/choose_department/choose_department_screen.dart';
+import 'package:al_furqan_school/views/homescreen/homeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:al_furqan_school/I10n/app_localizations.dart';
 import 'package:al_furqan_school/globals/commonStyles.dart';
@@ -28,6 +29,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../views/startScreens/choose_state_screen.dart';
 
 class AppDrawer extends StatefulWidget {
+
   const AppDrawer({Key? key}) : super(key: key);
 
   @override
@@ -49,26 +51,38 @@ class _AppDrawerState extends State<AppDrawer> {
     getData();
   }
   chooseSchool(int index) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();    switch(index){
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    switch(index){
       case 0:{
         prefs.setString("schoolType", "j");
         schoolType = "j";
+        setState(() {
+        });
         Navigator.pop(context);
-        setState(() {});
+        Navigator.pop(context);
+
+
       }
       break;
       case 1:{
         prefs.setString("schoolType", "p");
         schoolType = "p";
+        setState(() {
+        });
         Navigator.pop(context);
-        setState(() {});
+        Navigator.pop(context);
+
+
+
       }
       break;
       case 3:{
         prefs.setString("schoolType", "s");
         schoolType = "s";
+        setState(() {
+        });
         Navigator.pop(context);
-        setState(() {});
+        Navigator.pop(context);
       }
       break;
     }

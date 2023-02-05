@@ -3,6 +3,7 @@ import 'package:al_furqan_school/models/AppInfo/aboutSchool.dart';
 import 'package:al_furqan_school/services/appInfoService.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SchoolWordController extends GetxController{
   late AboutSchool word;
@@ -33,9 +34,11 @@ class SchoolWordController extends GetxController{
   }
 
   getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final schoolType =  prefs.getString("schoolType");
     word = isAbout
-        ? await AppInfoService().getAboutSchool()
-        : await AppInfoService().getSchoolWord();
+        ? await AppInfoService().getAboutSchool(schoolType ?? "")
+        : await AppInfoService().getSchoolWord(schoolType ?? "");
     loading = false;
     update();
   }
