@@ -50,7 +50,7 @@ class PhotosAlbum extends StatelessWidget {
                 controller.getData();
               },
                 child: ListView.builder(
-                    itemCount: controller.list.length,
+                    itemCount: controller.list?.length??0,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -60,7 +60,7 @@ class PhotosAlbum extends StatelessWidget {
                           margin: const EdgeInsets.symmetric(horizontal: 5.0),
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                image: NetworkImage("${controller.list[index].img}"),
+                                image: NetworkImage("${controller.list?[index].img}"),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius: const BorderRadius.all(Radius.circular(15))),

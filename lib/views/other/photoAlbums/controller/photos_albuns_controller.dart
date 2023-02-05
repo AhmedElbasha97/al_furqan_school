@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 class PhotosAlbumsController extends GetxController{
   bool isLoading = true;
-  List<Photo> list = [];
+  List<Photo>? list = [];
   String photoId =Get.arguments[0];
   String title = Get.arguments[1];
   bool hasNoData = false;
@@ -35,6 +35,9 @@ class PhotosAlbumsController extends GetxController{
     isLoading = true;
     update();
       list = await AlbumsService().getPhotoAlbum(photoId);
+      if(list == null){
+        hasNoData = true;
+      }
     isLoading = false;
   update();
   }

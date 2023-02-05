@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AlbumsService {
   String photoAlbums = "${baseUrl}gallery.php";
+  String photoAlbumsDetailed = "${baseUrl}gallery2.php";
   String videoAlbums = "${baseUrl}videos.php";
 
   Future<List<Gallery>> getPhotoAlbums() async {
@@ -41,20 +42,23 @@ class AlbumsService {
     return list;
   }
 
-  Future<List<Photo>> getPhotoAlbum(String? id) async {
+  Future<List<Photo>?>? getPhotoAlbum(String? id) async {
     List<Photo> list = [];
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var type = prefs.getString("schoolType")??"";
-    print("$photoAlbums?gid=$id");
+    var type = prefs.getString("schoolType") ?? "";
+    print("$photoAlbumsDetailed?gid=$id");
     Response response;
     response = await Dio().get(
-      "$photoAlbums?gid=$id"+"?school_type=$type",
+      "$photoAlbumsDetailed?gid=$id",
     );
     var data = response.data;
-    data.forEach((element) {
-      list.add(Photo.fromJson(element));
-    });
-    return list;
+    if (data != null) {
+      data.forEach((element) {
+        list.add(Photo.fromJson(element));
+      });
+      return list;
+    }else{
+      return null;
+    }
   }
-
 }
