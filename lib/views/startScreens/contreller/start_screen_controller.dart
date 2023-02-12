@@ -20,7 +20,7 @@ class StartScreen extends GetxController{
   String? selectedType = "اختار نوع المستخدم";
   MainAboutModel? about ;
    List<DepartmentModel> departmentData =[];
-  late List<SlideShowImage> imageData;
+   List<SlideShowImage>? imageData = [];
   final BuildContext context;
   StartScreen(this.context);
   @override
@@ -68,7 +68,7 @@ class StartScreen extends GetxController{
       break;
     }
 
-    Get.to(() => HomeScreen(),
+    Get.to(() => const HomeScreen(),
     );
   }
   carouseChangeIndex(index,reason){
@@ -77,9 +77,10 @@ class StartScreen extends GetxController{
   }
 getPhotoSliderData() async {
 imageData = await startScreenServices.getMainSlideShowPhotos();
-print(imageData[0].img);
-getMainAbout();
-getDepartments();
+print("Kfgnmiodfgio");
+
+await getMainAbout();
+await getDepartments();
 isLoading = false;
 update();
 }

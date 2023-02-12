@@ -33,21 +33,29 @@ class Activity {
     this.title,
     this.desc,
     this.img,
+    this.imgs,
+
   });
 
   String? title;
   String? desc;
   String? img;
+  List<String>? imgs;
+
 
   factory Activity.fromJson(Map<String, dynamic> json) => Activity(
     title: json["title"],
     desc: json["desc"],
     img: json["img"],
+    imgs: json["imgs"] == null ? [] : List<String>.from(json["imgs"]!.map((x) => x)),
+
   );
 
   Map<String, dynamic> toJson() => {
     "title": title,
     "desc": desc,
     "img": img,
+    "imgs": imgs == null ? [] : List<dynamic>.from(imgs!.map((x) => x)),
+
   };
 }

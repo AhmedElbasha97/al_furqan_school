@@ -2,13 +2,30 @@ import 'package:al_furqan_school/globals/commonStyles.dart';
 import 'package:al_furqan_school/globals/widgets/offline_widget.dart';
 import 'package:al_furqan_school/views/loader.dart';
 import 'package:al_furqan_school/views/the%20_department/controller/the_department_controller.dart';
+import 'package:al_furqan_school/views/the%20_department/photo_details_screen.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
-class DepartmentDetailScreen extends StatelessWidget {
+class DepartmentDetailScreen extends StatefulWidget {
   const DepartmentDetailScreen({Key? key}) : super(key: key);
 
+  @override
+  State<DepartmentDetailScreen> createState() => _DepartmentDetailScreenState();
+}
+
+class _DepartmentDetailScreenState extends State<DepartmentDetailScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+  ExpandableController contExpansion = ExpandableController();
+  ExpandableController controllerExpantion = ExpandableController();
+  DraggableScrollableController controllerDragableSheet = DraggableScrollableController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +57,7 @@ class DepartmentDetailScreen extends StatelessWidget {
         )
          :Stack(
            children: [
+
              Positioned(
                top: 0,
                left: 0,
@@ -71,17 +89,20 @@ class DepartmentDetailScreen extends StatelessWidget {
                   ),
                   Wrap(
                     children:  [
-                      SizedBox(
-                        height:Get.height*0.15,
-                        child:  SingleChildScrollView(
-                          scrollDirection: Axis.vertical,//.horizontal
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8.0,0,8.0,0),
+                        child: SizedBox(
+                          height:Get.height*0.15,
+                          child:  SingleChildScrollView(
+                            scrollDirection: Axis.vertical,//.horizontal
 
-                          child: Text(controller.department!.brief??"",
-                            style: appText.copyWith(
-                                color: mainColor,
+                            child: Text(controller.department!.brief??"",
+                              style: appText.copyWith(
+                                  color: mainColor,
 
-                                fontSize: 16),
-                        ),
+                                  fontSize: 16),
+                          ),
+                          ),
                         ),
                       ),
                     ],
@@ -91,15 +112,16 @@ class DepartmentDetailScreen extends StatelessWidget {
         ),
              ),
              DraggableScrollableSheet(
-               
+                  controller: controllerDragableSheet,
                  initialChildSize: 0.75,
                  minChildSize: 0.75,
                  maxChildSize: 1,
-                 builder: (context, scrollController) {
+                 builder: (context,  ScrollController scrollController) {
                    return Padding(
-                     padding: const EdgeInsets.all(8.0),
+                     padding:  EdgeInsets.fromLTRB(8.0,8.0,8.0,0),
                      child: Container(
                        decoration: BoxDecoration(
+                           color: white,
                            border: Border.all(color: mainColor,width: 2),
                            borderRadius: BorderRadius.circular(10)
                        ),
@@ -143,56 +165,129 @@ class DepartmentDetailScreen extends StatelessWidget {
                                        padding: const EdgeInsets.all(8.0),
                                        child: ListTile(
 
-                                         onTap: () {
-
-                                         },
                                          tileColor: mainColor,
                                          title:  ExpandableNotifier(
+                                           controller: contExpansion,
+
 
                                            child: Padding(
                                              padding: const EdgeInsets.all(10),
                                              child: Column(
                                                children: <Widget>[
-                                                 ScrollOnExpand(
+                                                 ExpandablePanel(
 
-                                                   scrollOnExpand: true,
-                                                   scrollOnCollapse: false,
-                                                   child: ExpandablePanel(
-                                                     theme:  ExpandableThemeData(
-                                                       iconColor: white,
-                                                       headerAlignment:
-                                                       ExpandablePanelHeaderAlignment.center,
-                                                       tapBodyToCollapse: true,
-                                                     ),
-                                                     header: Row(
-                                                       mainAxisAlignment: MainAxisAlignment.start,
-                                                       children: [
-                                                         Text(
-                                                          e.title??"",maxLines: null,
+                                                   theme:  ExpandableThemeData(
+                                                     iconColor: white,
+                                                     headerAlignment:
+                                                     ExpandablePanelHeaderAlignment.center,
+                                                     tapBodyToCollapse: true,
+                                                   ),
+                                                   header: Wrap(
+                                                     children: [
+                                                       SizedBox(
+                                                         width: Get.width*0.7,
+                                                         child: Text(
+                                                          e.title??"",
                                                            softWrap: true,
                                                            style: TextStyle(fontSize: 15, color: white),
                                                          ),
-
-                                                       ],
-                                                     ),
-                                                     expanded:Column(
-                                                         children:[
-                                                           Padding(
-                                                             padding: const EdgeInsets.all(8.0),
-                                                             child: e.img!=""?Image.network( e.img??"",height: MediaQuery.of(context).size.height*0.2,width: MediaQuery.of(context).size.width*0.75,):Container(),
+                                                       ),
+                                                     ],
+                                                   ),
+                                                   expanded:Column(
+                                                       children:[
+                                                         Padding(
+                                                           padding: const EdgeInsets.all(8.0),
+                                                           child: e.img!=""?Image.network( e.img??"",height: MediaQuery.of(context).size.height*0.2,width: MediaQuery.of(context).size.width*0.75,):Container(),
+                                                         ),
+                                                         e.imgs?[0]==""?Container():CarouselSlider(
+                                                           options: CarouselOptions(
+                                                             autoPlay: true,
+                                                             // enlargeCenterPage: true,
+                                                             //scrollDirection: Axis.vertical,
+                                                             onPageChanged: (index, reason) {
+                                                              controller.updateCurrentIndex(index);
+                                                             },
                                                            ),
-                                                           Padding(
-                                                             padding: const EdgeInsets.all(8.0),
-                                                             child:Html (
-                                                               data:e.desc??"",
-                                                             ),),
-                                                         ]
-                                                     ),
+                                                           items: e.
+                                                               imgs?.map(
+                                                                 (item) => InkWell(
+                                                                   onTap: (){
+                                                                     Navigator.push(context, MaterialPageRoute(builder: (_) {
+                                                                       return  PhotoDetailedScreen(link: item,index: "${controller.currentIndex}",);
+                                                                     }));
+                                                                   },
+                                                                   child: Padding(
+                                                               padding: const EdgeInsets.all(8.0),
+                                                               child: Card(
+                                                                   margin: const EdgeInsets.only(
+                                                                     top: 10.0,
+                                                                     bottom: 10.0,
+                                                                   ),
+                                                                   elevation: 6.0,
+                                                                   shadowColor: Colors.redAccent,
+                                                                   shape: RoundedRectangleBorder(
+                                                                     borderRadius: BorderRadius.circular(30.0),
+                                                                   ),
+                                                                   child: ClipRRect(
+                                                                     borderRadius: const BorderRadius.all(
+                                                                       Radius.circular(20.0),
+                                                                     ),
+                                                                     child: Stack(
+                                                                       children: <Widget>[
+                                                                         Hero(
+                                                                           tag:"imageHero${controller.currentIndex}",
+                                                                           child: Image.network(
+                                                                             item,
+                                                                             fit: BoxFit.cover,
+                                                                             width: double.infinity,
+                                                                           ),
+                                                                         ),
 
-                                                     collapsed: Align(
-                                                       alignment: Alignment.centerRight,
-                                                       child: Text("للمزيد من المعلومات",style: TextStyle(fontSize: 15, color: white),),
+                                                                       ],
+                                                                     ),
+                                                                   ),
+                                                               ),
+                                                             ),
+                                                                 ),
+                                                           )
+                                                               .toList(),
+                                                         ),
+                                                 e.imgs?[0]==""?Container():Row(
+                                                 mainAxisAlignment: MainAxisAlignment.center,
+                                                 children: e.imgs?.map((urlOfItem) {
+                                                   int index = e.imgs?.indexOf(urlOfItem)??0;
+                                                   return Container(
+                                                     width: 10.0,
+                                                     height: 10.0,
+                                                     margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                                                     decoration: BoxDecoration(
+                                                       shape: BoxShape.circle,
+                                                       color: controller.currentIndex == index
+                                                           ? const Color.fromRGBO(0, 0, 0, 0.8)
+                                                           : const Color.fromRGBO(0, 0, 0, 0.3),
                                                      ),
+                                                   );
+                                                 }).toList()??[],
+                                               ),
+                                                         Padding(
+                                                           padding: const EdgeInsets.all(8.0),
+                                                           child:Html (
+                                                             data:e.desc??"",
+                                                             style: {
+                                                               "body": Style(
+                                                                 fontSize: const FontSize(15.0),
+                                                                 color: white
+                                                               ),
+                                                             },
+                                                           ),),
+
+                                                       ]
+                                                   ),
+
+                                                   collapsed: Align(
+                                                     alignment: Alignment.centerRight,
+                                                     child: Text("للمزيد من المعلومات",style: TextStyle(fontSize: 15, color: white),),
                                                    ),
                                                  ),
                                                ],

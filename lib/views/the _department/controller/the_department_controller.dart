@@ -10,6 +10,7 @@ class TheDepartmentController extends GetxController{
   var hasNoData = false;
   bool isOffline = false;
   var isLoading = true;
+  int currentIndex = 0;
   DepartmentServices departmentServices = DepartmentServices();
 
   final BuildContext context;
@@ -30,6 +31,10 @@ class TheDepartmentController extends GetxController{
     }else{
       showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
     }
+    update();
+  }
+  updateCurrentIndex(int index){
+    currentIndex = index;
     update();
   }
   getPhotoSliderData() async {

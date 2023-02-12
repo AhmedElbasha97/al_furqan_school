@@ -7,6 +7,7 @@ class DepartmentServices{
   Future<DepartmentDataModel?> getDepartmentData(String? id) async {
     DepartmentDataModel data =DepartmentDataModel();
     Response response;
+    print(departmentURL+"dep_id=$id",);
     response = await Dio().get(
      departmentURL+"dep_id=$id",
     );

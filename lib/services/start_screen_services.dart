@@ -24,9 +24,10 @@ class StarScreenServices{
     }
     return list;
   }
-  Future<List<SlideShowImage>> getMainSlideShowPhotos() async {
+  Future<List<SlideShowImage>>? getMainSlideShowPhotos() async {
     List<SlideShowImage> list = [];
     Response response;
+    print(mainSlideShow);
     response = await Dio().get(
 
       mainSlideShow,
@@ -39,6 +40,7 @@ class StarScreenServices{
       });
     }
     return list;
+
   }
   Future<List<DepartmentModel>> getDepartmentData() async {
     List<DepartmentModel> list = [];

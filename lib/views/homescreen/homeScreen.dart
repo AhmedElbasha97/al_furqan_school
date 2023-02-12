@@ -1,4 +1,5 @@
 // ignore_for_file: file_names
+import 'package:al_furqan_school/globals/widgets/expandable_text.dart';
 import 'package:al_furqan_school/globals/widgets/offline_widget.dart';
 import 'package:al_furqan_school/views/albums/AlbumsScreen.dart';
 import 'package:al_furqan_school/views/appData/newsScreen/NewsScreen.dart';
@@ -56,7 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         },
         backgroundColor: white,
-        bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),        body:  ListView(
+        bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
+        body:  ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
                 shrinkWrap: true,
                 children: [
@@ -141,34 +143,65 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(color: mainColor,width: 2),
+                          borderRadius: BorderRadius.circular(10)
 
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.2,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      children: [
-                        HomeCard(
-                          onTap: () {
-                           Get.to(()=>const SchoolWord(),arguments: [false]);
-                          },
-                          title:
-                              "${AppLocalizations.of(context)!.translate('schoolWord')}",
-                          imageLink: "assets/images/school.png",
-                        ),
+                      ),
+                      height: MediaQuery.of(context).size.height*0.13,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,//.horizontal
+                          child:  Column(
+                            children: [
 
-                        HomeCard(
-                          onTap: () {
-                            Get.to(()=>const SchoolWord(),arguments: [true]);
-                          },
-                          title:
-                              "${AppLocalizations.of(context)!.translate('schoolVision')}",
-                          imageLink: "assets/images/logo 2020 new.png",
+                              ExpandableText(
+
+                                controller.word.description??"" , trimLines: 3, readMoreButtonTitle: 'اظهر المزيد',readLessButtonTitle: 'اظهر اقل',readMoreStyle: TextStyle(
+                                  fontSize: 16.0, color: teal, fontWeight: FontWeight.bold
+                              ),textStyle: TextStyle(
+                                fontSize: 16.0, color: mainColor,
+                              ), openingPage: (){
+                                Get.to(()=>const SchoolWord(),arguments: [true]);
+                              },
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
+                      ),
                     ),
                   ),
+                  // SizedBox(
+                  //   width: MediaQuery.of(context).size.width,
+                  //   height: MediaQuery.of(context).size.height * 0.2,
+                  //   child: ListView(
+                  //     scrollDirection: Axis.horizontal,
+                  //     shrinkWrap: true,
+                  //     children: [
+                  //       HomeCard(
+                  //         onTap: () {
+                  //          Get.to(()=>const SchoolWord(),arguments: [false]);
+                  //         },
+                  //         title:
+                  //             "${AppLocalizations.of(context)!.translate('schoolWord')}",
+                  //         imageLink: "assets/images/school.png",
+                  //       ),
+                  //
+                  //       HomeCard(
+                  //         onTap: () {
+                  //           Get.to(()=>const SchoolWord(),arguments: [true]);
+                  //         },
+                  //         title:
+                  //             "${AppLocalizations.of(context)!.translate('schoolVision')}",
+                  //         imageLink: "assets/images/logo 2020 new.png",
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
 // ====================================================================
 
                   Padding(
@@ -214,6 +247,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         return ContainerCardWidget(
                           title: controller.news![index].title,
                           subTtitle: controller.news![index].brief,
+                          bg: controller.news![index].img,
+
                         );
                       },
 

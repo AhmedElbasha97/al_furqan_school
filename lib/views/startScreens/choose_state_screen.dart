@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:get/get.dart';
 import 'contreller/start_screen_controller.dart';
+import 'more_informaton_screen.dart';
 class ChooseStateScreen extends StatelessWidget {
   const ChooseStateScreen({Key? key}) : super(key: key);
 
@@ -31,11 +32,24 @@ class ChooseStateScreen extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      CarouselSlider.builder(
+                      controller.imageData?.isEmpty??true? Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height*0.2,
+                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage("assets/images/no_data_slideShow.png",),
+                                fit: BoxFit.fill,
+                              ),
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(15))
+
+                          )
+                      ) : CarouselSlider.builder(
                         carouselController: controller.carosuelController,
-                        itemCount: controller.imageData.length,
+                        itemCount: controller.imageData?.length,
                         itemBuilder: (BuildContext context, int index, int realIndex) {
-                          return CachedNetworkImage(imageUrl: controller.imageData[index].img??"",
+                          return CachedNetworkImage(imageUrl: controller.imageData?[index].img??"",
                             fit: BoxFit.fill,
                             height: MediaQuery.of(context).size.height*0.45,
                             width: MediaQuery.of(context).size.width,
@@ -50,9 +64,9 @@ class ChooseStateScreen extends StatelessWidget {
                           );
                         },
                         options: CarouselOptions(
-                          autoPlay: controller.imageData.length == 1?false:true,
+                          autoPlay: controller.imageData?.length == 1?false:true,
                           enlargeCenterPage: false,
-                          scrollPhysics: controller.imageData.length == 1?const NeverScrollableScrollPhysics():const BouncingScrollPhysics(),
+                          scrollPhysics: controller.imageData?.length == 1?const NeverScrollableScrollPhysics():const BouncingScrollPhysics(),
                           height: MediaQuery.of(context).size.height*0.45,
                           viewportFraction: 1.0,
 
@@ -99,11 +113,16 @@ class ChooseStateScreen extends StatelessWidget {
                                     ),
                                   ),
                                   ExpandableText(
+
                                     controller.about?.brief??"" , trimLines: 3, readMoreButtonTitle: 'اظهر المزيد',readLessButtonTitle: 'اظهر اقل',readMoreStyle: TextStyle(
                                     fontSize: 16.0, color: teal, fontWeight: FontWeight.bold
                                   ),textStyle: TextStyle(
                                     fontSize: 16.0, color: mainColor,
-                                  ),
+                                  ), openingPage: (){
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => const MoreInformationScreen(),
+                                    ));
+                                  },
                                   ),
                                 ],
                               ),

@@ -1,3 +1,4 @@
+import 'package:al_furqan_school/models/AppInfo/aboutSchool.dart';
 import 'package:al_furqan_school/models/new/gallery_model.dart';
 import 'package:al_furqan_school/models/new/news.dart';
 import 'package:al_furqan_school/models/new/slide_show_model.dart';
@@ -26,6 +27,7 @@ class HomeScreenController extends GetxController{
   bool newsShowLoading = true;
   bool hasNoData=false;
   List<NewsModel>? news = [];
+   AboutSchool word = AboutSchool(title: "",description: "",image: "");
   final BuildContext context;
   HomeScreenController(this.context);
   @override
@@ -63,6 +65,7 @@ class HomeScreenController extends GetxController{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final schoolType =  prefs.getString("schoolType");
     news = await AppInfoService().getNewsData(schoolType);
+    word = await AppInfoService().getAboutSchool(schoolType ?? "");
     newsShowLoading=false;
   update();
 

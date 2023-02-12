@@ -6,7 +6,7 @@ class ExpandableText extends StatefulWidget {
   const ExpandableText(
       this.text, {
          Key? key,
-        this.trimLines = 3, required this.readMoreButtonTitle, required this.readLessButtonTitle, required this.readMoreStyle, required this.textStyle,
+        this.trimLines = 3, required this.readMoreButtonTitle, required this.readLessButtonTitle, required this.readMoreStyle, required this.textStyle, required this.openingPage,
       })  : super(key: key);
 
   final String text;
@@ -15,6 +15,7 @@ class ExpandableText extends StatefulWidget {
   final String readLessButtonTitle;
   final TextStyle readMoreStyle;
   final TextStyle textStyle;
+  final Function openingPage;
 
 
 
@@ -25,9 +26,7 @@ class ExpandableText extends StatefulWidget {
 class ExpandableTextState extends State<ExpandableText> {
   final bool _readMore = true;
   void _onTapLink() {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const MoreInformationScreen(),
-    ));
+    widget.openingPage();
 
   }
 

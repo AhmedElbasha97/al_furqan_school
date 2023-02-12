@@ -5,15 +5,16 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 
-class DetailedScreen extends StatefulWidget {
+class PhotoDetailedScreen extends StatefulWidget {
   final String? link;
-  const DetailedScreen({Key? key,  this.link=""}) : super(key: key);
+  final String? index;
+  const PhotoDetailedScreen({Key? key,  this.link="", this.index}) : super(key: key);
 
   @override
-  State<DetailedScreen> createState() => _DetailedScreenState();
+  State<PhotoDetailedScreen> createState() => _PhotoDetailedScreenState();
 }
 
-class _DetailedScreenState extends State<DetailedScreen> {
+class _PhotoDetailedScreenState extends State<PhotoDetailedScreen> {
   @override
   void initState() {
     // TODO: implement initState
@@ -22,7 +23,8 @@ class _DetailedScreenState extends State<DetailedScreen> {
   }
   @override
   void dispose() {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);    super.dispose();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class _DetailedScreenState extends State<DetailedScreen> {
         children: [
           Center(
             child: Hero(
-              tag: 'imageHero',
+              tag: 'imageHero ${widget.index}',
               child: PinchZoom(
                 child: CachedNetworkImage(
                   imageUrl:  widget.link??"",
@@ -78,7 +80,7 @@ class _DetailedScreenState extends State<DetailedScreen> {
               ),
             ),
           ),
-          Positioned(
+           Positioned(
               top: 10,
               left: 10,
               child: GestureDetector(
