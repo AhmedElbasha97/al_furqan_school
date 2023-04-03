@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:al_furqan_school/I10n/app_localizations.dart';
 import 'package:al_furqan_school/globals/commonStyles.dart';
 import 'package:al_furqan_school/globals/widgets/DrawerWidget.dart';
-import 'package:al_furqan_school/globals/widgets/HomeCard.dart';
+
 import 'package:get/get.dart';
 import '../../globals/widgets/news_card.dart';
 import '../appData/schoolword/schoolWord.dart';
@@ -248,6 +248,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           title: controller.news![index].title,
                           subTtitle: controller.news![index].brief,
                           bg: controller.news![index].img,
+                          newId: controller.news![index].id,
+
 
                         );
                       },

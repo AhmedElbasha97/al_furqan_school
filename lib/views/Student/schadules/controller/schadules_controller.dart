@@ -3,9 +3,11 @@ import 'package:al_furqan_school/models/Student/scedules_model.dart';
 import 'package:al_furqan_school/models/teacher/category.dart';
 import 'package:al_furqan_school/services/loggedUser.dart';
 import 'package:al_furqan_school/services/teachersService.dart';
+import 'package:dio/dio.dart';
+import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_downloader/image_downloader.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SchedulesController extends GetxController{
   final BuildContext context;
@@ -60,9 +62,41 @@ class SchedulesController extends GetxController{
   update();
   }
   downloadImage() async {
-   final urlDirectory = await ImageDownloader.downloadImage(photoLink.img??"");
-   var fileName = await ImageDownloader.findName(urlDirectory!);
-   var path = await ImageDownloader.findPath(urlDirectory);
+  String savename = "schedules.png";
+  String path ="";
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.storage,
+      //add more permission to request here.
+    ].request();
+
+    if(statuses[Permission.storage]!.isGranted){
+      var dir = await DownloadsPathProvider.downloadsDirectory;
+      if(dir != null){
+        String savePath = dir.path + "/$savename";
+        path = dir.path + "/$savename";
+        print(savePath);
+        //output:  /storage/emulated/0/Download/banner.png
+
+        try {
+          await Dio().download(
+              photoLink.img??"",
+              savePath,
+              onReceiveProgress: (received, total) {
+                if (total != -1) {
+                  print((received / total * 100).toStringAsFixed(0) + "%");
+                  //you can build progressbar feature too
+                }
+              });
+          print("Image is saved to download folder.");
+        } on DioError catch (e) {
+          print(e.message);
+        }
+      }
+    }else{
+      print("No permission to read and write.");
+    }
+
+
    final snackBar = SnackBar(
 
      content:  Container(
@@ -77,7 +111,7 @@ class SchedulesController extends GetxController{
            Row(
              children: [
                const Text('اسم الملف:'),
-               Text(fileName??"",),
+               Text(savename??"",),
              ],
            ),
            const Text("تم تحميله في ملف مساره هو:",textDirection: TextDirection.rtl,),
@@ -90,7 +124,7 @@ class SchedulesController extends GetxController{
    );
 
    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-   print(urlDirectory);
+
   }
   getCatgories() async {
     categories = await TeacherService().getCategories();

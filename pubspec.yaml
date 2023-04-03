@@ -1,7 +1,7 @@
 name: al_furqan_school
 description: A new Flutter project.
 publish_to: 'none'
-version: 3.0.2+102
+version: 3.0.3+103
 environment:
   sdk: ">=2.16.0 <3.0.0"
 dependencies:
@@ -11,7 +11,8 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   pinch_zoom: ^1.0.0
-  image_downloader: ^0.31.0
+  downloads_path_provider_28: ^0.1.2
+
   get: ^4.6.1
   map_launcher: ^2.2.2
   new_version: ^0.3.0

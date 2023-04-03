@@ -65,7 +65,9 @@ class HomeScreenController extends GetxController{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final schoolType =  prefs.getString("schoolType");
     news = await AppInfoService().getNewsData(schoolType);
+
     word = await AppInfoService().getAboutSchool(schoolType ?? "");
+
     newsShowLoading=false;
   update();
 

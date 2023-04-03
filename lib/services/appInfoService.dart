@@ -109,7 +109,7 @@ class AppInfoService {
   Future<List<NewsModel>?> getNewsData(schoolType) async {
     List<NewsModel>?list =[];
     Response? response;
-    print(news+"school_type=$schoolType");
+
     response = await Dio().get(
       news+"school_type=$schoolType",
     );
