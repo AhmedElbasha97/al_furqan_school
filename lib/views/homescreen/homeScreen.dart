@@ -194,6 +194,7 @@ class HomeScreen extends StatelessWidget {
                         return ContainerCardWidget(
                           title: controller.news![index].title,
                           subTtitle: controller.news![index].brief,
+                          newId: controller.news![index].id,
                         );
                       },
 
