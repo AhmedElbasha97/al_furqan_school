@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, non_constant_identifier_names, use_build_context_synchronously
 
 import 'package:al_furqan_school/I10n/app_localizations.dart';
 import 'package:al_furqan_school/globals/helpers.dart';

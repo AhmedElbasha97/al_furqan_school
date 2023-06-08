@@ -1,10 +1,13 @@
+// ignore_for_file: unnecessary_null_comparison, non_constant_identifier_names, avoid_print, deprecated_member_use, sized_box_for_whitespace, use_build_context_synchronously
+
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/Student/scedules_model.dart';
 import 'package:al_furqan_school/models/teacher/category.dart';
 import 'package:al_furqan_school/services/loggedUser.dart';
 import 'package:al_furqan_school/services/teachersService.dart';
 import 'package:dio/dio.dart';
-import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -70,10 +73,10 @@ class SchedulesController extends GetxController{
     ].request();
 
     if(statuses[Permission.storage]!.isGranted){
-      var dir = await DownloadsPathProvider.downloadsDirectory;
+      Directory dir = Directory('/storage/emulated/0/Download');
       if(dir != null){
-        String savePath = dir.path + "/$savename";
-        path = dir.path + "/$savename";
+        String savePath = "${dir.path}/$savename";
+        path = "${dir.path}/$savename";
         print(savePath);
         //output:  /storage/emulated/0/Download/banner.png
 
@@ -83,7 +86,7 @@ class SchedulesController extends GetxController{
               savePath,
               onReceiveProgress: (received, total) {
                 if (total != -1) {
-                  print((received / total * 100).toStringAsFixed(0) + "%");
+                  print("${(received / total * 100).toStringAsFixed(0)}%");
                   //you can build progressbar feature too
                 }
               });
@@ -111,12 +114,12 @@ class SchedulesController extends GetxController{
            Row(
              children: [
                const Text('اسم الملف:'),
-               Text(savename??"",),
+               Text(savename,),
              ],
            ),
            const Text("تم تحميله في ملف مساره هو:",textDirection: TextDirection.rtl,),
 
-           Text(path??"",),
+           Text(path,),
 
          ],
        ),

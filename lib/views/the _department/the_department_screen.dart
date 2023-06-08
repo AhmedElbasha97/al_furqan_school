@@ -6,7 +6,6 @@ import 'package:al_furqan_school/views/the%20_department/photo_details_screen.da
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 class DepartmentDetailScreen extends StatefulWidget {
@@ -118,7 +117,7 @@ class _DepartmentDetailScreenState extends State<DepartmentDetailScreen> {
                  maxChildSize: 1,
                  builder: (context,  ScrollController scrollController) {
                    return Padding(
-                     padding:  EdgeInsets.fromLTRB(8.0,8.0,8.0,0),
+                     padding:  const EdgeInsets.fromLTRB(8.0,8.0,8.0,0),
                      child: Container(
                        decoration: BoxDecoration(
                            color: white,
@@ -276,7 +275,7 @@ class _DepartmentDetailScreenState extends State<DepartmentDetailScreen> {
                                                              data:e.desc??"",
                                                              style: {
                                                                "body": Style(
-                                                                 fontSize: const FontSize(15.0),
+                                                                 fontSize:  FontSize(15.0),
                                                                  color: white
                                                                ),
                                                              },

@@ -29,17 +29,17 @@ class PushNotificationService {
         AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
     var androidSettings = const AndroidInitializationSettings('@mipmap/ic_launcher');
-    var iOSSettings = const IOSInitializationSettings(
+    var iOSSettings =  const DarwinInitializationSettings(
       requestSoundPermission: true,
       requestBadgePermission: true,
       requestAlertPermission: true,
     );
     var initSetttings =
     InitializationSettings(android: androidSettings, iOS: iOSSettings);
-    flutterLocalNotificationsPlugin.initialize(initSetttings,
-        onSelectNotification: (message) async {
-          notificationSelectingAction(message);
-        });
+    flutterLocalNotificationsPlugin.initialize(initSetttings,onDidReceiveNotificationResponse:  (message) async {
+      notificationSelectingAction(message);
+    }
+        );
 
     FirebaseMessaging.onMessage.listen((RemoteMessage? message) {
       RemoteNotification? notification = message!.notification;

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, sort_child_properties_last
+
 import 'package:al_furqan_school/views/Student/schadules/controller/schadules_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +77,7 @@ class _PhotoDetailedScreenState extends State<PhotoDetailedScreen> {
                 ),
                 resetDuration: const Duration(milliseconds: 100),
                 maxScale: 3.5,
-                onZoomStart: (){print('Start zooming');},
+                onZoomStart: (){},
                 onZoomEnd: (){print('Stop zooming');},
               ),
             ),

@@ -21,7 +21,7 @@ class MessagesService {
     List<Messages> list = [];
     Response response;
     response = await Dio().get(
-      messages+"?student_id=$id",
+      "$messages?student_id=$id",
     );
     var data = response.data;
     if (response.data != null) {
@@ -36,7 +36,7 @@ class MessagesService {
     List<MessageSentStudent> list = [];
     Response response;
     response = await Dio().get(
-     sentMessages+"?student_id=$id",
+     "$sentMessages?student_id=$id",
     );
     var data = response.data;
     if (response.data != null) {
@@ -52,7 +52,7 @@ class MessagesService {
     List<MessageDetails> list = [];
     Response response;
     response = await Dio().get(
-      messageDetails+"?student_id=$id&msg_id=$msgId",
+      "$messageDetails?student_id=$id&msg_id=$msgId",
     );
     var data = response.data;
     if (response.data != null) {
@@ -68,7 +68,7 @@ class MessagesService {
     List<MessageDetailsStudent> list = [];
     Response response;
     response = await Dio().get(
-      sentMessagesDetails+"?student_id=$id&msg_id=$msgId",
+      "$sentMessagesDetails?student_id=$id&msg_id=$msgId",
     );
     var data = response.data;
     if (response.data != null) {
@@ -87,7 +87,7 @@ class MessagesService {
       String? type}) async {
     Response response;
     response = await Dio().post(
-      sendMessageLink+"?student_id=$id&sendto_type=$type&teacher_id=$teacherId&title=$title&text=$msg",
+      "$sendMessageLink?student_id=$id&sendto_type=$type&teacher_id=$teacherId&title=$title&text=$msg",
     );
     var data = response.data["status"];
     return data;

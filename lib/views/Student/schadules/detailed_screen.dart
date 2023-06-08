@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:al_furqan_school/views/Student/schadules/controller/schadules_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +36,10 @@ class _DetailedScreenState extends State<DetailedScreen> {
             child: Hero(
               tag: 'imageHero',
               child: PinchZoom(
+                resetDuration: const Duration(milliseconds: 100),
+                maxScale: 3.5,
+                onZoomStart: (){print('Start zooming');},
+                onZoomEnd: (){print('Stop zooming');},
                 child: CachedNetworkImage(
                   imageUrl:  widget.link??"",
                   imageBuilder: ((context, image){
@@ -71,10 +77,6 @@ class _DetailedScreenState extends State<DetailedScreen> {
                     );
                   },
                 ),
-                resetDuration: const Duration(milliseconds: 100),
-                maxScale: 3.5,
-                onZoomStart: (){print('Start zooming');},
-                onZoomEnd: (){print('Stop zooming');},
               ),
             ),
           ),

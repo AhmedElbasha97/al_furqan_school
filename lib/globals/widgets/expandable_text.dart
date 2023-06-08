@@ -1,4 +1,3 @@
-import 'package:al_furqan_school/views/startScreens/more_informaton_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 

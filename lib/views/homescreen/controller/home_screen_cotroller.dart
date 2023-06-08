@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:al_furqan_school/models/AppInfo/aboutSchool.dart';
 import 'package:al_furqan_school/models/new/gallery_model.dart';
 import 'package:al_furqan_school/models/new/news.dart';
@@ -89,7 +91,6 @@ class HomeScreenController extends GetxController{
   }
   getVideoData() async {
     list2 = await AlbumsService().getVideoAlbums();
-    print(list2[0].img);
     videosShowLoading=false;
     update();
 

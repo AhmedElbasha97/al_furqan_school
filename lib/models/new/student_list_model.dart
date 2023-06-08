@@ -1,4 +1,6 @@
 
+// ignore_for_file: prefer_null_aware_operators
+
 import 'dart:convert';
 
 StudentListModel studentListModelFromJson(String str) => StudentListModel.fromJson(json.decode(str));

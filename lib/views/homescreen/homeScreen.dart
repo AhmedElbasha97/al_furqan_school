@@ -49,7 +49,6 @@ class _HomeScreenState extends State<HomeScreen> {
           if(val){
 
           }else{
-            print("hiiiii");
             controller.getHomeData();
             controller.getAlbumsData();
             controller.getVideoData();

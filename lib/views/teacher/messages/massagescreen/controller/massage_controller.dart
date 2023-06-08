@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/teacher/sentMessages.dart';
 import 'package:al_furqan_school/services/teachersService.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously, unnecessary_null_comparison
+
 import 'package:al_furqan_school/globals/commonStyles.dart';
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/teacher/category.dart';
@@ -176,7 +178,7 @@ class SentMessageTeacherController extends GetxController{
                     Icons.check_circle_outline_rounded, color: mainColor,
                     size: 90,),);
                   Future.delayed(const Duration(milliseconds: 500), () {
-                    Get.replace(() =>  HomeScreen());
+                    Get.replace(() =>  const HomeScreen());
                   });
                 } else {
                   doneMassage(context, "لم يتم ارسال الرساله حاول مره اخرى",

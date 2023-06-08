@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:al_furqan_school/globals/commonStyles.dart';
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/services/JoinApplicationService.dart';
@@ -192,7 +194,7 @@ class JoinRequestController extends GetxController{
       update();
       String? result;
       if(validationOfText()) {
-        String? result = await JoinApplication().sendApplication(
+        String? _ = await JoinApplication().sendApplication(
             name: nameController.text,
             email: emailController.text,
             oldSchool: oldSchoolController.text,

@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, avoid_print
 
 import 'package:al_furqan_school/globals/CommonSetting.dart';
 import 'package:al_furqan_school/models/teacher/HomeWorkDetails.dart';

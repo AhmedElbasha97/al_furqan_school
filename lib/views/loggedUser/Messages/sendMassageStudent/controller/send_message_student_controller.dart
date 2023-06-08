@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:al_furqan_school/globals/commonStyles.dart';
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/models/teachers.dart';
@@ -112,7 +114,7 @@ sendMessage(context) async {
       if (done == "true") {
         doneMassage(context,"تم ارسال الرساله بنجاح", Icon(Icons.check_circle_outline_rounded ,color: mainColor,size: 90,),);
       Future.delayed(const Duration(milliseconds: 500), () {
-        Get.replace(()=>  HomeScreen());
+        Get.replace(()=>  const HomeScreen());
       });
 
       } else {

@@ -1,10 +1,9 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, library_private_types_in_public_api, use_build_context_synchronously, sized_box_for_whitespace
 import 'dart:io';
 import 'package:al_furqan_school/models/new/social_link.dart';
 import 'package:al_furqan_school/services/appInfoService.dart';
 import 'package:al_furqan_school/views/appData/term&condition/terms_screen.dart';
 import 'package:al_furqan_school/views/choose_department/choose_department_screen.dart';
-import 'package:al_furqan_school/views/homescreen/homeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:al_furqan_school/I10n/app_localizations.dart';
 import 'package:al_furqan_school/globals/commonStyles.dart';

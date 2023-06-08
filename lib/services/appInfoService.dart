@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, avoid_print, prefer_interpolation_to_compose_strings
 
 import 'package:al_furqan_school/globals/CommonSetting.dart';
 import 'package:al_furqan_school/models/AppInfo/aboutSchool.dart';

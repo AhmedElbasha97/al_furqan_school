@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings, use_build_context_synchronously, sized_box_for_whitespace, avoid_print, annotate_overrides
+
 import 'dart:io';
 
 import 'package:al_furqan_school/globals/helpers.dart';

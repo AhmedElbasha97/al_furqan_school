@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:al_furqan_school/globals/CommonSetting.dart';
 import 'package:al_furqan_school/models/new/departmen_detail_model.dart';
 import 'package:dio/dio.dart';
@@ -7,9 +9,9 @@ class DepartmentServices{
   Future<DepartmentDataModel?> getDepartmentData(String? id) async {
     DepartmentDataModel data =DepartmentDataModel();
     Response response;
-    print(departmentURL+"dep_id=$id",);
+    print("${departmentURL}dep_id=$id",);
     response = await Dio().get(
-     departmentURL+"dep_id=$id",
+     "${departmentURL}dep_id=$id",
     );
 
     if(response.data!=null){

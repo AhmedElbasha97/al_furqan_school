@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
 import 'package:al_furqan_school/globals/CommonSetting.dart';
 import 'package:al_furqan_school/models/new/department_model.dart';
 import 'package:al_furqan_school/models/new/main_about_model.dart';
@@ -12,7 +14,6 @@ class StarScreenServices{
   Future<List<SlideShowImage>> getSlideShowPhotos(String? type) async {
     List<SlideShowImage> list = [];
     Response response;
-    print(slideShow+"?school_type=$type");
     response = await Dio().get(
       slideShow+"?school_type=$type",
     );
@@ -27,7 +28,6 @@ class StarScreenServices{
   Future<List<SlideShowImage>>? getMainSlideShowPhotos() async {
     List<SlideShowImage> list = [];
     Response response;
-    print(mainSlideShow);
     response = await Dio().get(
 
       mainSlideShow,
@@ -35,7 +35,6 @@ class StarScreenServices{
     var data = response.data;
     if (response.data != null) {
       data.forEach((element) {
-        print(element);
         list.add(SlideShowImage.fromJson(element));
       });
     }

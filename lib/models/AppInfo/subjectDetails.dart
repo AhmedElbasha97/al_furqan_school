@@ -2,7 +2,7 @@
 //
 //     final subjectDetails = subjectDetailsFromJson(jsonString);
 
-// ignore_for_file: unnecessary_null_in_if_null_operators, prefer_if_null_operators
+// ignore_for_file: unnecessary_null_in_if_null_operators, prefer_if_null_operators, file_names
 
 import 'dart:convert';
 
