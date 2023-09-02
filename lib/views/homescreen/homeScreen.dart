@@ -292,50 +292,74 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Center(
                           child:  Text("ليس هناك صور متاحه الان",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 30),textAlign: TextAlign.center,)
                       )) :controller.galleryShowLoading?Loader(width: MediaQuery.of(context).size.width,height: 150.0):CarouselSlider(
-                    options: CarouselOptions(height: 150.0, autoPlay: true),
+                    options: CarouselOptions(height: 200.0, autoPlay: true),
                     items: controller.list.map((i) {
 
                       return Builder(
                         builder: (BuildContext context) {
-                          return InkWell(
-                            onTap: (){Get.to(()=>const PhotosAlbum(),arguments: [i.id,i.title]);
-                            },
-                            child: CachedNetworkImage(
-                              fit: BoxFit.cover,
-                                imageUrl: "${i.img}",
-                              imageBuilder: ((context, image){
-                                 return  Container(
-                                     width: MediaQuery.of(context).size.width,
-                                     margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                                     decoration: BoxDecoration(
-                                     image: DecorationImage(
-                                     image: image,
-                                fit: BoxFit.cover,
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: InkWell(
+                              onTap: (){Get.to(()=>const PhotosAlbum(),arguments: [i.id,i.title]);
+                              },
+                              child: Container(
+                                decoration:  BoxDecoration(
+                                    color: mainColor,
+                                    borderRadius:
+                                    const BorderRadius.all(Radius.circular(15))),
+                                child: Column(
+                                    mainAxisAlignment:MainAxisAlignment.start,
+                                  children: [
+                                    CachedNetworkImage(
+                                      fit: BoxFit.cover,
+                                        imageUrl: "${i.img}",
+                                      imageBuilder: ((context, image){
+                                         return  Container(
+                                             height: 150,
+                                             width: MediaQuery.of(context).size.width,
+                                             margin: const EdgeInsets.symmetric(horizontal: 0.0),
+                                             decoration: BoxDecoration(
+                                             image: DecorationImage(
+                                             image: image,
+                                        fit: BoxFit.cover,
+                                        ),
+                                                 borderRadius:
+                                                 const BorderRadius.all(Radius.circular(15))
+
+                                             )
+                                         );
+                                      }),
+                                      placeholder: (context, image){
+                                          return  Loader(width: MediaQuery.of(context).size.width,height: 150.0);
+                                      },
+                                      errorWidget: (context, url, error){
+                                          return Container(
+                                              width: MediaQuery.of(context).size.width,
+                                              margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                                              decoration: const BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: AssetImage("assets/images/no_data_slideShow.png"),
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                  borderRadius:
+                                                  BorderRadius.all(Radius.circular(15))
+
+                                              )
+                                          );
+                                      },
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: Text(
+                                        "${i.title}",
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
+                                        style:  TextStyle(color:white),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                         borderRadius:
-                                         const BorderRadius.all(Radius.circular(15))
-
-                                     )
-                                 );
-                              }),
-                              placeholder: (context, image){
-                                  return  Loader(width: MediaQuery.of(context).size.width,height: 150.0);
-                              },
-                              errorWidget: (context, url, error){
-                                  return Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                                      decoration: const BoxDecoration(
-                                          image: DecorationImage(
-                                            image: AssetImage("assets/images/no_data_slideShow.png"),
-                                            fit: BoxFit.fill,
-                                          ),
-                                          borderRadius:
-                                          BorderRadius.all(Radius.circular(15))
-
-                                      )
-                                  );
-                              },
+                              ),
                             ),
                           );
                         },

@@ -18,6 +18,7 @@ class AlbumsService {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var type = prefs.getString("schoolType")??""; print( photoAlbums+"?school_type=$type");
+
     response = await Dio().get(
 
      photoAlbums+"?school_type=$type",
@@ -47,18 +48,20 @@ class AlbumsService {
 
   Future<List<Photo>?>? getPhotoAlbum(String? id) async {
     List<Photo> list = [];
-    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    print("$photoAlbumsDetailed?gid=$id");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var type = prefs.getString("schoolType")??"";
+    print("$photoAlbumsDetailed?school_type=$type&gid=$id");
     Response response;
     response = await Dio().get(
-      "$photoAlbumsDetailed?gid=$id",
+      "$photoAlbumsDetailed?school_type=$type&gid=$id",
     );
     var data = response.data;
-    if (data != null) {
-      data.forEach((element) {
+    print(response.data);
+    if (data.length != 0) {
+      for(var element in data) {
         list.add(Photo.fromJson(element));
-      });
+      }
       return list;
     }else{
       return null;
