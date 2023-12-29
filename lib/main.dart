@@ -73,7 +73,7 @@ class _MyAppState extends State<MyApp> {
                 Locale("ar", ""),
               ],
               locale: model.appLocal,
-              title: 'مدارس الريان',
+
               theme: ThemeData(
                 scaffoldBackgroundColor: white,
                 primaryColor: mainColor,
