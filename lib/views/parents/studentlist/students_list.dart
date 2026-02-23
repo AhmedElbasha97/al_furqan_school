@@ -3,6 +3,7 @@ import 'package:al_furqan_school/globals/widgets/offline_widget.dart';
 import 'package:al_furqan_school/views/loader.dart';
 import 'package:al_furqan_school/views/parents/studentlist/controller/student_list_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../student_info_screen/student_info_screen.dart';
@@ -19,89 +20,104 @@ class _StudentListScreenState extends State<StudentListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: mainColor, // اللون اللي تحبه
+        statusBarBrightness: Brightness.light, // اللون اللي تحبه
+        statusBarIconBrightness: Brightness.light, // أيقونات status bar
+        systemNavigationBarColor: mainColor, // اللون اللي تحبه للشريط السفلي
+        systemNavigationBarIconBrightness: Brightness.light, // أيقونات الشريط السفلي
+      ),
+    );
     return GetBuilder(
       init:  StudentListController(context),
-      builder: (StudentListController controller) => Scaffold(
-        appBar: AppBar(
-          title: const Text("الطلاب المسجلين"),
-          centerTitle: true,
-          iconTheme:  IconThemeData(color: white),
-          backgroundColor: mainColor,
-        ),
-          bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
-        body: controller.isLoading
-            ?  const Loader()
-            :controller.studentList?.allStudents==null?
-        RefreshIndicator(
+      builder: (StudentListController controller) => SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: ScreenHelper.usableHeight(context),
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text("الطلاب المسجلين"),
+            centerTitle: true,
+            iconTheme:  IconThemeData(color: white),
+            backgroundColor: mainColor,
+          ),
+            bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
+          body: controller.isLoading
+              ?  const Loader()
+              :controller.studentList?.allStudents==null?
+          SafeArea(
+            child: RefreshIndicator(
+                onRefresh: () async {
+                  controller.getData();
+                },
+                child: SingleChildScrollView(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height ,
+                    width: MediaQuery.of(context).size.width,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset("assets/images/no_student.png"),
+                          Text("ليس هناك أى طلاب متوفرين الان",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 30),textAlign: TextAlign.center,)
+                        ],
+                      ),
+                    ),
+                  ),
+                )),
+          ):  RefreshIndicator(
             onRefresh: () async {
               controller.getData();
             },
-            child: SingleChildScrollView(
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height ,
-                width: MediaQuery.of(context).size.width,
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset("assets/images/no_student.png"),
-                      Text("ليس هناك أى طلاب متوفرين الان",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 30),textAlign: TextAlign.center,)
-                    ],
-                  ),
-                ),
-              ),
-            )):  RefreshIndicator(
-          onRefresh: () async {
-            controller.getData();
+            child: ListView.builder(
+              itemCount: controller.studentList?.allStudents!.length,
+
+              itemBuilder:   (BuildContext context, int index) {
+        return InkWell(
+          onTap: (){
+            Get.to(()=>const StudentInfoScreen(),arguments: [controller.studentList!.allStudents![index].id]);
           },
-          child: ListView.builder(
-            itemCount: controller.studentList?.allStudents!.length,
-
-            itemBuilder:   (BuildContext context, int index) {
-      return InkWell(
-        onTap: (){
-          Get.to(()=>const StudentInfoScreen(),arguments: [controller.studentList!.allStudents![index].id]);
-        },
-        child: Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: mainColor,
-                  width: 2
+          child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: mainColor,
+                    width: 2
+                  ),
                 ),
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      Text(controller.studentList!.allStudents![index].studentName??"",style: TextStyle(
-                        color: mainColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),),
-                       Text(controller.studentList!.allStudents![index].infoClass??"",style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 17,
-                      ),)
-                    ],
-                  ),
-                  Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        Text(controller.studentList!.allStudents![index].studentName??"",style: TextStyle(
+                          color: mainColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),),
+                         Text(controller.studentList!.allStudents![index].infoClass??"",style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 17,
+                        ),)
+                      ],
+                    ),
+                    Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
+                  ],
+                ),
               ),
-            ),
-        ),
-      );
-
-
-            } ,
           ),
-        )
+        );
+
+
+              } ,
+            ),
+          )
+        ),
       ),
     );
   }

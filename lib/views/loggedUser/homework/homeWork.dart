@@ -7,6 +7,7 @@ import 'package:al_furqan_school/views/loggedUser/homework/controller/home_work_
 import 'package:flutter/material.dart';
 import 'package:al_furqan_school/globals/widgets/homeWorkCard.dart';
 import 'package:al_furqan_school/views/loggedUser/homeworkdetails/HomeWorkDetailsScreen.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../../globals/commonStyles.dart';
@@ -20,58 +21,72 @@ class HomeWorkScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: mainColor, // اللون اللي تحبه
+        statusBarIconBrightness: Brightness.light, // أيقونات status bar
+        systemNavigationBarColor: mainColor, // اللون اللي تحبه للشريط السفلي
+        systemNavigationBarIconBrightness: Brightness.light, // أيقونات الشريط السفلي
+      ),
+    );
     return GetBuilder(
       init:  HomeWorkController(context),
-      builder: (HomeWorkController controller) =>  Scaffold(
-        appBar: AppBar(
-          iconTheme:  IconThemeData(color: white),
-          backgroundColor: mainColor,
-        ),
-        bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
-        body: controller.isLoading
-            ? const Loader()
-            :
-        controller.hasNoData?RefreshIndicator(
-          onRefresh: () async {controller.getData();},
-          child: SingleChildScrollView(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height ,
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset("assets/images/Component 1 – 1@3x.png"),
-                  Text("ليس لديك واجب الان",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 30),)
-                ],
+      builder: (HomeWorkController controller) => SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: ScreenHelper.usableHeight(context),
+        child: Scaffold(
+          appBar: AppBar(
+            iconTheme:  IconThemeData(color: white),
+            backgroundColor: mainColor,
+          ),
+          bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
+          body: controller.isLoading
+              ? const Loader()
+              :
+          controller.hasNoData?SafeArea(
+            child: RefreshIndicator(
+              onRefresh: () async {controller.getData();},
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height ,
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset("assets/images/Component 1 – 1@3x.png"),
+                      Text("ليس لديك واجب الان",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 30),)
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-        ):RefreshIndicator(
-          onRefresh: () async {controller.getData();},
-          child: ListView.builder(
-                  padding: const EdgeInsets.all(10),
-                  itemCount: controller.homeworks.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                      onTap: () {
-                        Get.to(const HomeWorkDetailsScreen(),
+          ):RefreshIndicator(
+            onRefresh: () async {controller.getData();},
+            child: ListView.builder(
+                    padding: const EdgeInsets.all(10),
+                    itemCount: controller.homeworks.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
+                        onTap: () {
+                          Get.to(const HomeWorkDetailsScreen(),
 
-                            arguments: [controller.homeworks[index].id??""],
-                        );
+                              arguments: [controller.homeworks[index].id??""],
+                          );
 
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: HomeWorkCard(
-                          title: controller.homeworks[index].title ?? "",
-                          date: controller.homeworks[index].date ?? "",
-                          teacherName: "${controller.homeworks[index].teacherName ?? ""}",
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: HomeWorkCard(
+                            title: controller.homeworks[index].title ?? "",
+                            date: controller.homeworks[index].date ?? "",
+                            teacherName: "${controller.homeworks[index].teacherName ?? ""}",
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
+                      );
+                    },
+                  ),
+          ),
         ),
       ),
     );

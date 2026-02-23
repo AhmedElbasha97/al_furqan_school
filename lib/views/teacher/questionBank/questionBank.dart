@@ -6,6 +6,7 @@ import 'package:al_furqan_school/views/loader.dart';
 import 'package:al_furqan_school/views/teacher/questionBank/controller/question_bank_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:al_furqan_school/globals/widgets/homeWorkCard.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 
@@ -13,55 +14,70 @@ class QuestionBankScreen extends StatelessWidget {
   const QuestionBankScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: mainColor, // اللون اللي تحبه
+        statusBarBrightness: Brightness.light, // اللون اللي تحبه
+        statusBarIconBrightness: Brightness.light, // أيقونات status bar
+        systemNavigationBarColor: mainColor, // اللون اللي تحبه للشريط السفلي
+        systemNavigationBarIconBrightness: Brightness.light, // أيقونات الشريط السفلي
+      ),
+    );
     return GetBuilder(
       init: QuestionBankController(context),
-      builder: (QuestionBankController controller) => Scaffold(
-        appBar:AppBar(
-          iconTheme:  IconThemeData(color: white),
-          backgroundColor: mainColor,
-        ),
-        bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
-        body:controller.isLoading
-            ?const Loader()
-            :controller.questions.isEmpty?
-        RefreshIndicator(
+      builder: (QuestionBankController controller) => SizedBox(
+        height: ScreenHelper.usableHeight(context),
+        width: MediaQuery.of(context).size.width,
+        child: Scaffold(
+          appBar:AppBar(
+            iconTheme:  IconThemeData(color: white),
+            backgroundColor: mainColor,
+          ),
+          bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
+          body:controller.isLoading
+              ?const Loader()
+              :controller.questions.isEmpty?
+          SafeArea(
+            child: RefreshIndicator(
+                onRefresh: () async {
+                  controller.getData();
+                },
+                child: SingleChildScrollView(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height ,
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset("assets/images/no_question_bank.png"),
+                        Text("ليس متوفر الان أسأله الان في بنك الاسألة",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 30),textAlign: TextAlign.center,)
+                      ],
+                    ),
+                  ),
+                )),
+          ): RefreshIndicator(
             onRefresh: () async {
               controller.getData();
             },
-            child: SingleChildScrollView(
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height ,
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset("assets/images/no_question_bank.png"),
-                    Text("ليس متوفر الان أسأله الان في بنك الاسألة",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 30),textAlign: TextAlign.center,)
-                  ],
-                ),
-              ),
-            )): RefreshIndicator(
-          onRefresh: () async {
-            controller.getData();
-          },
-              child: ListView.builder(
-                  itemCount: controller.questions.length,
-                  padding: const EdgeInsets.all(10),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: () {},
-                        child: HomeWorkCard(
-                          title: "${controller.questions[index].title}",
-                          date: "${controller.questions[index].date}",
+                child: ListView.builder(
+                    itemCount: controller.questions.length,
+                    padding: const EdgeInsets.all(10),
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {},
+                          child: HomeWorkCard(
+                            title: "${controller.questions[index].title}",
+                            date: "${controller.questions[index].date}",
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
-            ),
+                      );
+                    },
+                  ),
+              ),
+        ),
       ),
     );
   }

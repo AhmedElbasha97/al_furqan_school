@@ -7,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'contreller/start_screen_controller.dart';
 class ChooseStateScreen extends StatelessWidget {
@@ -15,400 +16,411 @@ class ChooseStateScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: mainColor, // اللون اللي تحبه
+        statusBarBrightness: Brightness.light, // اللون اللي تحبه
+        statusBarIconBrightness: Brightness.light, // أيقونات status bar
+        systemNavigationBarColor: mainColor, // اللون اللي تحبه للشريط السفلي
+        systemNavigationBarIconBrightness: Brightness.light, // أيقونات الشريط السفلي
+      ),
+    );
     return  GetBuilder(
       init: StartScreen(context),
-      builder: (StartScreen controller) => Scaffold(
-         bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
-        body: controller.isLoading?
-            const Loader():SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                    children: [
-                      CarouselSlider.builder(
-                        carouselController: controller.carosuelController,
-                        itemCount: controller.imageData.length,
-                        itemBuilder: (BuildContext context, int index, int realIndex) {
-                          return CachedNetworkImage(imageUrl: controller.imageData[index].img??"",
-                            fit: BoxFit.fill,
-                            height: MediaQuery.of(context).size.height*0.45,
-                            width: MediaQuery.of(context).size.width,
-                            placeholder: (context, url) => Loader(height: MediaQuery.of(context).size.height*0.45,
-                              width: MediaQuery.of(context).size.width,),
+      builder: (StartScreen controller) => SafeArea(
+        child: Scaffold(
 
-                            errorWidget: (context, url, error) =>SizedBox(
-                              height: MediaQuery.of(context).size.height*0.45,
+          body: controller.isLoading?
+              const Loader():Center(
+                            child:  SizedBox(
                               width: MediaQuery.of(context).size.width,
-                              child: Image.asset("assets/images/logo 2020 new.png"),
-                            ),
-                          );
-                        },
-                        options: CarouselOptions(
-                          autoPlay: controller.imageData.length == 1?false:true,
-                          enlargeCenterPage: false,
-                          scrollPhysics: controller.imageData.length == 1?const NeverScrollableScrollPhysics():const BouncingScrollPhysics(),
-                          height: MediaQuery.of(context).size.height*0.45,
-                          viewportFraction: 1.0,
+                              height: ScreenHelper.usableHeight(context),
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      children: [
+                                            CarouselSlider.builder(
+                                              carouselController: controller.carouselController,
+                                              itemCount: controller.imageData.length,
+                                              itemBuilder: (BuildContext context, int index, int realIndex) {
+                                                return CachedNetworkImage(imageUrl: controller.imageData[index].img??"",
+                                                  fit: BoxFit.fill,
+                                                  height: MediaQuery.of(context).size.height*0.45,
+                                                  width: MediaQuery.of(context).size.width,
+                                                  placeholder: (context, url) => Loader(height: MediaQuery.of(context).size.height*0.45,
+                                                    width: MediaQuery.of(context).size.width,),
 
-                          onPageChanged: controller.carouseChangeIndex,
-                        ),
-                      ),
+                                                  errorWidget: (context, url, error) =>SizedBox(
+                                                    height: MediaQuery.of(context).size.height*0.45,
+                                                    width: MediaQuery.of(context).size.width,
+                                                    child: Image.asset("assets/images/logo 2020 new.png"),
+                                                  ),
+                                                );
+                                              },
+                                              options: CarouselOptions(
+                                                autoPlay: controller.imageData.length == 1?false:true,
+                                                enlargeCenterPage: false,
+                                                scrollPhysics: controller.imageData.length == 1?const NeverScrollableScrollPhysics():const BouncingScrollPhysics(),
+                                                height: MediaQuery.of(context).size.height*0.45,
+                                                viewportFraction: 1.0,
 
-                      SizedBox(height: MediaQuery.of(context).size.height*0.01,),
+                                                onPageChanged: controller.carouseChangeIndex,
+                                              ),
+                                            ),
 
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(color: mainColor,width: 2),
-                              borderRadius: BorderRadius.circular(10)
+                                            SizedBox(height: MediaQuery.of(context).size.height*0.01,),
 
-                          ),
-                          height: MediaQuery.of(context).size.height*0.17,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.vertical,//.horizontal
-                              child:  Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(0.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: mainColor,
-                                        borderRadius: BorderRadius.circular(5.0),
-                                      ),
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Text(
-                                          "من نحن",
-                                          style: appText.copyWith(
-                                              color: white,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
-                                        ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(color: mainColor,width: 2),
+                                                    borderRadius: BorderRadius.circular(10)
 
-                                      ),
-                                    ),
-                                  ),
-                                  ExpandableText(
-                                    controller.about?.brief??"" , trimLines: 3, readMoreButtonTitle: 'اظهر المزيد',readLessButtonTitle: 'اظهر اقل',readMoreStyle: TextStyle(
-                                    fontSize: 16.0, color: teal, fontWeight: FontWeight.bold
-                                  ),textStyle: TextStyle(
-                                    fontSize: 16.0, color: mainColor,
-                                  ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  SingleChildScrollView(
-                    child: Column(
-                      children: [
-
-                        Container(
-                          decoration: BoxDecoration(
-                            color: mainColor,
-                              border: Border.all(color: mainColor,width: 2),
-                              borderRadius: BorderRadius.circular(10)
-
-                          ),
-                          width: MediaQuery.of(context).size.width*0.95,
-                          child: Padding(
-
-                            padding: const EdgeInsets.all(10),
-                            child: ListTile(
-
-                              onTap: () {
-
-                              },
-                              tileColor: mainColor,
-                              title:  ExpandableNotifier(
-
+                                                ),
+                                                height: MediaQuery.of(context).size.height*0.17,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: SingleChildScrollView(
+                                                    scrollDirection: Axis.vertical,//.horizontal
+                                                    child:  Column(
+                                                      children: [
+                                                        Padding(
+                              padding: const EdgeInsets.all(0.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: mainColor,
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                                width: MediaQuery.of(context).size.width,
                                 child: Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Column(
-                                    children: <Widget>[
-                                      ScrollOnExpand(
-                                        scrollOnExpand: true,
-                                        scrollOnCollapse: false,
-                                        child: ExpandablePanel(
-                                          theme:  ExpandableThemeData(
-                                            iconColor: white,
-                                            headerAlignment:
-                                            ExpandablePanelHeaderAlignment.center,
-                                            tapBodyToCollapse: true,
-                                          ),
-                                          header: Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Text(
+                                    "من نحن",
+                                    style: appText.copyWith(
+                                        color: white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
+
+                                ),
+                              ),
+                                                        ),
+                                                        ExpandableText(
+                              controller.about?.brief??"" , trimLines: 3, readMoreButtonTitle: 'اظهر المزيد',readLessButtonTitle: 'اظهر اقل',readMoreStyle: TextStyle(
+                              fontSize: 16.0, color: teal, fontWeight: FontWeight.bold
+                                                        ),textStyle: TextStyle(
+                              fontSize: 16.0, color: mainColor,
+                                                        ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                      ],
+                                    ),
+
+                                    SingleChildScrollView(
+                                      child: Column(
                                             children: [
-                                              Text(
-                                                "المدارس",maxLines: null,
-                                                softWrap: true,
-                                                style: TextStyle(fontSize: 15, color: white),
-                                              ),
 
-                                            ],
-                                          ),
-                                          expanded:Column(
-                                            children: [
-                                              InkWell(
-                                                onTap: () async {
-                                                  controller.chooseSchool(0);
-                                                },
-                                                child: Container(
-                                                  width: MediaQuery.of(context).size.width*0.9,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(15),
-                                                    color: white
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                      children: [
-                                                        Text(
-                                                          "مدرسة الفرقان الابتدائية",
-                                                          style: TextStyle(
-                                                              color: mainColor
-                                                          ),
-                                                        ),
-                                                        Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
-                                                      ],
-                                                    ),
-                                                  ),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  color: mainColor,
+                                                    border: Border.all(color: mainColor,width: 2),
+                                                    borderRadius: BorderRadius.circular(10)
+
                                                 ),
-                                              ),
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                              InkWell(
-                                                onTap: () async {
-                                                  controller.chooseSchool(1);
-                                                },
-                                                child: Container(
-                                                  width: MediaQuery.of(context).size.width*0.9,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(15),
-                                                      color: white
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                      children: [
-                                                        Text(
-                                                          "مدرسة الفرقان الاعدادية",
-                                                          style: TextStyle(
-                                                              color: mainColor
-                                                          ),
-                                                        ),
-                                                        Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                              InkWell(
-                                                onTap: () async {
-                                                controller.chooseSchool(2);
-                                                },
-                                                child: Container(
-                                                  width: MediaQuery.of(context).size.width*0.9,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(15),
-                                                      color: white
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                width: MediaQuery.of(context).size.width*0.95,
+                                                child: Padding(
 
-                                                      children: [
-                                                        Text(
-                                                          "مدرسة الفرقان الثانوية",
-                                                          style: TextStyle(
-                                                              color: mainColor
-                                                          ),
-                                                        ),
-                                                        Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                                  padding: const EdgeInsets.all(10),
+                                                  child: ListTile(
 
-                                          collapsed: Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Text("اختر المرحله",style: TextStyle(fontSize: 15, color: white),),
-                                          ),
-                                          builder: (_, collapsed, expanded) {
-                                            return Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10, right: 10, bottom: 10),
-                                              child: Expandable(
-                                                collapsed: collapsed,
-                                                expanded: expanded,
+                                                    onTap: () {
 
-                                                theme: const ExpandableThemeData(
-                                                    crossFadePoint: 0),
-                                              ),
-                                            );
-                                          },
+                                                    },
+                                                    tileColor: mainColor,
+                                                    title:  ExpandableNotifier(
+
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(10),
+                                                        child: Column(
+                              children: <Widget>[
+                                ScrollOnExpand(
+                                  scrollOnExpand: true,
+                                  scrollOnCollapse: false,
+                                  child: ExpandablePanel(
+                                    theme:  ExpandableThemeData(
+                                      iconColor: white,
+                                      headerAlignment:
+                                      ExpandablePanelHeaderAlignment.center,
+                                      tapBodyToCollapse: true,
+                                    ),
+                                    header: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "المدارس",maxLines: null,
+                                          softWrap: true,
+                                          style: TextStyle(fontSize: 15, color: white),
                                         ),
-                                      ),
-                                    ],
+
+                                      ],
+                                    ),
+                                    expanded:Column(
+                                      children: [
+                                        InkWell(
+                                          onTap: () async {
+                                            controller.chooseSchool(0);
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.of(context).size.width*0.9,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(15),
+                                              color: white
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "مدرسة الفرقان الابتدائية",
+                                                    style: TextStyle(
+                                                        color: mainColor
+                                                    ),
+                                                  ),
+                                                  Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        InkWell(
+                                          onTap: () async {
+                                            controller.chooseSchool(1);
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.of(context).size.width*0.9,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(15),
+                                                color: white
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "مدرسة الفرقان الاعدادية",
+                                                    style: TextStyle(
+                                                        color: mainColor
+                                                    ),
+                                                  ),
+                                                  Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        InkWell(
+                                          onTap: () async {
+                                          controller.chooseSchool(2);
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.of(context).size.width*0.9,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(15),
+                                                color: white
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+
+                                                children: [
+                                                  Text(
+                                                    "مدرسة الفرقان الثانوية",
+                                                    style: TextStyle(
+                                                        color: mainColor
+                                                    ),
+                                                  ),
+                                                  Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                                    collapsed: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text("اختر المرحله",style: TextStyle(fontSize: 15, color: white),),
+                                    ),
+                                    builder: (_, collapsed, expanded) {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10, right: 10, bottom: 10),
+                                        child: Expandable(
+                                          collapsed: collapsed,
+                                          expanded: expanded,
+
+                                          theme: const ExpandableThemeData(
+                                              crossFadePoint: 0),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
-                              ),),
-                          ),),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: mainColor,
-                              border: Border.all(color: mainColor,width: 2),
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                          width: MediaQuery.of(context).size.width*0.95,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
-
-                              onTap: () {
-
-                              },
-                              tileColor: mainColor,
-                              title:  ExpandableNotifier(
-
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Column(
-                                    children: <Widget>[
-                                      ScrollOnExpand(
-                                        scrollOnExpand: true,
-                                        scrollOnCollapse: false,
-                                        child: ExpandablePanel(
-
-                                          theme:  ExpandableThemeData(
-                                            iconColor: white,
-                                            headerAlignment:
-                                            ExpandablePanelHeaderAlignment.center,
-                                            tapBodyToCollapse: true,
-                                          ),
-                                          header: Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "المكاتب والأقسام",maxLines: null,
-                                                softWrap: true,
-                                                style: TextStyle(fontSize: 15, color: white),
+                              ],
+                                                        ),
+                                                      ),
+                                                    ),),
+                                                ),),
+                                              const SizedBox(
+                                                height: 10,
                                               ),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    color: mainColor,
+                                                    border: Border.all(color: mainColor,width: 2),
+                                                    borderRadius: BorderRadius.circular(10)
+                                                ),
+                                                width: MediaQuery.of(context).size.width*0.95,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: ListTile(
 
-                                            ],
-                                          ),
-                                          expanded:Column(
-                                            children:
-                                             controller.departmentData.map((e) =>  Column(
-                                               children: [
-                                                 InkWell(
-                                                   onTap: (){
-                                                     Get.to(() =>const DepartmentDetailScreen(),
-                                                       arguments: [e.id],
-                                                     );
-                                                   },
-                                                   child: Container(
+                                                    onTap: () {
 
-                                                     width: MediaQuery.of(context).size.width*0.9,
-                                                     decoration: BoxDecoration(
-                                                         borderRadius: BorderRadius.circular(15),
-                                                         color: white
-                                                     ),
-                                                     child: Padding(
-                                                       padding: const EdgeInsets.all(8.0),
-                                                       child: Row(
-                                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                         crossAxisAlignment: CrossAxisAlignment.center,
-                                                         children: [
-                                                           Text(
-                                                             e.title??"",
-                                                             style: TextStyle(
-                                                                 color: mainColor
-                                                             ),
-                                                           ),
-                                                           Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
-                                                         ],
+                                                    },
+                                                    tileColor: mainColor,
+                                                    title:  ExpandableNotifier(
+
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(10),
+                                                        child: Column(
+                              children: <Widget>[
+                                ScrollOnExpand(
+                                  scrollOnExpand: true,
+                                  scrollOnCollapse: false,
+                                  child: ExpandablePanel(
+
+                                    theme:  ExpandableThemeData(
+                                      iconColor: white,
+                                      headerAlignment:
+                                      ExpandablePanelHeaderAlignment.center,
+                                      tapBodyToCollapse: true,
+                                    ),
+                                    header: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "المكاتب والأقسام",maxLines: null,
+                                          softWrap: true,
+                                          style: TextStyle(fontSize: 15, color: white),
+                                        ),
+
+                                      ],
+                                    ),
+                                    expanded:Column(
+                                      children:
+                                       controller.departmentData.map((e) =>  Column(
+                                         children: [
+                                           InkWell(
+                                             onTap: (){
+                                               Get.to(() =>const DepartmentDetailScreen(),
+                                                 arguments: [e.id],
+                                               );
+                                             },
+                                             child: Container(
+
+                                               width: MediaQuery.of(context).size.width*0.9,
+                                               decoration: BoxDecoration(
+                                                   borderRadius: BorderRadius.circular(15),
+                                                   color: white
+                                               ),
+                                               child: Padding(
+                                                 padding: const EdgeInsets.all(8.0),
+                                                 child: Row(
+                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                   crossAxisAlignment: CrossAxisAlignment.center,
+                                                   children: [
+                                                     Text(
+                                                       e.title??"",
+                                                       style: TextStyle(
+                                                           color: mainColor
                                                        ),
                                                      ),
-                                                   ),
+                                                     Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
+                                                   ],
                                                  ),
-                                                 const SizedBox(
-                                                   height: 10,
-                                                 )
-                                               ],
+                                               ),
                                              ),
-                                               ).toList(),
+                                           ),
+                                           const SizedBox(
+                                             height: 10,
+                                           )
+                                         ],
+                                       ),
+                                         ).toList(),
 
 
-                                          ),
+                                    ),
 
-                                          collapsed: Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Text("اختر قسم",style: TextStyle(fontSize: 15, color: white),),
-                                          ),
-                                          builder: (_, collapsed, expanded) {
-                                            return Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10, right: 10, bottom: 10),
-                                              child: Expandable(
-                                                collapsed: collapsed,
-                                                expanded: expanded,
+                                    collapsed: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text("اختر قسم",style: TextStyle(fontSize: 15, color: white),),
+                                    ),
+                                    builder: (_, collapsed, expanded) {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10, right: 10, bottom: 10),
+                                        child: Expandable(
+                                          collapsed: collapsed,
+                                          expanded: expanded,
 
-                                                theme: const ExpandableThemeData(
-                                                    crossFadePoint: 0),
-                                              ),
-                                            );
-                                          },
+                                          theme: const ExpandableThemeData(
+                                              crossFadePoint: 0),
                                         ),
-                                      ),
-                                    ],
+                                      );
+                                    },
                                   ),
                                 ),
-                              ),),
-                          ),),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
-                  ),
+                              ],
+                                                        ),
+                                                      ),
+                                                    ),),
+                                                ),),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                            ],
+                                      ),
+                                    ),
 
 
-                ],
+                                  ],
+                                ),
+                              ),
+                            ),
               ),
-            ),
-          ),
         ),
       ),
     );

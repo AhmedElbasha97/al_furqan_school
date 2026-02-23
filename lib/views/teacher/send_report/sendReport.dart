@@ -8,6 +8,7 @@ import 'package:al_furqan_school/I10n/app_localizations.dart';
 import 'package:al_furqan_school/globals/commonStyles.dart';
 import 'package:al_furqan_school/models/teacher/category.dart';
 import 'package:al_furqan_school/models/teacher/student.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class SendReport extends StatefulWidget {
@@ -21,162 +22,177 @@ class _SendReportState extends State<SendReport> {
  
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: mainColor, // اللون اللي تحبه
+        statusBarBrightness: Brightness.light, // اللون اللي تحبه
+        statusBarIconBrightness: Brightness.light, // أيقونات status bar
+        systemNavigationBarColor: mainColor, // اللون اللي تحبه للشريط السفلي
+        systemNavigationBarIconBrightness: Brightness.light, // أيقونات الشريط السفلي
+      ),
+    );
     return GetBuilder(
       init: SendReportController(context),
-      builder: (SendReportController controller) =>  GestureDetector(
-        onTap: () => controller.unFocus(),
-        child: Scaffold(
-          key: controller.scaffoldKey,
-          appBar: AppBar(
-            iconTheme:  IconThemeData(color: white),
-            backgroundColor: mainColor,
-          ),
-          bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
-          body: controller.isLoading
-              ? const Loader()
-              : Form(
-                  key: controller.formKey,
-                  child: ListView(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
-                    children: <Widget>[
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        child: TextFormField(
-                          focusNode: controller.msgNode,
-                          controller: controller.msgController,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.message_rounded),
-                            counterText: "",
-                            hintText: AppLocalizations.of(context)!
-                                .translate('writeReport'),
-                            focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xFF184e7a), width: 2.0),
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                            ),
-                            enabledBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xFF184e7a), width: 1.0),
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
+      builder: (SendReportController controller) =>  SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: ScreenHelper.usableHeight(context),
+        child: GestureDetector(
+          onTap: () => controller.unFocus(),
+          child: Scaffold(
+            key: controller.scaffoldKey,
+            appBar: AppBar(
+              iconTheme:  IconThemeData(color: white),
+              backgroundColor: mainColor,
+            ),
+            bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
+            body: controller.isLoading
+                ? const Loader()
+                : SafeArea(
+                  child: Form(
+                      key: controller.formKey,
+                      child: ListView(
+                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                        children: <Widget>[
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: TextFormField(
+                              focusNode: controller.msgNode,
+                              controller: controller.msgController,
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.message_rounded),
+                                counterText: "",
+                                hintText: AppLocalizations.of(context)!
+                                    .translate('writeReport'),
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color(0xFF184e7a), width: 2.0),
+                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                ),
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color(0xFF184e7a), width: 1.0),
+                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                ),
+                              ),
+                              validator: controller.validatorMassage,
                             ),
                           ),
-                          validator: controller.validatorMassage,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      SizedBox(
-                        width: 300,
-                        height: 50,
-                        child: DropdownButton<Category>(
-                          icon: Container(),
-                          value: controller.selectCatogory,
-                          items: controller.categories.map((Category? value) {
-                            return DropdownMenuItem<Category>(
-                              value: value,
-                              child: Text("${value!.ctgName}"),
-                            );
-                          }).toList(),
-                          onChanged: controller.selectingCategory,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          SizedBox(
+                            width: 300,
+                            height: 50,
+                            child: DropdownButton<Category>(
+                              icon: Container(),
+                              value: controller.selectCatogory,
+                              items: controller.categories.map((Category? value) {
+                                return DropdownMenuItem<Category>(
+                                  value: value,
+                                  child: Text("${value!.ctgName}"),
+                                );
+                              }).toList(),
+                              onChanged: controller.selectingCategory,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
 
-                      SizedBox(
-                        width: 300,
-                        height: 50,
-                        child: controller.levelLoading
-                            ? const Loader( width: 300,
-                          height: 50,)
-                            : controller.levels.isEmpty
+                          SizedBox(
+                            width: 300,
+                            height: 50,
+                            child: controller.levelLoading
+                                ? const Loader( width: 300,
+                              height: 50,)
+                                : controller.levels.isEmpty
+                                    ? Container()
+                                    : DropdownButton<Category>(
+                                        icon: Container(),
+                                        value: controller.selectLevel,
+                                        items: controller.levels.map((Category? value) {
+                                          return DropdownMenuItem<Category>(
+                                            value: value,
+                                            child: Text("${value!.ctgName}"),
+                                          );
+                                        }).toList(),
+                                        onChanged:controller.selectingLevels,
+                                      ),
+                          ),
+                          SizedBox(
+                            width: 300,
+                            height: 50,
+                            child: controller.classLoading
+                                ? const Loader( width: 300,
+                              height: 50,)
+                                : controller.Class.isEmpty
                                 ? Container()
                                 : DropdownButton<Category>(
-                                    icon: Container(),
-                                    value: controller.selectLevel,
-                                    items: controller.levels.map((Category? value) {
-                                      return DropdownMenuItem<Category>(
-                                        value: value,
-                                        child: Text("${value!.ctgName}"),
-                                      );
-                                    }).toList(),
-                                    onChanged:controller.selectingLevels,
-                                  ),
-                      ),
-                      SizedBox(
-                        width: 300,
-                        height: 50,
-                        child: controller.classLoading
-                            ? const Loader( width: 300,
-                          height: 50,)
-                            : controller.Class.isEmpty
-                            ? Container()
-                            : DropdownButton<Category>(
-                          icon: Container(),
-                          value: controller.selectClass,
-                          items: controller.Class.map((Category? value) {
-                            return DropdownMenuItem<Category>(
-                              value: value,
-                              child: Text("${value!.ctgName}"),
-                            );
-                          }).toList(),
-                          onChanged:controller.selectingClass,
-                        ),
-                      ),
+                              icon: Container(),
+                              value: controller.selectClass,
+                              items: controller.Class.map((Category? value) {
+                                return DropdownMenuItem<Category>(
+                                  value: value,
+                                  child: Text("${value!.ctgName}"),
+                                );
+                              }).toList(),
+                              onChanged:controller.selectingClass,
+                            ),
+                          ),
 
 
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      SizedBox(
-                        width: 300,
-                        height: 50,
-                        child: controller.studentsLoading
-                            ? const Loader( width: 300,
-                          height: 50,)
-                            : controller.student.isEmpty
-                                ? Container()
-                                : DropdownButton<Student>(
-                                    icon: Container(),
-                                    value: controller.selectStudent,
-                                    items: controller.student.map((Student? value) {
-                                      return DropdownMenuItem<Student>(
-                                        value: value,
-                                        child: Text("${value!.name}"),
-                                      );
-                                    }).toList(),
-                                    onChanged:controller.selectingStudent,
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          SizedBox(
+                            width: 300,
+                            height: 50,
+                            child: controller.studentsLoading
+                                ? const Loader( width: 300,
+                              height: 50,)
+                                : controller.student.isEmpty
+                                    ? Container()
+                                    : DropdownButton<Student>(
+                                        icon: Container(),
+                                        value: controller.selectStudent,
+                                        items: controller.student.map((Student? value) {
+                                          return DropdownMenuItem<Student>(
+                                            value: value,
+                                            child: Text("${value!.name}"),
+                                          );
+                                        }).toList(),
+                                        onChanged:controller.selectingStudent,
+                                      ),
+                          ),
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 30),
+                              child: InkWell(
+                                onTap: () {
+                                  controller.sendMessage(context);
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width * 0.7,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                      color: mainColor,
+                                      borderRadius:
+                                          const BorderRadius.all(Radius.circular(10))),
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    AppLocalizations.of(context)!.translate('send')!,
+                                    style: const TextStyle(color: Colors.white),
                                   ),
-                      ),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 30),
-                          child: InkWell(
-                            onTap: () {
-                              controller.sendMessage(context);
-                            },
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.7,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                  color: mainColor,
-                                  borderRadius:
-                                      const BorderRadius.all(Radius.circular(10))),
-                              alignment: Alignment.center,
-                              child: Text(
-                                AppLocalizations.of(context)!.translate('send')!,
-                                style: const TextStyle(color: Colors.white),
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
                 ),
+          ),
         ),
       ),
     );

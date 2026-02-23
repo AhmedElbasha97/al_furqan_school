@@ -11,6 +11,24 @@ Color accent = Colors.cyan;
 Color teal = const Color(0xFF97BFB4);
 Color white = const Color(0xFFF5EEDC);
 Color splash = Colors.blue;
+ const primaryColor = Colors.indigo;
+ const lightBackground = Colors.white;
+ const darkBackground = Color(0xFF121212);
+
+// Text colors
+ const lightTextColor = Colors.black87;
+ const darkTextColor = Colors.white70;
+
+// Custom brand color (your color)
+ const brandColor = Color(0xFF7e2670);
+
+// 🌟 Custom state colors
+ const selectedColorLight = Color(0xFF3949AB);
+ const unselectedColorLight = Colors.grey;
+
+ const selectedColorDark = Color(0xFF90CAF9);
+ const unselectedColorDark = Colors.grey;
+
 
 ///////////////////////////////////////////////////////////
 /// theme
@@ -22,6 +40,41 @@ ThemeData appTheme = ThemeData(
 
 Brightness appBrightness = Brightness.light;
 
+class ScreenHelper {
+  // رجع العرض الكامل للشاشة
+  static double width(BuildContext context) {
+    return MediaQuery.of(context).size.width;
+  }
+
+  // رجع الطول الفعلي بدون status bar و navigation bar
+  static double usableHeight(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final screenWidth = size.width;
+    final screenHeight = size.height;
+
+    // المساحة المشغولة بالـ status bar و navigation bar
+    final padding = MediaQuery.of(context).padding;
+    final statusBarHeight = padding.top;
+    final navigationBarHeight = padding.bottom;
+
+    // الطول الفعلي بدون status bar و navigation bar
+    return screenHeight - statusBarHeight - navigationBarHeight;
+  }
+
+  // لو عايز ترجع الطول بدون status bar بس
+  static double heightWithoutStatusBar(BuildContext context) {
+    final size = MediaQuery.of(context).size.height;
+    final padding = MediaQuery.of(context).padding;
+    return size - padding.top;
+  }
+
+  // لو عايز الطول بدون AppBar كمان
+  static double heightWithoutAppBar(BuildContext context, {double appBarHeight = kToolbarHeight}) {
+    final size = MediaQuery.of(context).size.height;
+    final padding = MediaQuery.of(context).padding;
+    return size - padding.top - padding.bottom - appBarHeight;
+  }
+}
 AppBarTheme appBarTheme = AppBarTheme(
   color: accent,
   iconTheme: const IconThemeData(

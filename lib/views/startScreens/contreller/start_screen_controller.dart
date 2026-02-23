@@ -7,13 +7,13 @@ import 'package:al_furqan_school/views/homescreen/homeScreen.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_version/new_version.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StartScreen extends GetxController{
   var isLoading=true;
 
-  final CarouselController carosuelController = CarouselController();
+  CarouselSliderController carouselController = CarouselSliderController();
   int current =0;
   bool isOffline = false;
   StarScreenServices startScreenServices = StarScreenServices();
@@ -25,15 +25,7 @@ class StartScreen extends GetxController{
   StartScreen(this.context);
   @override
   Future<void> onInit() async {
-    NewVersion(
-
-      androidId: "com.sync.al_furqan_school",
-      iOSId: "com.sync.alFurqanSchool",
-    ).showAlertIfNecessary(context: context);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.containsKey("schoolType")){
-      prefs.remove("schoolType");
-    }
+    checkForUpgrades();
 
     isOffline = !await connectivityChecker();
     if(!isOffline){
@@ -50,6 +42,28 @@ class StartScreen extends GetxController{
     }else{
       showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
     }
+  }
+  checkForUpgrades() {
+    InAppUpdate.checkForUpdate().then((updateInfo) {
+      if (updateInfo.updateAvailability == UpdateAvailability.updateAvailable) {
+        if (updateInfo.immediateUpdateAllowed) {
+          // Perform immediate update
+          InAppUpdate.performImmediateUpdate().then((appUpdateResult) {
+            if (appUpdateResult == AppUpdateResult.success) {
+              //App Update successful
+            }
+          });
+        } else if (updateInfo.flexibleUpdateAllowed) {
+          //Perform flexible update
+          InAppUpdate.startFlexibleUpdate().then((appUpdateResult) {
+            if (appUpdateResult == AppUpdateResult.success) {
+              //App Update successful
+              InAppUpdate.completeFlexibleUpdate();
+            }
+          });
+        }
+      }
+    });
   }
   chooseSchool(int index) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();    switch(index){

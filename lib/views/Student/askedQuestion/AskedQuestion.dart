@@ -6,6 +6,7 @@ import 'package:al_furqan_school/views/Student/askedQuestion/controller/asked_qu
 import 'package:al_furqan_school/views/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:al_furqan_school/views/Student/askedquestiondetails/AskedQuestionsDetails.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class AskedQuestions extends StatelessWidget {
@@ -14,59 +15,74 @@ class AskedQuestions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: mainColor, // اللون اللي تحبه
+        statusBarBrightness: Brightness.light, // اللون اللي تحبه
+        statusBarIconBrightness: Brightness.light, // أيقونات status bar
+        systemNavigationBarColor: mainColor, // اللون اللي تحبه للشريط السفلي
+        systemNavigationBarIconBrightness: Brightness.light, // أيقونات الشريط السفلي
+      ),
+    );
     return GetBuilder(
       init:  AskedQuestionController(context),
-      builder: (AskedQuestionController controller) => Scaffold(
-        appBar: AppBar(
-          iconTheme:  IconThemeData(color: white),
-          backgroundColor: mainColor,
-        ),
-        bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
-        body:  controller.isLoading
-            ?  const Loader()
-            :  controller.hasNoData?
-        RefreshIndicator(
+      builder: (AskedQuestionController controller) => SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: ScreenHelper.usableHeight(context),
+        child: Scaffold(
+          appBar: AppBar(
+            iconTheme:  IconThemeData(color: white),
+            backgroundColor: mainColor,
+          ),
+          bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
+          body:  controller.isLoading
+              ?  const Loader()
+              :  controller.hasNoData?
+          SafeArea(
+            child: RefreshIndicator(
+                onRefresh: () async {
+                  controller.getData();
+                },
+                child: SingleChildScrollView(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height ,
+                    width: MediaQuery.of(context).size.width,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset("assets/images/no_question_bank.png"),
+                          Text("ليس هناك اى اسأل تم الاستفسار عنها",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 30),textAlign: TextAlign.center,)
+                        ],
+                      ),
+                    ),
+                  ),
+                )),
+          ):    RefreshIndicator(
             onRefresh: () async {
               controller.getData();
             },
-            child: SingleChildScrollView(
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height ,
-                width: MediaQuery.of(context).size.width,
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset("assets/images/no_question_bank.png"),
-                      Text("ليس هناك اى اسأل تم الاستفسار عنها",style: TextStyle(color: mainColor,fontWeight: FontWeight.bold,fontSize: 30),textAlign: TextAlign.center,)
-                    ],
+                child: ListView.separated(
+                    itemCount:  controller.question.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                          onTap: () async {
+                            Get.to(()=>const AskedQuestionsDetailsScreen(),arguments: [controller.question[index].msgId]);
+                          },
+                          title: Text("${ controller.question[index].title}"),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const Divider();
+                    },
                   ),
-                ),
               ),
-            )):    RefreshIndicator(
-          onRefresh: () async {
-            controller.getData();
-          },
-              child: ListView.separated(
-                  itemCount:  controller.question.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        onTap: () async {
-                          Get.to(()=>const AskedQuestionsDetailsScreen(),arguments: [controller.question[index].msgId]);
-                        },
-                        title: Text("${ controller.question[index].title}"),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const Divider();
-                  },
-                ),
-            ),
+        ),
       ),
     );
   }

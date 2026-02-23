@@ -11,6 +11,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../globals/helpers.dart';
+import '../../loggedUser/Messages/messageScreen/MessagesScreen.dart';
+import '../../loggedUser/homework/homeWork.dart';
+import '../../loggedUser/quetion_bank/questionBank.dart';
+import '../../startScreens/choose_state_screen.dart';
+import '../../teacher/messages/massagescreen/MessagesScreen.dart';
 
 class HomeScreenController extends GetxController{
   List<SlideShowImage> sliderData = [];
@@ -40,6 +45,56 @@ class HomeScreenController extends GetxController{
     super.onInit();
 
   update();
+  }
+  decideIfThereIsNotificationDetectOrNotAndItIsBehavior() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userType = prefs.getString("type");
+    String? screenType = prefs.getString("route");
+
+    print('userType: ${userType ?? ""}');
+    print('screenType: ${screenType ?? ""}');
+
+    if (screenType == null) return;
+    switch(screenType){
+      case "teacher_msg ":
+        {
+
+          Get.to(()=> const MessagesScreenTeacher());
+
+        }
+        break;
+      case "parent_msg ":{
+        Get.to(()=> const MessagesScreen(),arguments: [0]);
+      }
+      break;
+      case "student_msg":{
+        Get.to(()=> const MessagesScreen(),arguments: [1]);
+
+      }
+      break;
+      case "student_homework ":{
+        Get.to(()=> const HomeWorkScreen());
+      }
+      break;
+      case "student_quest ":{
+        Get.to(()=> const QuestionBankScreen());
+      }
+      break;  case "parent_quest ":{
+      Get.to(()=> const QuestionBankScreen());
+
+    }
+    break;  case "student_report ":{
+      Get.to(()=> const HomeWorkScreen());
+
+    }
+    break;
+      default:
+        {
+          Get.to(()=> const ChooseStateScreen());
+
+          break;
+        }
+    }
   }
   refreshFunction() async {
     isOffline = !await connectivityChecker();

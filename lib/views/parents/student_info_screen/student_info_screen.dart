@@ -5,6 +5,7 @@ import 'package:al_furqan_school/views/parents/attendance/AttendanceScreen.dart'
 import 'package:al_furqan_school/views/parents/report/ReportsScreen.dart';
 import 'package:al_furqan_school/views/parents/student_info_screen/controller/student_info_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class StudentInfoScreen extends StatelessWidget {
@@ -12,329 +13,344 @@ class StudentInfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: mainColor, // اللون اللي تحبه
+        statusBarBrightness: Brightness.light, // اللون اللي تحبه
+        statusBarIconBrightness: Brightness.light, // أيقونات status bar
+        systemNavigationBarColor: mainColor, // اللون اللي تحبه للشريط السفلي
+        systemNavigationBarIconBrightness: Brightness.light, // أيقونات الشريط السفلي
+      ),
+    );
     return  GetBuilder(
       init:  StudentInfoController(context),
-      builder: (StudentInfoController controller) => Scaffold(
-        appBar: AppBar(
-          iconTheme:  IconThemeData(color: white),
-          backgroundColor: mainColor,
-        ),
-        bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
-body: controller.isLoading?
-const Loader()
-    :SizedBox(
-  width: Get.width,
-  height: Get.height*0.7,
-  child:   Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
+      builder: (StudentInfoController controller) => SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: ScreenHelper.usableHeight(context),
+        child: Scaffold(
+          appBar: AppBar(
+            iconTheme:  IconThemeData(color: white),
+            backgroundColor: mainColor,
+          ),
+          bottomNavigationBar:controller.isOffline?OfflineWidget(refreshedFunc: (){controller.refreshFunction();},):const SizedBox(width: 0,height: 0,),
+        body: controller.isLoading?
+        const Loader()
+            :SizedBox(
+          width: Get.width,
+          height: Get.height*0.7,
+          child:   SafeArea(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(children: [
-                  Text("الأسم:",style: TextStyle(
-                    color: mainColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),),
-
-                   Expanded(
-
-                    child: Text(
-                      controller.student?.name??"",
-                      softWrap: true,
-
-                      overflow: TextOverflow.visible,
-                      style:const TextStyle(
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+              children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(children: [
+                      Text("الأسم:",style: TextStyle(
+                        color: mainColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
-                      ),// new
-                    ),
+                      ),),
+
+                       Expanded(
+
+                        child: Text(
+                          controller.student?.name??"",
+                          softWrap: true,
+
+                          overflow: TextOverflow.visible,
+                          style:const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),// new
+                        ),
+                      ),
+
+                    ],),
+
                   ),
 
-                ],),
+                  Padding(
 
-              ),
+                    padding: const EdgeInsets.all(8.0),
 
-              Padding(
+                    child: Row(children: [
 
-                padding: const EdgeInsets.all(8.0),
+                      Text("الفصل:",style: TextStyle(
 
-                child: Row(children: [
+                        color: mainColor,
 
-                  Text("الفصل:",style: TextStyle(
-
-                    color: mainColor,
-
-                    fontWeight: FontWeight.bold,
-
-                    fontSize: 18,
-
-                  ),),
-                   Expanded(
-
-                    child: Text(
-                         controller.student?.class3??"",
-                      softWrap: true,
-
-                      overflow: TextOverflow.visible,
-                      style:const TextStyle(
                         fontWeight: FontWeight.bold,
+
                         fontSize: 18,
-                      ),// new
-                    ),
+
+                      ),),
+                       Expanded(
+
+                        child: Text(
+                             controller.student?.class3??"",
+                          softWrap: true,
+
+                          overflow: TextOverflow.visible,
+                          style:const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),// new
+                        ),
+                      ),
+
+                    ],),
+
                   ),
 
-                ],),
+                  Padding(
 
-              ),
+                    padding: const EdgeInsets.all(8.0),
 
-              Padding(
+                    child: Row(children: [
 
-                padding: const EdgeInsets.all(8.0),
+                      Text("الصف:",style: TextStyle(
 
-                child: Row(children: [
+                        color: mainColor,
 
-                  Text("الصف:",style: TextStyle(
-
-                    color: mainColor,
-
-                    fontWeight: FontWeight.bold,
-
-                    fontSize: 18,
-
-                  ),),
-
-                   Expanded(
-
-                    child: Text(
-                      controller.student?.class2??"",
-                      softWrap: true,
-
-                      overflow: TextOverflow.visible,
-                      style:const TextStyle(
                         fontWeight: FontWeight.bold,
+
                         fontSize: 18,
-                      ),// new
-                    ),
+
+                      ),),
+
+                       Expanded(
+
+                        child: Text(
+                          controller.student?.class2??"",
+                          softWrap: true,
+
+                          overflow: TextOverflow.visible,
+                          style:const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),// new
+                        ),
+                      ),
+
+                    ],),
+
                   ),
 
-                ],),
+                  Padding(
 
-              ),
+                    padding: const EdgeInsets.all(8.0),
 
-              Padding(
+                    child: Row(children: [
 
-                padding: const EdgeInsets.all(8.0),
+                      Text("البريد الالكتروني:",style: TextStyle(
 
-                child: Row(children: [
+                        color: mainColor,
 
-                  Text("البريد الالكتروني:",style: TextStyle(
-
-                    color: mainColor,
-
-                    fontWeight: FontWeight.bold,
-
-                    fontSize: 18,
-
-                  ),),
-
-                   Expanded(
-
-                    child: Text(
-                      controller.student?.email??"",
-                      softWrap: true,
-
-                      overflow: TextOverflow.visible,
-                      style:const TextStyle(
                         fontWeight: FontWeight.bold,
+
                         fontSize: 18,
-                      ),// new
-                    ),
+
+                      ),),
+
+                       Expanded(
+
+                        child: Text(
+                          controller.student?.email??"",
+                          softWrap: true,
+
+                          overflow: TextOverflow.visible,
+                          style:const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),// new
+                        ),
+                      ),
+
+                    ],),
+
                   ),
+                Padding(
 
-                ],),
+                  padding: const EdgeInsets.all(8.0),
 
-              ),
-            Padding(
+                  child: Row(children: [
 
-              padding: const EdgeInsets.all(8.0),
+                    Text("المدرسة:",style: TextStyle(
 
-              child: Row(children: [
+                      color: mainColor,
 
-                Text("المدرسة:",style: TextStyle(
-
-                  color: mainColor,
-
-                  fontWeight: FontWeight.bold,
-
-                  fontSize: 18,
-
-                ),),
-
-                Expanded(
-
-                  child: Text(
-                    controller.student?.class1??"",
-                    softWrap: true,
-
-                    overflow: TextOverflow.visible,
-                    style:const TextStyle(
                       fontWeight: FontWeight.bold,
+
                       fontSize: 18,
-                    ),// new
-                  ),
+
+                    ),),
+
+                    Expanded(
+
+                      child: Text(
+                        controller.student?.class1??"",
+                        softWrap: true,
+
+                        overflow: TextOverflow.visible,
+                        style:const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),// new
+                      ),
+                    ),
+
+                  ],),
+
+                ),
+              ],
+
+            ),
                 ),
 
-              ],),
+            Column(
 
-            ),
-          ],
-
-        ),
-            ),
-
-        Column(
-
-              children: [
-
-            InkWell(
-              onTap: (){
-                Get.to(()=>const ReportScreen(),arguments: [controller.student?.id??""]);
-              },
-              child: Container(
-
-              decoration: BoxDecoration(
-
-        border: Border(
-
-        bottom: BorderSide(
-
-        color: mainColor,
-
-        width: 2
-
-        ),
-
-        ),
-
-        ),
-
-        child: Padding(
-
-        padding: const EdgeInsets.all(10.0),
-
-        child: Row(
-
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-        children: [
-
-        Column(
-
-        children: [
-
-        Text("التقارير الخاصة بالطالب",style: TextStyle(
-
-        color: mainColor,
-
-        fontWeight: FontWeight.bold,
-
-        fontSize: 18,
-
-        ),),
-
-
-
-        ],
-
-        ),
-
-        Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
-
-        ],
-
-        ),
-
-        ),
-
-        ),
-            ),
+                  children: [
 
                 InkWell(
                   onTap: (){
-                    Get.to(()=>const AttendanceScreen(),arguments: [controller.student?.id??""]);
+                    Get.to(()=>const ReportScreen(),arguments: [controller.student?.id??""]);
                   },
                   child: Container(
 
-            decoration: BoxDecoration(
+                  decoration: BoxDecoration(
 
-        border: Border(
+            border: Border(
 
-        bottom: BorderSide(
+            bottom: BorderSide(
 
-        color: mainColor,
+            color: mainColor,
 
-        width: 2
+            width: 2
 
-        ),
+            ),
 
-        ),
+            ),
 
-        ),
+            ),
 
-        child: Padding(
+            child: Padding(
 
-        padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
 
-        child: Row(
+            child: Row(
 
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
-        children: [
+            children: [
 
-        Column(
+            Column(
 
-        children: [
+            children: [
 
-        Text("الحضور والانصراف الخاص بالطالب",style: TextStyle(
+            Text("التقارير الخاصة بالطالب",style: TextStyle(
 
-        color: mainColor,
+            color: mainColor,
 
-        fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.bold,
 
-        fontSize: 18,
+            fontSize: 18,
 
-        ),),
+            ),),
 
 
 
-        ],
+            ],
 
-        ),
+            ),
 
-        Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
+            Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
 
-        ],
+            ],
 
-        ),
+            ),
 
-        ),
+            ),
 
-        ),
+            ),
                 ),
 
-              ],
+                    InkWell(
+                      onTap: (){
+                        Get.to(()=>const AttendanceScreen(),arguments: [controller.student?.id??""]);
+                      },
+                      child: Container(
 
-            )
+                decoration: BoxDecoration(
 
-      ],
+            border: Border(
 
-  ),
-),
+            bottom: BorderSide(
+
+            color: mainColor,
+
+            width: 2
+
+            ),
+
+            ),
+
+            ),
+
+            child: Padding(
+
+            padding: const EdgeInsets.all(10.0),
+
+            child: Row(
+
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+            children: [
+
+            Column(
+
+            children: [
+
+            Text("الحضور والانصراف الخاص بالطالب",style: TextStyle(
+
+            color: mainColor,
+
+            fontWeight: FontWeight.bold,
+
+            fontSize: 18,
+
+            ),),
+
+
+
+            ],
+
+            ),
+
+            Icon(Icons.arrow_forward_ios_rounded,color: mainColor,)
+
+            ],
+
+            ),
+
+            ),
+
+            ),
+                    ),
+
+                  ],
+
+                )
+
+          ],
+
+            ),
+          ),
+        ),
+        ),
       ),
     );
   }

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '../../../globals/commonStyles.dart';
+
 class DetailedScreen extends StatefulWidget {
   final String? link;
   const DetailedScreen({Key? key,  this.link=""}) : super(key: key);
@@ -25,6 +27,15 @@ class _DetailedScreenState extends State<DetailedScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: mainColor, // اللون اللي تحبه
+        statusBarBrightness: Brightness.light, // اللون اللي تحبه
+        statusBarIconBrightness: Brightness.light, // أيقونات status bar
+        systemNavigationBarColor: mainColor, // اللون اللي تحبه للشريط السفلي
+        systemNavigationBarIconBrightness: Brightness.light, // أيقونات الشريط السفلي
+      ),
+    );
     return GetBuilder(
       init:  SchedulesController(context),
       builder: (SchedulesController controller) => GestureDetector(

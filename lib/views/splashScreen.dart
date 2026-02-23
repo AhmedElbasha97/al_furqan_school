@@ -5,6 +5,7 @@ import 'package:al_furqan_school/views/startScreens/choose_state_screen.dart';
 import 'package:al_furqan_school/views/teacher/messages/massagescreen/MessagesScreen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -84,29 +85,43 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(
         const Duration(seconds: 3),
         () =>
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => const ChooseStateScreen(),
-            )));
+            Get.to(()=> const ChooseStateScreen()));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: white,
-      body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset("assets/images/logo 2020 new.png",
-            height: MediaQuery.of(context).size.height*0.8,
-            width: MediaQuery.of(context).size.width*0.8,),
-          const SizedBox(height: 20),
-          CircularProgressIndicator(
-            color: mainColor,
-            backgroundColor: white,
-          ),
-        ],
-      )),
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: mainColor, // اللون اللي تحبه
+        statusBarBrightness: Brightness.light, // اللون اللي تحبه
+        statusBarIconBrightness: Brightness.light, // أيقونات status bar
+        systemNavigationBarColor: mainColor, // اللون اللي تحبه للشريط السفلي
+        systemNavigationBarIconBrightness: Brightness.light, // أيقونات الشريط السفلي
+      ),
+    );
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: ScreenHelper.usableHeight(context),
+      child: Scaffold(
+
+        backgroundColor: white,
+        body: SafeArea(
+          child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset("assets/images/logo 2020 new.png",
+                height: MediaQuery.of(context).size.height*0.8,
+                width: MediaQuery.of(context).size.width*0.8,),
+              const SizedBox(height: 20),
+              CircularProgressIndicator(
+                color: mainColor,
+                backgroundColor: white,
+              ),
+            ],
+          )),
+        ),
+      ),
     );
   }
 }
