@@ -23,7 +23,7 @@ class TheDepartmentController extends GetxController{
     super.onInit();
   update();
   }
-  refreshFunction() async {
+  Future<void> refreshFunction() async {
     isOffline = !await connectivityChecker();
     if(!isOffline){
       await getPhotoSliderData();
@@ -32,7 +32,7 @@ class TheDepartmentController extends GetxController{
     }
     update();
   }
-  getPhotoSliderData() async {
+  Future<void> getPhotoSliderData() async {
     department = await departmentServices.getDepartmentData(departmentId[0]);
     if(department == null){
       hasNoData =true;

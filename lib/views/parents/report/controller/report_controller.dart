@@ -26,7 +26,7 @@ class ReportController extends GetxController{
     super.onInit();
   update();
   }
-  refreshFunction() async {
+  Future<void> refreshFunction() async {
     isOffline = !await connectivityChecker();
     if(!isOffline){
       await getData();
@@ -35,7 +35,7 @@ class ReportController extends GetxController{
     }
   }
 
-  getData() async {
+  Future<void> getData() async {
     isLoading = true;
     update();
 

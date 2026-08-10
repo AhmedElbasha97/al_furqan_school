@@ -23,7 +23,7 @@ class ReportDetailedController extends GetxController{
     super.onInit();
     update();
   }
-  refreshFunction() async {
+  Future<void> refreshFunction() async {
     isOffline = !await connectivityChecker();
     if(!isOffline){
       await getData();
@@ -32,7 +32,7 @@ class ReportDetailedController extends GetxController{
     }
   }
 
-  getData() async {
+  Future<void> getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? id = prefs.getString("id");
     reports =

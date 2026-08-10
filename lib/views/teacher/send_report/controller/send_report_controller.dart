@@ -19,7 +19,7 @@ class SendReportController extends GetxController{
   bool isOffline = false;
 
   List<Category?> categories = [];
-  List<Category?> Class = [];
+  List<Category?> classList = [];
   List<Category?> levels = [];
   List<Student?> student = [];
 
@@ -46,7 +46,7 @@ class SendReportController extends GetxController{
     super.onInit();
   update();
   }
-  refreshFunction() async {
+  Future<void> refreshFunction() async {
     isOffline = !await connectivityChecker();
     if(!isOffline){
       await getCatgories();
@@ -54,14 +54,14 @@ class SendReportController extends GetxController{
       showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
     }
   }
-  getClass() async {
-    Class = await TeacherService().getLevels(id: selectedLevel!.id);
-    Class.add(selectClass);
+  Future<void> getClass() async {
+    classList = await TeacherService().getLevels(id: selectedLevel!.id);
+    classList.add(selectClass);
     classLoading = false;
     update();
   }
 
-  selectingClass (value) {
+  void selectingClass(dynamic value) {
     if(!isOffline) {
       selectClass = value;
       selectedClass = value;
@@ -72,7 +72,7 @@ class SendReportController extends GetxController{
       showTheDialog(context,"قم باختيار مره اخرى","حاول الاتصال مره اخرى بشبكه الانترنت وقوم باختيار مره اخرى");
     }
     }
-    selectingCategory(value) {
+    void selectingCategory(dynamic value) {
       if(!isOffline) {
         selectCatogory = value;
         selectedCatogory = value;
@@ -84,13 +84,13 @@ class SendReportController extends GetxController{
 
       }
     }
-    String? validatorMassage(value) {
+    String? validatorMassage(dynamic value) {
       if ((value!.isEmpty)&&(value!.replaceAll(' ', '').isEmpty)&&(value!.isNumericOnly)) {
         return "التقرير مطلوبة";
       }
       return null;
     }
-    selectingLevels (value) {
+    void selectingLevels(dynamic value) {
       if(!isOffline) {
       selectLevel = value;
       selectedLevel = value;
@@ -102,7 +102,7 @@ class SendReportController extends GetxController{
 
       }
     }
-    selectingStudent(value) {
+    void selectingStudent(dynamic value) {
       if(!isOffline) {
       selectStudent = value;
       selectedStudent = value;
@@ -112,21 +112,21 @@ class SendReportController extends GetxController{
 
       }
     }
-    getCatgories() async {
+    Future<void> getCatgories() async {
       categories = await TeacherService().getCategories();
       categories.add(selectCatogory);
       categoryloading = false;
       update();
     }
 
-    getLevels() async {
+    Future<void> getLevels() async {
       levels = await TeacherService().getLevels(id: selectedCatogory!.id);
       levels.add(selectLevel);
       levelLoading = false;
       update();
     }
 
-    getStudent() async {
+    Future<void> getStudent() async {
       student = await TeacherService().getStudents(id: selectedClass!.id);
       student.add(selectStudent);
       studentsLoading = false;
@@ -138,7 +138,7 @@ class SendReportController extends GetxController{
       update();
     }
 
-    sendMessage(context) async {
+    Future<void> sendMessage(BuildContext context) async {
       if(!isOffline) {
       if (formKey.currentState!.validate()) {
         if(selectCatogory!=null){if(selectedLevel!=null){

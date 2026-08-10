@@ -1,6 +1,4 @@
 // ignore_for_file: file_names
-
-import 'package:al_furqan_school/globals/CommonSetting.dart';
 import 'package:al_furqan_school/models/teacher/HomeWorkDetails.dart';
 import 'package:al_furqan_school/models/teacher/category.dart';
 import 'package:al_furqan_school/models/teacher/homeWork.dart';
@@ -10,206 +8,234 @@ import 'package:al_furqan_school/models/teacher/reportDetails.dart';
 import 'package:al_furqan_school/models/teacher/sentMessages.dart';
 import 'package:al_furqan_school/models/teacher/student.dart';
 import 'package:al_furqan_school/models/teacher/teacherReport.dart';
-import 'package:dio/dio.dart';
-
+import 'package:al_furqan_school/services/api_client.dart';
 
 class TeacherService {
-  String reports = "${baseUrl}teacher_reports.php";
-  String reportsDetails = "${baseUrl}teacher_report_view.php";
-  String sendreports = "${baseUrl}teacher_report_add.php";
-  String category = "${baseUrl}categories_list.php";
-  String studentList = "${baseUrl}student_list.php";
-  String homeWork = "${baseUrl}teacher_homework.php";
-  String sentMessage = "${baseUrl}teacher_msg_sent.php";
-  String sendMessage = "${baseUrl}teacher_msg_send.php";
-  String questionBank = "${baseUrl}teacher_quest_bank.php";
-  String homeworkDetails = "${baseUrl}teacher_homework_view.php";
-  String sentMessageDetails = "${baseUrl}teacher_msg_sent_view.php";
-
   Future<List<TeacherReport>> getReports({String? id}) async {
-    List<TeacherReport> list = [];
-    Response response;
-    response = await Dio().get(
-      "$reports?teacher_id=$id",
-    );
-    var data = response.data;
-    if (response.data != null) {
-      data.forEach((element) {
-        list.add(TeacherReport.fromJson(element));
-      });
+    try {
+      final response = await ApiClient.instance.dio.get(
+        'teacher_reports.php',
+        queryParameters: {'teacher_id': id},
+      );
+      if (response.data != null) {
+        return (response.data as List)
+            .map((e) => TeacherReport.fromJson(e))
+            .toList();
+      }
+    } on Exception {
+      return [];
     }
-    return list;
+    return [];
   }
 
-  Future<List<TeacherReportDetails>> getReportDetails(
-      {String? id, String? reportId}) async {
-    List<TeacherReportDetails> list = [];
-    Response response;
-    response = await Dio().get(
-      "$reportsDetails?teacher_id=$id&report_id=$reportId",
-    );
-    var data = response.data;
-    if (response.data != null) {
-      data.forEach((element) {
-        list.add(TeacherReportDetails.fromJson(element));
-      });
+  Future<List<TeacherReportDetails>> getReportDetails({
+    String? id,
+    String? reportId,
+  }) async {
+    try {
+      final response = await ApiClient.instance.dio.get(
+        'teacher_report_view.php',
+        queryParameters: {'teacher_id': id, 'report_id': reportId},
+      );
+      if (response.data != null) {
+        return (response.data as List)
+            .map((e) => TeacherReportDetails.fromJson(e))
+            .toList();
+      }
+    } on Exception {
+      return [];
     }
-    return list;
+    return [];
   }
 
-  Future<List<Category?>> getCategories() async {
-    List<Category?> list = [];
-    Response response;
-    response = await Dio().get(
-      category,
-    );
-    var data = response.data;
-    if (response.data != null) {
-      data.forEach((element) {
-        list.add(Category.fromJson(element));
-      });
+  Future<List<Category>> getCategories() async {
+    try {
+      final response =
+          await ApiClient.instance.dio.get('categories_list.php');
+      if (response.data != null) {
+        return (response.data as List)
+            .map((e) => Category.fromJson(e))
+            .toList();
+      }
+    } on Exception {
+      return [];
     }
-    return list;
+    return [];
   }
 
-  Future<List<Category?>> getLevels({String? id}) async {
-    List<Category?> list = [];
-    Response response;
-    response = await Dio().get(
-      "$category?ctg_id=$id",
-    );
-    var data = response.data;
-    if (response.data != null) {
-      data.forEach((element) {
-        list.add(Category.fromJson(element));
-      });
+  Future<List<Category>> getLevels({String? id}) async {
+    try {
+      final response = await ApiClient.instance.dio.get(
+        'categories_list.php',
+        queryParameters: {'ctg_id': id},
+      );
+      if (response.data != null) {
+        return (response.data as List)
+            .map((e) => Category.fromJson(e))
+            .toList();
+      }
+    } on Exception {
+      return [];
     }
-    return list;
+    return [];
   }
 
-  Future<List<Student?>> getStudents({String? id}) async {
-    List<Student?> list = [];
-    Response response;
-    response = await Dio().get(
-      "$studentList?class_id=$id",
-    );
-    var data = response.data;
-    if (response.data != null) {
-      data.forEach((element) {
-        list.add(Student.fromJson(element));
-      });
+  Future<List<Student>> getStudents({String? id}) async {
+    try {
+      final response = await ApiClient.instance.dio.get(
+        'student_list.php',
+        queryParameters: {'class_id': id},
+      );
+      if (response.data != null) {
+        return (response.data as List)
+            .map((e) => Student.fromJson(e))
+            .toList();
+      }
+    } on Exception {
+      return [];
     }
-    return list;
+    return [];
   }
 
-  Future<bool> sendReport({String? id, String? studentId, String? msg}) async {
-    DateTime date = DateTime.now();
-    String dateString = "${date.year}-${date.month}-${date.day}";
-    Response response;
-    response = await Dio().get(
-      "$sendreports?teacher_id=$id&student_id=$studentId&date=$dateString&text=$msg",
-    );
-    var data = response.data;
-    if (data["status"] == "true") {
-      return true;
-    } else {
+  Future<bool> sendReport({
+    String? id,
+    String? studentId,
+    String? msg,
+  }) async {
+    try {
+      final date = DateTime.now();
+      final dateString = '${date.year}-${date.month}-${date.day}';
+      final response = await ApiClient.instance.dio.post(
+        'teacher_report_add.php',
+        queryParameters: {
+          'teacher_id': id,
+          'student_id': studentId,
+          'date': dateString,
+          'text': msg,
+        },
+      );
+      return response.data['status'] == 'true';
+    } on Exception {
       return false;
     }
   }
 
   Future<List<HomeWorkTeacher>> getHomeWork({String? id}) async {
-    List<HomeWorkTeacher> list = [];
-    Response response;
-    response = await Dio().get(
-      "$homeWork?teacher_id=$id",
-    );
-    var data = response.data;
-    if (response.data != null) {
-      data.forEach((element) {
-        list.add(HomeWorkTeacher.fromJson(element));
-      });
+    try {
+      final response = await ApiClient.instance.dio.get(
+        'teacher_homework.php',
+        queryParameters: {'teacher_id': id},
+      );
+      if (response.data != null) {
+        return (response.data as List)
+            .map((e) => HomeWorkTeacher.fromJson(e))
+            .toList();
+      }
+    } on Exception {
+      return [];
     }
-    return list;
+    return [];
   }
 
   Future<List<SentMessagesTeacher>> getSentMessages({String? id}) async {
-    List<SentMessagesTeacher> list = [];
-    Response response;
-    response = await Dio().get(
-      "$sentMessage?teacher_id=$id",
-    );
-    var data = response.data;
-    if (response.data != null) {
-      data.forEach((element) {
-        list.add(SentMessagesTeacher.fromJson(element));
-      });
+    try {
+      final response = await ApiClient.instance.dio.get(
+        'teacher_msg_sent.php',
+        queryParameters: {'teacher_id': id},
+      );
+      if (response.data != null) {
+        return (response.data as List)
+            .map((e) => SentMessagesTeacher.fromJson(e))
+            .toList();
+      }
+    } on Exception {
+      return [];
     }
-    return list;
+    return [];
   }
 
-  Future<String?> sendMessages(
-      {String? id,
-      String? type,
-      String? studentId,
-      String? parentId,
-      String? body,
-        String?title,
-      String? text}) async {
-    Response response;
-    print("$sendMessage?teacher_id=$id&sendto_type=$type&to_id=${studentId ?? parentId}&title=$title&text=$text");
-    response = await Dio().get(
-      "$sendMessage?teacher_id=$id&sendto_type=$type&to_id=${studentId ?? parentId}&title=$title&text=$text",
-    );
-    var data = response.data["status"];
-
-    return data;
+  Future<String?> sendMessages({
+    String? id,
+    String? type,
+    String? studentId,
+    String? parentId,
+    String? body,
+    String? title,
+    String? text,
+  }) async {
+    try {
+      final response = await ApiClient.instance.dio.post(
+        'teacher_msg_send.php',
+        queryParameters: {
+          'teacher_id': id,
+          'sendto_type': type,
+          'to_id': studentId ?? parentId,
+          'title': title,
+          'text': text,
+        },
+      );
+      return response.data['status']?.toString();
+    } on Exception {
+      return null;
+    }
   }
 
   Future<List<QuestionBankTeacher>> getQuestionBank({String? id}) async {
-    List<QuestionBankTeacher> list = [];
-    Response response;
-    response = await Dio().get(
-      "$questionBank?teacher_id=$id",
-    );
-    var data = response.data;
-    if (response.data != null) {
-      data.forEach((element) {
-        list.add(QuestionBankTeacher.fromJson(element));
-      });
+    try {
+      final response = await ApiClient.instance.dio.get(
+        'teacher_quest_bank.php',
+        queryParameters: {'teacher_id': id},
+      );
+      if (response.data != null) {
+        return (response.data as List)
+            .map((e) => QuestionBankTeacher.fromJson(e))
+            .toList();
+      }
+    } on Exception {
+      return [];
     }
-    return list;
+    return [];
   }
 
-  Future<List<HomeWorkDetailsTeacherModel>> getHomeworkDetails(
-      {String? id, String? homeworkId}) async {
-    List<HomeWorkDetailsTeacherModel> list = [];
-    Response response;
-    response = await Dio()
-        .get("$homeworkDetails??teacher_id=$id&homework_id=$homeworkId");
-    var data = response.data;
-    if (response.data != null) {
-      data.forEach((element) {
-        list.add(HomeWorkDetailsTeacherModel.fromJson(element));
-      });
+  Future<List<HomeWorkDetailsTeacherModel>> getHomeworkDetails({
+    String? id,
+    String? homeworkId,
+  }) async {
+    try {
+      // Fixed: was `"$homeworkDetails??teacher_id=$id"` (double-question-mark bug)
+      final response = await ApiClient.instance.dio.get(
+        'teacher_homework_view.php',
+        queryParameters: {'teacher_id': id, 'homework_id': homeworkId},
+      );
+      if (response.data != null) {
+        return (response.data as List)
+            .map((e) => HomeWorkDetailsTeacherModel.fromJson(e))
+            .toList();
+      }
+    } on Exception {
+      return [];
     }
-    return list;
+    return [];
   }
 
-  Future<List<MessageDetailsTeacherModel>> getsentMessageDetails(
-      {String? id, String? msgId}) async {
-    List<MessageDetailsTeacherModel> list = [];
-    Response response;
-
-    response =
-        await Dio().get("$sentMessageDetails??teacher_id=$id&msg_id=$msgId");
-    
-    var data = response.data;
-    if (response.data != null) {
-      data.forEach((element) {
-        list.add(MessageDetailsTeacherModel.fromJson(element));
-      });
+  Future<List<MessageDetailsTeacherModel>> getsentMessageDetails({
+    String? id,
+    String? msgId,
+  }) async {
+    try {
+      // Fixed: was `"$sentMessageDetails??teacher_id=$id"` (double-question-mark bug)
+      final response = await ApiClient.instance.dio.get(
+        'teacher_msg_sent_view.php',
+        queryParameters: {'teacher_id': id, 'msg_id': msgId},
+      );
+      if (response.data != null) {
+        return (response.data as List)
+            .map((e) => MessageDetailsTeacherModel.fromJson(e))
+            .toList();
+      }
+    } on Exception {
+      return [];
     }
-    return list;
+    return [];
   }
-
 }

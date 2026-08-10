@@ -5,6 +5,7 @@ import 'package:al_furqan_school/models/new/videos_model.dart';
 import 'package:al_furqan_school/services/albums.dart';
 import 'package:al_furqan_school/services/appInfoService.dart';
 import 'package:al_furqan_school/services/start_screen_services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,13 +47,13 @@ class HomeScreenController extends GetxController{
 
   update();
   }
-  decideIfThereIsNotificationDetectOrNotAndItIsBehavior() async {
+  Future<void> decideIfThereIsNotificationDetectOrNotAndItIsBehavior() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userType = prefs.getString("type");
     String? screenType = prefs.getString("route");
 
-    print('userType: ${userType ?? ""}');
-    print('screenType: ${screenType ?? ""}');
+    debugPrint('userType: ${userType ?? ""}');
+    debugPrint('screenType: ${screenType ?? ""}');
 
     if (screenType == null) return;
     switch(screenType){
@@ -96,7 +97,7 @@ class HomeScreenController extends GetxController{
         }
     }
   }
-  refreshFunction() async {
+  Future<void> refreshFunction() async {
     isOffline = !await connectivityChecker();
     if(!isOffline){
       await getData();
@@ -104,14 +105,14 @@ class HomeScreenController extends GetxController{
       showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
     }
   }
-  getHomeData() async {
+  Future<void> getHomeData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     homeWorkId = prefs.getString("schoolType")??"";
     sliderData = await startScreenServices.getSlideShowPhotos(homeWorkId);
     slideShowLoading = false;
    update();
   }
-  getData() async {
+  Future<void> getData() async {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final schoolType =  prefs.getString("schoolType");
@@ -120,7 +121,7 @@ class HomeScreenController extends GetxController{
   update();
 
   }
-  launchURL(context,link) async {
+  Future<void> launchURL(BuildContext context, dynamic link) async {
     if ( await launchUrl(Uri.parse(link??""))) {
 
       showTheDialog(context, "لايمكن عرض الفيديو", "ليس متوفر فيديو");
@@ -129,13 +130,13 @@ class HomeScreenController extends GetxController{
     }
   }
 
-  getAlbumsData() async {
+  Future<void> getAlbumsData() async {
     list = await AlbumsService().getPhotoAlbums();
   galleryShowLoading=false;
   update();
 
   }
-  getVideoData() async {
+  Future<void> getVideoData() async {
     list2 = await AlbumsService().getVideoAlbums();
     videosShowLoading=false;
     update();

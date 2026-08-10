@@ -1,56 +1,62 @@
-import 'package:al_furqan_school/globals/CommonSetting.dart';
 import 'package:al_furqan_school/models/AppInfo/photo.dart';
 import 'package:al_furqan_school/models/new/gallery_model.dart';
 import 'package:al_furqan_school/models/new/videos_model.dart';
-import 'package:dio/dio.dart';
+import 'package:al_furqan_school/services/api_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AlbumsService {
-  String photoAlbums = "${baseUrl}gallery.php";
-  String videoAlbums = "${baseUrl}videos.php";
-
   Future<List<Gallery>> getPhotoAlbums() async {
-    List<Gallery> list = [];
-    Response response;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var type = prefs.getString("schoolType")??"";
-    response = await Dio().get(
-
-     photoAlbums+"?school_type=$type",
-    );
-    var data = response.data;
-    data.forEach((element) {
-      list.add(Gallery.fromJson(element));
-    });
-    return list;
+    final prefs = await SharedPreferences.getInstance();
+    final type = prefs.getString('schoolType') ?? '';
+    try {
+      final response = await ApiClient.instance.dio.get(
+        'gallery.php',
+        queryParameters: {'school_type': type},
+      );
+      if (response.data != null) {
+        return (response.data as List)
+            .map((e) => Gallery.fromJson(e))
+            .toList();
+      }
+    } on Exception {
+      return [];
+    }
+    return [];
   }
 
   Future<List<Videos>> getVideoAlbums() async {
-    List<Videos> list = [];
-    Response response;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var type = prefs.getString("schoolType")??"";
-    response = await Dio().get(
-      videoAlbums+"?school_type=$type",
-    );
-    var data = response.data ?? [];
-    data.forEach((element) {
-      list.add(Videos.fromJson(element));
-    });
-    return list;
+    final prefs = await SharedPreferences.getInstance();
+    final type = prefs.getString('schoolType') ?? '';
+    try {
+      final response = await ApiClient.instance.dio.get(
+        'videos.php',
+        queryParameters: {'school_type': type},
+      );
+      if (response.data != null) {
+        return (response.data as List)
+            .map((e) => Videos.fromJson(e))
+            .toList();
+      }
+    } on Exception {
+      return [];
+    }
+    return [];
   }
 
   Future<List<Photo>> getPhotoAlbum(String? id) async {
-    List<Photo> list = [];
-    Response response;
-    response = await Dio().get(
-      "$photoAlbums?gid=$id",
-    );
-    var data = response.data;
-    data.forEach((element) {
-      list.add(Photo.fromJson(element));
-    });
-    return list;
+    try {
+      final response = await ApiClient.instance.dio.get(
+        'gallery.php',
+        queryParameters: {'gid': id},
+      );
+      if (response.data != null) {
+        return (response.data as List)
+            .map((e) => Photo.fromJson(e))
+            .toList();
+      }
+    } on Exception {
+      return [];
+    }
+    return [];
   }
-
 }

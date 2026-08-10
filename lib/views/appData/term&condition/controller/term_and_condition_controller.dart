@@ -30,7 +30,7 @@ class TermsAndConditionController extends GetxController{
     }
   }
   getData() async {
-    word = await AppInfoService().getTermsAndCondition();
+    word = (await AppInfoService().getTermsAndCondition())!;
     loading = false;
     update();
   }

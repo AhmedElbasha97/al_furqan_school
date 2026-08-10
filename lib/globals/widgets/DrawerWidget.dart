@@ -55,7 +55,7 @@ class _AppDrawerState extends State<AppDrawer> {
     setState(() {});
   }
 getData() async {
-  socials= await AppInfoService().gatSocialLink();
+  socials= (await AppInfoService().gatSocialLink())!;
   isLoading = false;
   setState(() {});
 }

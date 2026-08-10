@@ -33,9 +33,9 @@ class SchoolWordController extends GetxController{
   }
 
   getData() async {
-    word = isAbout
+    word = (isAbout
         ? await AppInfoService().getAboutSchool()
-        : await AppInfoService().getSchoolWord();
+        : await AppInfoService().getSchoolWord())!;
     loading = false;
     update();
   }

@@ -126,12 +126,12 @@ class _SendReportState extends State<SendReport> {
                             child: controller.classLoading
                                 ? const Loader( width: 300,
                               height: 50,)
-                                : controller.Class.isEmpty
+                                : controller.classList.isEmpty
                                 ? Container()
                                 : DropdownButton<Category>(
                               icon: Container(),
                               value: controller.selectClass,
-                              items: controller.Class.map((Category? value) {
+                              items: controller.classList.map((Category? value) {
                                 return DropdownMenuItem<Category>(
                                   value: value,
                                   child: Text("${value!.ctgName}"),

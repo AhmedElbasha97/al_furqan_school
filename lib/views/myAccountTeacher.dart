@@ -3,6 +3,7 @@
 import 'package:al_furqan_school/I10n/app_localizations.dart';
 import 'package:al_furqan_school/globals/helpers.dart';
 import 'package:al_furqan_school/globals/widgets/offline_widget.dart';
+import 'package:al_furqan_school/views/teacher/homework/homeWork.dart' as teacher_hw;
 import 'package:al_furqan_school/views/teacher/messages/massagescreen/MessagesScreen.dart';
 import 'package:al_furqan_school/views/teacher/messages/sentMessageTeacher/sendMessageTeacher.dart';
 import 'package:al_furqan_school/views/teacher/questionBank/questionBank.dart';
@@ -16,7 +17,7 @@ import '../globals/commonStyles.dart';
 
 
 class MyAccountTeacher extends StatefulWidget {
-  const MyAccountTeacher({Key? key}) : super(key: key);
+  const MyAccountTeacher({super.key});
 
   @override
   State<MyAccountTeacher> createState() => _MyAccountTeacherState();
@@ -26,15 +27,17 @@ class _MyAccountTeacherState extends State<MyAccountTeacher> {
   bool isOffline = false;
 
   @override
-  void initState()  {
+  void initState() {
     super.initState();
-    GetData();
+    getData();
   }
-  GetData() async {
+
+  Future<void> getData() async {
     isOffline = !await connectivityChecker();
-    setState(() {  });
+    if (mounted) setState(() {});
   }
-  refreshFunction() async {
+
+  Future<void> refreshFunction() async {
     isOffline = !await connectivityChecker();
     if(!isOffline){
 
@@ -134,14 +137,13 @@ class _MyAccountTeacherState extends State<MyAccountTeacher> {
                  Divider(color: mainColor),
                 ListTile(
                   onTap: () {
-                    pushPage(context, const SendReport());
+                    pushPage(context, const teacher_hw.HomeWorkScreen());
                   },
                   title: Text(
                     AppLocalizations.of(context)!.translate('homeWorks')!,
                     style: TextStyle(color: mainColor),
-
                   ),
-                  trailing:  Icon(Icons.message,color: mainColor),
+                  trailing: Icon(Icons.assignment, color: mainColor),
                 ),
                  Divider(color: mainColor),
                 ListTile(

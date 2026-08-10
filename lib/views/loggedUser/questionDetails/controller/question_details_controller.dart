@@ -23,7 +23,7 @@ class QuestionDetailsController extends GetxController{
     }
   update();
   }
-  refreshFunction() async {
+  Future<void> refreshFunction() async {
     isOffline = !await connectivityChecker();
     if(!isOffline){
       await getData();
@@ -31,13 +31,13 @@ class QuestionDetailsController extends GetxController{
       showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
     }
   }
-  hasFileLink(index){
+  bool hasFileLink(int index){
     return questions[index].fileLink != null;
   }
-  hasFileData(index){
+  bool hasFileData(int index){
     return questions[index].fileDet != null;
   }
-  getData() async {
+  Future<void> getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? id = prefs.getString("id");
     questions =
@@ -45,7 +45,7 @@ class QuestionDetailsController extends GetxController{
     isLoading = false;
     update();
   }
-  launchURL(context, index) async {
+  Future<void> launchURL(BuildContext context, int index) async {
     if (await launchUrl(Uri.parse(questions[index].fileLink??""))) {
 
       showTheDialog(context, "لا يمكن تحميل هذا الملف", "لا يوجد ملف متاح للتحميل لهذا السؤال");

@@ -52,7 +52,7 @@ class SentMessageTeacherController extends GetxController{
     super.onInit();
   update();
   }
-  refreshFunction() async {
+  Future<void> refreshFunction() async {
     isOffline = !await connectivityChecker();
     if(!isOffline){
 
@@ -61,7 +61,7 @@ class SentMessageTeacherController extends GetxController{
     }
   }
 
-  chooseType (value) {
+  void chooseType(dynamic value) {
     if(!isOffline){
     type = value;
     selected = type != 'الادارة' ? "other" : "admin";
@@ -76,36 +76,36 @@ class SentMessageTeacherController extends GetxController{
     }
   }
 
-  selectingCategory(value) {
+  void selectingCategory(dynamic value) {
     selectCatogory = value;
     selectedCatogory = value;
     levelLoading = true;
     getLevels();
     update();
   }
-  selectingLevels (value) {
+  void selectingLevels(dynamic value) {
     selectLevel = value;
     selectedLevel = value;
     classLoading = true;
     getClass();
     update();
-  } selectingClass (value) {
+  } void selectingClass(dynamic value) {
     selectClass = value;
     selectedClass = value;
     studentsLoading = true;
     getUserData();
     update();
   }
-  selectingStudent(value) {
+  void selectingStudent(dynamic value) {
     selectStudent = value;
     selectedStudent = value;
     update();
-  }  selectingParent(value) {
+  }  void selectingParent(dynamic value) {
     selectedParent = value;
     selectParent = value;
     update();
   }
-  getCatgories() async {
+  Future<void> getCatgories() async {
     categories = await TeacherService().getCategories();
     categories.add(selectCatogory);
     categoryloading = false;
@@ -113,20 +113,20 @@ class SentMessageTeacherController extends GetxController{
     update();
   }
 
-  getLevels() async {
+  Future<void> getLevels() async {
     levels = await TeacherService().getLevels(id: selectedCatogory!.id);
     levels.add(selectLevel);
     levelLoading = false;
     update();
   }
-  getClass() async {
+  Future<void> getClass() async {
     Class = await TeacherService().getLevels(id: selectedLevel!.id);
     Class.add(selectClass);
     classLoading = false;
     update();
   }
 
-  getUserData() async {
+  Future<void> getUserData() async {
     student = await TeacherService().getStudents(id: selectedClass!.id);
     parent = await TeacherService().getStudents(id: selectedClass!.id);
     student.add(selectStudent);
@@ -148,7 +148,7 @@ class SentMessageTeacherController extends GetxController{
     return null;
   }
 
-  sendMessage(context) async {
+  Future<void> sendMessage(BuildContext context) async {
     if(!isOffline){
     if(selected!=null){
       if(selectedCatogory!=null){

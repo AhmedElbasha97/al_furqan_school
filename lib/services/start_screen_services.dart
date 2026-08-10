@@ -1,67 +1,64 @@
-import 'package:al_furqan_school/globals/CommonSetting.dart';
 import 'package:al_furqan_school/models/new/department_model.dart';
 import 'package:al_furqan_school/models/new/main_about_model.dart';
 import 'package:al_furqan_school/models/new/slide_show_model.dart';
-import 'package:dio/dio.dart';
+import 'package:al_furqan_school/services/api_client.dart';
 
-class StarScreenServices{
-  String slideShow="${baseUrl}slide.php";
-  String mainSlideShow="${baseUrl}slide_app.php";
-  String mainAbout = "${baseUrl}about_app.php";
- String departments = "${baseUrl}office_department_app.php";
+class StarScreenServices {
   Future<List<SlideShowImage>> getSlideShowPhotos(String? type) async {
-    List<SlideShowImage> list = [];
-    Response response;
-    response = await Dio().get(
-
-      slideShow+"?school_type=$type",
-    );
-    var data = response.data;
-    if (response.data != null) {
-      data.forEach((element) {
-        list.add(SlideShowImage.fromJson(element));
-      });
+    try {
+      final response = await ApiClient.instance.dio.get(
+        'slide.php',
+        queryParameters: {'school_type': type},
+      );
+      if (response.data != null) {
+        return (response.data as List)
+            .map((e) => SlideShowImage.fromJson(e))
+            .toList();
+      }
+    } on Exception {
+      return [];
     }
-    return list;
+    return [];
   }
+
   Future<List<SlideShowImage>> getMainSlideShowPhotos() async {
-    List<SlideShowImage> list = [];
-    Response response;
-    response = await Dio().get(
-
-      mainSlideShow,
-    );
-    var data = response.data;
-    if (response.data != null) {
-      data.forEach((element) {
-        list.add(SlideShowImage.fromJson(element));
-      });
+    try {
+      final response = await ApiClient.instance.dio.get('slide_app.php');
+      if (response.data != null) {
+        return (response.data as List)
+            .map((e) => SlideShowImage.fromJson(e))
+            .toList();
+      }
+    } on Exception {
+      return [];
     }
-    return list;
+    return [];
   }
+
   Future<List<DepartmentModel>> getDepartmentData() async {
-    List<DepartmentModel> list = [];
-    Response response;
-    response = await Dio().get(
-
-     departments,
-    );
-    var data = response.data;
-    if (response.data != null) {
-      data.forEach((element) {
-        list.add(DepartmentModel.fromJson(element));
-      });
+    try {
+      final response =
+          await ApiClient.instance.dio.get('office_department_app.php');
+      if (response.data != null) {
+        return (response.data as List)
+            .map((e) => DepartmentModel.fromJson(e))
+            .toList();
+      }
+    } on Exception {
+      return [];
     }
-    return list;
-  }
-  Future<MainAboutModel> getMainAbout() async {
-    MainAboutModel list = MainAboutModel();
-    Response response;
-    response = await Dio().get(
-      mainAbout,
-    );
-    list = MainAboutModel.fromJson(response.data[0]);
-    return list;
+    return [];
   }
 
+  Future<MainAboutModel?> getMainAbout() async {
+    try {
+      final response = await ApiClient.instance.dio.get('about_app.php');
+      if (response.data != null && (response.data as List).isNotEmpty) {
+        return MainAboutModel.fromJson(response.data[0]);
+      }
+    } on Exception {
+      return null;
+    }
+    return null;
+  }
 }

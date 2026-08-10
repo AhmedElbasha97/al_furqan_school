@@ -22,7 +22,7 @@ class SchedulesController extends GetxController{
     super.onInit();
   update();
   }
-  refreshFunction() async {
+  Future<void> refreshFunction() async {
     isOffline = !await connectivityChecker();
     if(!isOffline){
       await getData();
@@ -37,7 +37,7 @@ class SchedulesController extends GetxController{
       return true;
     }
    }
-  getData() async {
+  Future<void> getData() async {
     isLoading = true;
     update();
     SharedPreferences prefs = await SharedPreferences.getInstance();

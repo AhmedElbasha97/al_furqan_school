@@ -21,7 +21,7 @@ Future<void> onInit() async {
   }  super.onInit();
 update();
 }
-refreshFunction() async {
+Future<void> refreshFunction() async {
   isOffline = !await connectivityChecker();
   if(!isOffline){
     await getData();
@@ -29,7 +29,7 @@ refreshFunction() async {
     showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
   }
 }
-getData() async {
+Future<void> getData() async {
    isLoading =true;
   update();
   studentList=await ParentService().getStudentList();

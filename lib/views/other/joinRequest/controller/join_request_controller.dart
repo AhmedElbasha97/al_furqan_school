@@ -42,7 +42,7 @@ class JoinRequestController extends GetxController{
     isOffline = !await connectivityChecker();
   update();
   }
-  refreshFunction() async {
+  Future<void> refreshFunction() async {
     isOffline = !await connectivityChecker();
     if(!isOffline){
     }else{
@@ -79,7 +79,7 @@ class JoinRequestController extends GetxController{
       },
     );
   }
-  clearData(){
+  void clearData(){
     nameController.text= "";
     emailController.text= "";
     notesController.text= "";
@@ -106,7 +106,7 @@ class JoinRequestController extends GetxController{
     update();
 
   }
-  changeValueOfRadioBTN(value){
+  void changeValueOfRadioBTN(dynamic value){
    if(value==null){
      val=0;
    }else{
@@ -120,7 +120,7 @@ class JoinRequestController extends GetxController{
     }
     update();
   }
-  sendRequest(context) async {
+  Future<void> sendRequest(BuildContext context) async {
     if(!isOffline) {
       isLoading = true;
       update();

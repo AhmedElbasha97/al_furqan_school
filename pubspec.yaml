@@ -1,5 +1,5 @@
 name: al_furqan_school
-description: A new Flutter project.
+description: Al-Furqan Private Schools Application - مدارس الفرقان الخاصة
 publish_to: 'none'
 version: 3.2.1+110
 environment:
@@ -9,29 +9,43 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+
+  # UI & Navigation
   cupertino_icons: ^1.0.8
   get: ^4.7.3
-  map_launcher: ^4.4.3
   provider: 6.1.5+1
-  share_plus: 12.0.1
-  cached_network_image: ^3.4.1
-  shared_preferences: 2.5.4
-  in_app_update: 4.2.5
   carousel_slider: 5.1.2
-  webview_flutter: 4.13.1
-  dio: 5.9.1
-  firebase_messaging: 16.1.1
   expandable: ^5.0.1
   flutter_html: ^3.0.0
-  flutter_local_notifications: 20.1.0
-  firebase_analytics: 12.1.2
+  cached_network_image: ^3.4.1
 
-  url_launcher: 6.3.2
-  firebase_core: 4.4.0
+  # Networking
+  dio: 5.11.0
+
+  # Firebase
+  firebase_core: 4.13.0
+  firebase_messaging: 16.5.0
+  firebase_analytics: 12.4.6
+
+  # Notifications
+  flutter_local_notifications: 20.1.0
+
+  # Storage
+  shared_preferences: 2.5.5
+  flutter_secure_storage: ^9.2.2
+
+  # Media & Files
+  image_picker: 1.2.3
   file_picker: 10.3.10
-  image_picker: 1.2.1
   open_file: 3.5.11
   file_saver: 0.3.1
+  webview_flutter: 4.14.1
+
+  # Utilities
+  url_launcher: 6.3.2
+  map_launcher: ^4.4.3
+  share_plus: 12.0.1
+  in_app_update: 5.0.0
 
   flutter_lints: 6.0.0
 
@@ -47,3 +61,7 @@ flutter:
         - asset: assets/fonts/DroidKufiRegular.ttf
         - asset: assets/fonts/DroidKufiBold.ttf
           weight: 700
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

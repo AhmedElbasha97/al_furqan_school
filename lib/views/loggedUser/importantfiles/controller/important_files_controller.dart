@@ -23,7 +23,7 @@ class ImportantFilesController extends GetxController{
     super.onInit();
   update();
   }
-  refreshFunction() async {
+  Future<void> refreshFunction() async {
     isOffline = !await connectivityChecker();
     if(!isOffline){
       await getData();
@@ -31,7 +31,7 @@ class ImportantFilesController extends GetxController{
       showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
     }
   }
-  launchURL(context, index) async {
+  Future<void> launchURL(BuildContext context, int index) async {
     if (await launchUrl(Uri.parse(files[index].file??""))) {
 
       showTheDialog(context, "لا يمكن تحميل هذا الملف", "لا يوجد ملف متاح للتحميل ");
@@ -39,7 +39,7 @@ class ImportantFilesController extends GetxController{
 
     }
   }
-  getData() async {
+  Future<void> getData() async {
     isLoading = true;
     update();
     SharedPreferences prefs = await SharedPreferences.getInstance();

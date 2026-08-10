@@ -63,7 +63,8 @@ class NewsDetailsController extends GetxController{
   }
   }
   getData() async {
-    news = await AppInfoService().getNewsDetailsData(id[0]??"1");
+    news =
+    (await AppInfoService().getNewsDetailsData(id[0]??"1"))!;
     detectPhotos();
     isLoading = false;
     update();

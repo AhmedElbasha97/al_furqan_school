@@ -34,7 +34,7 @@ class StartScreen extends GetxController{
     super.onInit();
     update();
   }
-  refreshFunction() async {
+  Future<void> refreshFunction() async {
     isOffline = !await connectivityChecker();
     if(!isOffline){
 
@@ -43,7 +43,7 @@ class StartScreen extends GetxController{
       showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
     }
   }
-  checkForUpgrades() {
+  void checkForUpgrades() {
     InAppUpdate.checkForUpdate().then((updateInfo) {
       if (updateInfo.updateAvailability == UpdateAvailability.updateAvailable) {
         if (updateInfo.immediateUpdateAllowed) {
@@ -65,7 +65,7 @@ class StartScreen extends GetxController{
       }
     });
   }
-  chooseSchool(int index) async {
+  Future<void> chooseSchool(int index) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();    switch(index){
       case 0:{
         prefs.setString("schoolType", "j");
@@ -84,21 +84,21 @@ class StartScreen extends GetxController{
     Get.to(() =>const HomeScreen(),
     );
   }
-  carouseChangeIndex(index,reason){
+  void carouseChangeIndex(int index, dynamic reason){
     current = index;
     update();
   }
-getPhotoSliderData() async {
+Future<void> getPhotoSliderData() async {
 imageData = await startScreenServices.getMainSlideShowPhotos();
 getMainAbout();
 getDepartments();
 isLoading = false;
 update();
 }
-getMainAbout()async{
+Future<void> getMainAbout() async {
 about = await startScreenServices.getMainAbout();
 }
-getDepartments() async {
+Future<void> getDepartments() async {
    departmentData = await startScreenServices.getDepartmentData();
 }
 }

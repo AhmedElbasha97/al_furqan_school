@@ -11,9 +11,9 @@ class AppBtn extends StatefulWidget {
   final String? disableAlertText;
   final Widget? anotherChild;
   final Widget defaultChild = Container();
-  AppBtn({Key? key, this.label = "", this.onClick, this.anotherChild, this.disable=false, this.disableAlertTitle="", this.disableAlertText="",}) : super(key: key);
+  AppBtn({super.key, this.label = '', this.onClick, this.anotherChild, this.disable = false, this.disableAlertTitle = '', this.disableAlertText = ''});
   @override
-  _AppBtnState createState() => _AppBtnState();
+  State<AppBtn> createState() => _AppBtnState();
 }
 
 class _AppBtnState extends State<AppBtn> with SingleTickerProviderStateMixin {
@@ -58,8 +58,8 @@ class _AppBtnState extends State<AppBtn> with SingleTickerProviderStateMixin {
   }
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   void _onTapDown(TapDownDetails details) {

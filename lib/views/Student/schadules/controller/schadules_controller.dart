@@ -6,6 +6,7 @@ import 'package:al_furqan_school/services/loggedUser.dart';
 import 'package:al_furqan_school/services/teachersService.dart';
 import 'package:dio/dio.dart';
 import 'package:file_saver/file_saver.dart';
+import 'package:flutter/foundation.dart' hide Category;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:open_file/open_file.dart';
@@ -53,7 +54,7 @@ class SchedulesController extends GetxController{
     isFileDownloaded = await file.exists();
     update();
   }
-  getFileName(String filePath){
+  String getFileName(String filePath){
     return filePath.split('/').last;
   }
   Future<bool> saveFile() async {
@@ -65,7 +66,7 @@ class SchedulesController extends GetxController{
       if (fileUrl == null || fileUrl.isEmpty) {
         isDownloading = false;
         update();
-        print("❌ No file URL provided");
+        debugPrint("❌ No file URL provided");
         return false;
       }
 
@@ -89,7 +90,7 @@ class SchedulesController extends GetxController{
       if (res != null) {
         lastSavedFilePath = res;
         checkIfFileExists();
-        print(res);// هنا بنخزن المسار المؤقت
+        debugPrint(res);// هنا بنخزن المسار المؤقت
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -107,7 +108,7 @@ class SchedulesController extends GetxController{
         return false;
       }
     } catch (e) {
-      print("❌ Error saving file: $e");
+      debugPrint("❌ Error saving file: $e");
       isDownloading = false;
       update();
       return false;
@@ -115,46 +116,46 @@ class SchedulesController extends GetxController{
   }
   Future<void> openDownloadedFile() async {
     if (lastSavedFilePath == null) {
-      print("❌ No saved file to open");
+      debugPrint("❌ No saved file to open");
       return;
     }
 
     final result = await OpenFile.open(lastSavedFilePath!);
-    print("📂 Open result: ${result.message}");
+    debugPrint("📂 Open result: ${result.message}");
   }
-  selectingCategory(value) {
+  void selectingCategory(dynamic value) {
     selectCategory = value;
     selectedCategory = value;
     levelLoading = true;
     getLevels();
     update();
   }
-  selectingLevels (value) {
+  void selectingLevels(dynamic value) {
     selectLevel = value;
     selectedLevel = value;
     classLoading = true;
     getClass();
     update();
-  } selectingClass (value) async {
+  } Future<void> selectingClass(dynamic value) async {
     selectClass = value;
     selectedClass = value;
     await getPhotos(selectedClass?.id);
     update();
   }
-  getPhotos(String? id) async {
+  Future<void> getPhotos(String? id) async {
   photoLink = (await LoggedUser().getSchedules(classId: id))!;
   imageLoading = false;
   update();
   }
 
-  getCatgories() async {
+  Future<void> getCatgories() async {
     categories = await TeacherService().getCategories();
     categories.add(selectCategory);
     categoryLoading = false;
     getLevels();
     update();
   }
-  refreshFunction() async {
+  Future<void> refreshFunction() async {
     isOffline = !await connectivityChecker();
     if(!isOffline){
       await getCatgories();
@@ -162,13 +163,13 @@ class SchedulesController extends GetxController{
       showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
     }
   }
-  getLevels() async {
+  Future<void> getLevels() async {
     levels = await TeacherService().getLevels(id: selectedCategory!.id);
     levels.add(selectLevel);
     levelLoading = false;
     update();
   }
-  getClass() async {
+  Future<void> getClass() async {
     Class = await TeacherService().getLevels(id: selectedLevel!.id);
     Class.add(selectClass);
     classLoading = false;

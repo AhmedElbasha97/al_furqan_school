@@ -28,7 +28,7 @@ class AboutController extends GetxController{
     }
   }
   getData() async {
-    word = await AppInfoService().getaboutApp();
+    word = (await AppInfoService().getaboutApp())!;
     loading = false;
    update();
   }

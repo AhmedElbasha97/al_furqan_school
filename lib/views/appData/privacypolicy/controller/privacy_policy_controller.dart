@@ -29,7 +29,7 @@ class PrivacyPolicyController extends GetxController{
     }
   }
   getData() async {
-    word = await AppInfoService().getPrivacyPolicy();
+    word = (await AppInfoService().getPrivacyPolicy())!;
     loading = false;
     update();
   }

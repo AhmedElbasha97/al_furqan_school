@@ -37,7 +37,7 @@ class SendMessageStudentController extends GetxController{
   update();
   }
 
-  refreshFunction() async {
+  Future<void> refreshFunction() async {
     isOffline = !await connectivityChecker();
     if(!isOffline){
       await getTeachers();
@@ -45,7 +45,7 @@ class SendMessageStudentController extends GetxController{
       showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
     }
   }
-  getTeachers() async {
+  Future<void> getTeachers() async {
     isLoading = true;
     update();
     teachers = await MessagesService().getTeacher();
@@ -60,7 +60,7 @@ String? validateMessage(value){
   return null;
 }
 
-chooseTheTeacher(value){
+void chooseTheTeacher(dynamic value){
   if(!isOffline){
     selectTeacher = value;
     selectedTeacher = value;
@@ -71,7 +71,7 @@ chooseTheTeacher(value){
 
 }
 
- chooseTheDepartment(value){
+ void chooseTheDepartment(dynamic value){
    if(!isOffline){
      type = value;
      selected = type == 'مدرس' ? "teacher" : "admin";
@@ -81,13 +81,13 @@ chooseTheTeacher(value){
    }
 
    }
-   checkDepartmentHasBeenChosen(){
+   bool checkDepartmentHasBeenChosen(){
     return selected!="";
    }
-   checkTeacherHasBeenChosen(){
+   bool checkTeacherHasBeenChosen(){
     return selectedTeacher!=null;
    }
-sendMessage(context) async {
+Future<void> sendMessage(BuildContext context) async {
     if(!isOffline){if(checkDepartmentHasBeenChosen()){
     if(checkTeacherHasBeenChosen()){
     if (formKey.currentState!.validate()) {

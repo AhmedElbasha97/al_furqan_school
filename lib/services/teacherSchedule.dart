@@ -1,24 +1,22 @@
 // ignore_for_file: file_names
-
-import 'package:al_furqan_school/globals/CommonSetting.dart';
 import 'package:al_furqan_school/models/schedule.dart';
-import 'package:dio/dio.dart';
+import 'package:al_furqan_school/services/api_client.dart';
 
 class TeacherScheduleService {
-  String schedule = "${baseUrl}teacher_table.php";
-
   Future<List<Schedule>> getSchedule({String? id}) async {
-    List<Schedule> list = [];
-    Response response;
-    response = await Dio().get(
-      "$schedule?teacher_id=$id",
-    );
-    var data = response.data;
-    if (response.data != null) {
-      data.forEach((element) {
-        list.add(Schedule.fromJson(element));
-      });
+    try {
+      final response = await ApiClient.instance.dio.get(
+        'teacher_table.php',
+        queryParameters: {'teacher_id': id},
+      );
+      if (response.data != null) {
+        return (response.data as List)
+            .map((e) => Schedule.fromJson(e))
+            .toList();
+      }
+    } on Exception {
+      return [];
     }
-    return list;
+    return [];
   }
 }

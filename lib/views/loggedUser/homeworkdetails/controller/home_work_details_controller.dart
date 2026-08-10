@@ -23,7 +23,7 @@ class HomeWorkDetailsController extends GetxController{
     super.onInit();
   update();
   }
-  refreshFunction() async {
+  Future<void> refreshFunction() async {
     isOffline = !await connectivityChecker();
     if(!isOffline){
       await getData();
@@ -32,7 +32,7 @@ class HomeWorkDetailsController extends GetxController{
     }
   }
 
-launchURL(context, index) async {
+Future<void> launchURL(BuildContext context, int index) async {
   if (await launchUrl(Uri.parse(homework[index].homeworkFile??""))) {
 
     showTheDialog(context, "لا يمكن تحميل هذا الملف", "لا يوجد ملف متاح للتحميل ");
@@ -40,7 +40,7 @@ launchURL(context, index) async {
 
   }
 }
-  getData() async {
+  Future<void> getData() async {
     isLoading=true;
     update();
     SharedPreferences prefs = await SharedPreferences.getInstance();

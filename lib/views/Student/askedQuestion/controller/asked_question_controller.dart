@@ -21,7 +21,7 @@ class AskedQuestionController extends GetxController{
     super.onInit();
   update();
   }
-  refreshFunction() async {
+  Future<void> refreshFunction() async {
     isOffline = !await connectivityChecker();
     if(!isOffline){
       await getData();
@@ -29,7 +29,7 @@ class AskedQuestionController extends GetxController{
       showTheDialog(context,"لم يتم الاتصال بالشكل الصحيح","قم التصال بشبكة الانترنت و حاول مره اخرى");
     }
   }
-  getData() async {
+  Future<void> getData() async {
     isLoading = true;
     update();
     SharedPreferences prefs = await SharedPreferences.getInstance();
