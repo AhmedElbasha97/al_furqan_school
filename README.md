@@ -1,5 +1,5 @@
 # 🏫 Al-Furqan Private Schools App (تطبيق مدارس الفرقان الخاصة)
-### Complete Project Documentation, Architecture & Installation Manual
+### Complete User Manual, Technical Architecture & Cross-Platform Installation Guide (Mac & Windows)
 
 [![Flutter](https://img.shields.io/badge/Flutter-v3.24+-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
 [![Dart](https://img.shields.io/badge/Dart-v3.5.3+-0175C2?logo=dart&logoColor=white)](https://dart.dev)
@@ -8,200 +8,606 @@
 [![Version](https://img.shields.io/badge/Version-3.2.1%2B110-blue.svg)](pubspec.yaml)
 [![License](https://img.shields.io/badge/Rights-Sync%20Qatar%20%2F%20Al--Furqan-8A1538.svg)](https://syncqatar.com)
 
-A comprehensive cross-platform mobile application built with Flutter for **Al-Furqan Private Schools in Qatar (مدارس الفرقان الخاصة)**. The platform serves prospective students, visitors, and provides specialized portals for **Students**, **Parents**, and **Teachers**.
+A state-of-the-art educational community mobile application developed in Flutter for **Al-Furqan Private Schools in Qatar (مدارس الفرقان الخاصة)**. The app bridges the educational ecosystem between school administration, teachers, students, and parents, providing real-time academic tracking, messaging, homework dispatch, timetables, multimedia albums, and prospective student admissions.
 
 ---
 
 ## 📑 Table of Contents
 
-1. [System Overview & Architecture](#1-system-overview--architecture)
-2. [Features by User Role](#2-features-by-user-role)
-   - [Public / Guest Visitors](#public--guest-visitors)
-   - [Student Portal](#student-portal)
-   - [Parent Portal](#parent-portal)
-   - [Teacher Portal](#teacher-portal)
-3. [State Management & Navigation Flow](#3-state-management--navigation-flow)
+1. [User Documentation (دليل المستخدم الشامل)](#1-user-documentation-دليل-المستخدم-الشامل)
+   - [1.1 Public & Guest Visitors (الزوار والجمهور)](#11-public--guest-visitors-الزوار-والجمهور)
+   - [1.2 Student User Guide (دليل الطالب)](#12-student-user-guide-دليل-الطالب)
+   - [1.3 Parent User Guide (دليل ولي الأمر)](#13-parent-user-guide-دليل-ولي-الأمر)
+   - [1.4 Teacher User Guide (دليل المعلم)](#14-teacher-user-guide-دليل-المعلم)
+2. [Complete Installation & Setup Guide for Mac & Laptop](#2-complete-installation--setup-guide-for-mac--laptop)
+   - [2.1 macOS Setup Guide (MacBook / iMac / Mac Studio - Apple Silicon M1/M2/M3/M4 & Intel)](#21-macos-setup-guide-macbook--imac--mac-studio---apple-silicon-m1m2m3m4--intel)
+   - [2.2 Windows Setup Guide (Laptop & Desktop PC)](#22-windows-setup-guide-laptop--desktop-pc)
+   - [2.3 Running & Testing the Application](#23-running--testing-the-application)
+   - [2.4 Building Production Binaries (APK, App Bundle, iOS IPA)](#24-building-production-binaries-apk-app-bundle-ios-ipa)
+3. [Technical Architecture & System Design](#3-technical-architecture--system-design)
+   - [3.1 Layered Architecture Overview](#31-layered-architecture-overview)
+   - [3.2 State Management & Controller Strategy](#32-state-management--controller-strategy)
+   - [3.3 Centralized Network Layer (`ApiClient`)](#33-centralized-network-layer-apiclient)
+   - [3.4 Security Hardening & Encrypted Storage](#34-security-hardening--encrypted-storage)
+   - [3.5 Push Notifications & Deep-Link Routing](#35-push-notifications--deep-link-routing)
 4. [Complete API & Network Specification](#4-complete-api--network-specification)
-5. [Data Models Specification](#5-data-models-specification)
-6. [Push Notification & Deep-Linking Lifecycle](#6-push-notification--deep-linking-lifecycle)
-7. [Design System, Typography & Global Widgets](#7-design-system-typography--global-widgets)
-8. [Project Architecture & Directory Structure](#8-project-architecture--directory-structure)
-9. [Prerequisites](#9-prerequisites)
-10. [Installation & Setup](#10-installation--setup)
-11. [Firebase Configuration](#11-firebase-configuration)
-12. [Running the Project](#12-running-the-project)
-13. [Building for Production](#13-building-for-production)
-    - [Android (APK & App Bundle)](#android-apk--app-bundle)
-    - [iOS (IPA & Archive)](#ios-ipa--archive)
-14. [Configuration & Customization](#14-configuration--customization)
-15. [Security Analysis & Data Protection](#15-security-analysis--data-protection)
-16. [Developer Guide & Contribution Workflows](#16-developer-guide--contribution-workflows)
-17. [Troubleshooting & FAQs](#17-troubleshooting--faqs)
-18. [License & Intellectual Property](#18-license--intellectual-property)
+   - [4.1 Authentication & Registration](#41-authentication--registration)
+   - [4.2 Public Information & Media](#42-public-information--media)
+   - [4.3 Student Services API](#43-student-services-api)
+   - [4.4 Parent Services API](#44-parent-services-api)
+   - [4.5 Teacher Services API](#45-teacher-services-api)
+5. [Data Models & Schema Reference](#5-data-models--schema-reference)
+6. [Design System & UI Components](#6-design-system--ui-components)
+7. [Directory Structure](#7-directory-structure)
+8. [Troubleshooting & FAQs](#8-troubleshooting--faqs)
+9. [License & Intellectual Property](#9-license--intellectual-property)
 
 ---
 
-## 1. System Overview & Architecture
+## 1. User Documentation (دليل المستخدم الشامل)
 
-The application is structured around a modular, reactive architecture separating the **Presentation Layer (UI)**, **State Management / Controller Layer**, **Service / Network Layer**, and **Cloud Integration Layer**.
+The application provides specialized dashboards and access levels according to the user's role:
 
 ```mermaid
 graph TD
-    subgraph UI_Layer [Presentation / UI Layer]
-        V_Start[Start & School Level Selector]
-        V_Home[Home Landing Dashboard]
-        V_Student[Student Portal Views]
-        V_Parent[Parent Portal Views]
-        V_Teacher[Teacher Portal Views]
-        V_App[Public Info Views]
-    end
-
-    subgraph State_Layer [State Management & Controller Layer]
-        C_GetX[GetxControllers & GetBuilders]
-        C_Provider[ChangeNotifier Provider - AppLanguage]
-    end
-
-    subgraph Service_Layer [Service & Network Layer]
-        S_Auth[AuthService]
-        S_Logged[LoggedUserService]
-        S_Parent[ParentService]
-        S_Teacher[TeacherService]
-        S_AppInfo[AppInfoService]
-        S_Start[StarScreenServices]
-        S_Join[JoinApplicationService]
-        S_Contact[ContactUsService]
-        S_Notif[PushNotificationService]
-    end
-
-    subgraph Data_Layer [Data & Storage Layer]
-        M_Models[Data Models JSON Serializers]
-        SP[SharedPreferences Local Storage]
-        DioClient[Dio HTTP Client]
-    end
-
-    subgraph Remote_Layer [External & Cloud Services]
-        BackendAPI[(Al-Furqan School PHP API)]
-        FirebaseFCM[Firebase Cloud Messaging]
-        FirebaseAnalytics[Firebase Analytics]
-        MapsService[Apple Maps / Google Maps]
-    end
-
-    UI_Layer --> State_Layer
-    State_Layer --> Service_Layer
-    Service_Layer --> Data_Layer
-    Data_Layer --> Remote_Layer
+    AppStart[Launch App / الشاشة الافتتاحية] --> StageSelect[School Stage Selector<br/>اختيار المرحلة التعليمية]
+    
+    StageSelect -->|Elementary / Primary| Prim[مدرسة الفرقان الابتدائية]
+    StageSelect -->|Preparatory| Prep[مدرسة الفرقان الإعدادية]
+    StageSelect -->|Secondary| Sec[مدرسة الفرقان الثانوية]
+    StageSelect -->|Offices & Departments| Dept[الأقسام والإدارات التعليمية]
+    
+    StageSelect --> SideMenu[Side Navigation Drawer / القائمة الجانبية]
+    SideMenu --> AuthGate[تسجيل الدخول / Login]
+    
+    AuthGate -->|Student Login| StudentPortal[Student Portal / بوابة الطالب]
+    AuthGate -->|Parent Login| ParentPortal[Parent Portal / بوابة ولي الأمر]
+    AuthGate -->|Teacher Login| TeacherPortal[Teacher Portal / بوابة المعلم]
 ```
-
-### Architectural Highlights
-* **Presentation**: Modular `StatelessWidget` and `StatefulWidget` instances bound to `GetxController` states.
-* **Business Logic**: Controllers located alongside views (`views/<module>/controller/<module>_controller.dart`).
-* **Service Layer**: Dedicated service classes in `lib/services/` handling REST/JSON HTTP communications via `Dio`.
-* **Local Persistence**: `SharedPreferences` manages user tokens, session IDs, active role flags, cached route redirects, and language preferences.
 
 ---
 
-## 2. Features by User Role
+### 1.1 Public & Guest Visitors (الزوار والجمهور)
 
-```mermaid
-graph TD
-    User([App User]) --> Role{User Type}
-    
-    Role -->|Public / Guest| GuestFlow[Guest Features]
-    GuestFlow --> G1[School Level Switcher<br/>Primary / Prep / Secondary]
-    GuestFlow --> G2[Home News & SlideShow]
-    GuestFlow --> G3[Photo & Video Albums]
-    GuestFlow --> G4[Join Application Form]
-    GuestFlow --> G5[Curricula & School Info]
-    
-    Role -->|Student| StudentFlow[Student Portal]
-    StudentFlow --> S1[Homework & Assignments]
-    StudentFlow --> S2[Question Bank]
-    StudentFlow --> S3[Study Schedules]
-    StudentFlow --> S4[Ask Teacher & Messages]
-    StudentFlow --> S5[Course Books & Downloads]
-    StudentFlow --> S6[Academic Results]
+Anyone can use the app without logging in to explore school information, activities, curricula, and apply for admission:
 
-    Role -->|Parent| ParentFlow[Parent Portal]
-    ParentFlow --> P1[Multi-Student Switcher]
-    ParentFlow --> P2[Student Profiles]
-    ParentFlow --> P3[Academic & Behavior Reports]
-    ParentFlow --> P4[Attendance & Absence Logs]
-    ParentFlow --> P5[Parent-School Messaging]
+1. **Select School Stage (اختيار المرحلة)**:
+   - On launching the app, choose between **Primary (الابتدائية)**, **Preparatory (الإعدادية)**, **Secondary (الثانوية)**, or Educational Departments.
+   - Changing the stage updates the entire home dashboard, banners, news feed, and photo galleries to match that specific stage.
 
-    Role -->|Teacher| TeacherFlow[Teacher Portal]
-    TeacherFlow --> T1[Class Teaching Schedules]
-    TeacherFlow --> T2[Issue Student Reports]
-    TeacherFlow --> T3[Homework Dispatch]
-    TeacherFlow --> T4[Question Bank]
-    TeacherFlow --> T5[Teacher Messaging Inbox & Sent]
-```
+2. **Home Dashboard (الرئيسية)**:
+   - **Hero Banner Slider**: View latest highlight banners and event announcements.
+   - **Latest News & Articles (أحدث الأخبار)**: Tap on any news card to open the complete news article with high-resolution imagery and release timestamps.
+   - **Photo & Video Galleries (ألبومات الصور والفيديوهات)**: Browse categorized photo galleries and tap on video cards to watch educational and recreational footage.
 
-### Public / Guest Visitors
-* **Multi-Stage School Selection**: Switch between **Elementary (الابتدائية)**, **Preparatory (الاعدادية)**, and **Secondary (الثانوية)** schools, as well as educational department hubs.
-* **School Overview**: Vision, mission statement, Director's address, and general information.
-* **News & Announcements**: Interactive news feed with details view and banner sliders.
-* **Photo & Video Galleries**: Categorized multimedia albums and video streaming.
-* **Curricula & Subjects**: Information on school curriculum and educational subjects.
-* **Online Admission Form (طلب إلتحاق)**: Digital application for prospective students with validation.
-* **Contact & Location**: Interactive maps integration (`map_launcher`) pointing to school coordinates, direct WhatsApp links, social media channels, and complaint submission.
-* **Bilingual Support**: Full Arabic (RTL) and English language toggling.
+3. **Admission & Registration Form (طلب التحاق جديد)**:
+   - Accessible via the side drawer.
+   - Fill in comprehensive student information: Full name, previous school, mobile number, QID / ID number, date of birth, nationality, residence address, and parent information.
+   - Submit the application directly to the registration department with instant status validation.
 
-### Student Portal
-* **Homework & Assignments (الواجبات المدرسية)**: View assigned homework, descriptions, due dates, and attachment files.
-* **Question Bank (بنك الأسئلة)**: Access subject-specific questions and exam prep materials.
-* **Class Timetables & Schedules (الجدول المدرسي)**: View class schedules and periods.
-* **Electronic Files & Important Tools (الملفات والبرامج)**: Download school files, resources, and documents.
-* **Ask Teacher (اسئلة للطلاب)**: Submit academic questions to instructors and receive responses.
-* **Messaging (الرسائل)**: Inbox, sent messages, and direct messaging to teachers and administration.
-* **Academic Results (النتائج)**: Direct portal access to annual grades and report cards.
+4. **Curricula & Educational Departments (المناهج والأقسام)**:
+   - Read about the school's vision, mission, and the director's address.
+   - Browse academic subjects taught at each level and inspect course specifics.
 
-### Parent Portal
-* **Multi-Student Switcher (قائمة الطلاب)**: Seamlessly toggle between multiple registered children under a single parent account.
-* **Student Profile (بيانات الطالب)**: View student information, class, registration status, and details.
-* **Academic & Behavioral Reports (التقارير)**: Real-time progress and evaluation reports issued by teachers.
-* **Attendance & Absence Logs (الغياب والحضور)**: Live tracking of student attendance and recorded absences.
-* **Parent-School Messaging**: Direct communication channel with teachers and administration.
+5. **Contact Us & Interactive Maps (تواصل معنا والموقع)**:
+   - Launch native turn-by-turn navigation (Google Maps on Android / Apple Maps on iOS) with pre-set GPS coordinates to reach school campuses.
+   - Direct links for instant WhatsApp chatting, phone calls, social channels (Instagram, Twitter/X, Facebook, YouTube), and in-app complaint submission.
 
-### Teacher Portal
-* **Student Evaluation Reports (إرسال تقرير)**: Filter by educational level, class, and student to issue progress reports.
-* **Homework Dispatch (الواجبات)**: Create and monitor homework tasks for assigned classes.
-* **Question Bank Management**: Manage subject question repositories.
-* **Teaching Schedule (جدول الحصص)**: Weekly schedule of teaching periods.
-* **Teacher Messaging**: Communicate directly with students and parents.
+6. **Language Switcher (تغيير اللغة)**:
+   - Toggle seamlessly between Arabic (العربية - RTL) and English (LTR) from the side navigation drawer.
 
 ---
 
-## 3. State Management & Navigation Flow
+### 1.2 Student User Guide (دليل الطالب)
 
-### State Management Patterns
-1. **GetX (`GetxController` / `GetBuilder`)**:
-   * Used across feature screens for lifecycle management (`onInit`, `onClose`), form state handling, and view updates via `update()`.
-   * Examples: `HomeScreenController`, `LoginController`, `StartScreen`, `ReportController`, `StudentInfoController`.
-2. **Provider (`ChangeNotifierProvider` / `ChangeNotifier`)**:
-   * Used for root-level **dynamic language switching** (`AppLanguage` in [`lib/I10n/AppLanguage.dart`](lib/I10n/AppLanguage.dart)).
-3. **Local State (`StatefulWidget` / `setState`)**:
-   * Used in standalone widgets and account home screens (`SplashScreen`, `MyAccount`, `MyAccountParent`, `MyAccountTeacher`, `AppDrawer`).
-
-### Navigation & Routing Map
+Once logged in with **Student (طالب)** credentials:
 
 ```mermaid
 graph LR
-    Splash[SplashScreen] -->|Auto / 3s Delay| ChooseState[ChooseStateScreen]
-    Splash -->|Push Notification Payload| PushRouter{Resolve Route}
-    
-    PushRouter -->|teacher_msg| MsgTeacher[MessagesScreenTeacher]
-    PushRouter -->|parent_msg| MsgParent[MessagesScreen Parent]
-    PushRouter -->|student_msg| MsgStudent[MessagesScreen Student]
-    PushRouter -->|student_homework| HW[HomeWorkScreen]
-    PushRouter -->|student_quest| QB[QuestionBankScreen]
+    StudentLogin[Student Home / حساب الطالب] --> HW[Homework / الواجبات]
+    StudentLogin --> QB[Question Bank / بنك الأسئلة]
+    StudentLogin --> Sch[Timetable / الجدول المدرسي]
+    StudentLogin --> Msg[Messages / الرسائل]
+    StudentLogin --> Books[Books & Tools / الكتب والبرامج]
+    StudentLogin --> Results[Exam Results / النتائج السنوية]
+```
 
-    ChooseState -->|Select Stage| Home[HomeScreen]
-    ChooseState -->|Select Department| DepDetail[DepartmentDetailScreen]
+1. **Accessing Homework (الواجبات المدرسية)**:
+   - Tap **الواجبات** to view a list of all assigned homework.
+   - Tap any homework item to view assignment details, teacher notes, deadline, and download attached PDF/worksheet files.
+
+2. **Question Bank (بنك الأسئلة)**:
+   - Open **بنك الأسئلة** to access revision materials, sample test questions, and exam preparation sheets organized by subject.
+
+3. **Weekly Timetable (الجدول المدرسي)**:
+   - Open **الجدول** to view the daily class schedule, subjects, and period timings for your registered class section.
+
+4. **Electronic Textbooks & Software (الكتب والبرامج الهامة)**:
+   - Download official digital PDF textbooks and required educational software applications directly to your mobile device.
+
+5. **Ask Teacher & Messaging (اسأل معلمك والرسائل)**:
+   - Submit academic questions directly to specific teachers.
+   - Check the **Inbox (الوارد)** to read replies from teachers or administrative notifications.
+   - Compose new messages and monitor outgoing threads in the **Sent (المرسلة)** box.
+
+6. **Yearly Results (النتائج المدرسية)**:
+   - View official academic report cards and periodic grade assessments securely.
+
+---
+
+### 1.3 Parent User Guide (دليل ولي الأمر)
+
+Designed to give parents a single, unified command center to track all their enrolled children:
+
+```mermaid
+graph TD
+    ParentLogin[Parent Account / حساب ولي الأمر] --> StudentSelector[Multi-Student Switcher<br/>قائمة الأبناء المسجلين]
     
-    Home -->|Drawer / Login| Login[LoginScreen]
-    Login -->|Type: STUDENT| StudentHome[MyAccount]
-    Login -->|Type: PARENTS| ParentHome[MyAccountParent]
-    Login -->|Type: TEACHER| TeacherHome[MyAccountTeacher]
+    StudentSelector --> ChildA[Child 1 / الابن الأول]
+    StudentSelector --> ChildB[Child 2 / الابن الثاني]
+    
+    ChildA --> Profile[Student Profile / بيانات الطالب]
+    ChildA --> Att[Attendance & Absence / الحضور والغياب]
+    ChildA --> Rep[Progress Reports / التقارير والملاحظات]
+    ChildA --> PMsg[Parent-School Messaging / المحادثات والرسائل]
+```
+
+1. **Multi-Student Switcher (التبديل بين الأبناء)**:
+   - If you have multiple children enrolled in Al-Furqan Schools, tap **قائمة الطلاب** from your dashboard.
+   - Select any child to switch the active context immediately without needing to log out and log in again.
+
+2. **Student Profile & Registration Data (بيانات الطالب)**:
+   - Review your child's registered grade, class section, student ID, and enrollment status.
+
+3. **Attendance & Absence Monitoring (الغياب والحضور)**:
+   - Inspect recorded absences, tardiness, and excused sick leaves in real-time with dates and justification status.
+
+4. **Academic & Behavioral Reports (تقارير الطالب)**:
+   - View periodic evaluation reports, teacher observations, academic commendations, or disciplinary notes.
+
+5. **Parent-Teacher Communication (الرسائل)**:
+   - Send direct messages to your children's teachers or school management.
+   - Receive administrative alerts, meeting notices, and event announcements.
+
+---
+
+### 1.4 Teacher User Guide (دليل المعلم)
+
+Provides instructors with tools for classroom management and communication:
+
+1. **Weekly Teaching Schedule (جدول الحصص)**:
+   - View your assigned periods, classes, and subjects across the school week.
+
+2. **Submitting Student Reports (إرسال تقرير)**:
+   - Step 1: Select the educational department and stage.
+   - Step 2: Select the grade and section level.
+   - Step 3: Choose the target student from the auto-populated roster.
+   - Step 4: Write evaluation text and submit. The report is instantly delivered to the parent's app.
+
+3. **Homework Dispatch (إرسال ومتابعة الواجبات)**:
+   - Create homework assignments, specify instructions and submission deadlines for enrolled classes.
+
+4. **Teacher Messaging (صندوق الرسائل)**:
+   - Read incoming inquiries from students and parents.
+   - Dispatch responses or broadcast notes to specific students or parents.
+
+---
+
+## 2. Complete Installation & Setup Guide for Mac & Laptop
+
+This guide covers everything required to set up the development environment, install all tools, clone the repository, and run or build the app on both **macOS** and **Windows**.
+
+---
+
+### 2.1 macOS Setup Guide (MacBook / iMac / Mac Studio - Apple Silicon M1/M2/M3/M4 & Intel)
+
+#### System Requirements
+- **macOS**: Sonoma (14.x), Sequoia (15.x), or Ventura (13.x).
+- **Disk Space**: At least 25 GB of free space.
+- **Hardware**: Compatible with Apple Silicon (M1, M2, M3, M4) and Intel x86_64.
+
+---
+
+#### Step 1: Install Homebrew (Mac Package Manager)
+Open the **Terminal** app (`Cmd + Space` -> type `Terminal`) and run:
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+Follow the on-screen prompts. If you are on Apple Silicon (M1/M2/M3/M4), add Homebrew to your PATH:
+```bash
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
+```
+
+---
+
+#### Step 2: Install Git & Java Development Kit (JDK 17)
+```bash
+brew install git
+brew install openjdk@17
+```
+Link JDK 17 to your system path:
+```bash
+sudo ln -sfn /opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-17.jdk
+echo 'export JAVA_HOME=$(/usr/libexec/java_home -v 17)' >> ~/.zshrc
+source ~/.zshrc
+```
+Verify Java installation:
+```bash
+java -version
+```
+
+---
+
+#### Step 3: Install Flutter SDK
+1. Download the Flutter SDK using Homebrew:
+   ```bash
+   brew install --cask flutter
+   ```
+   *Or download manually from [flutter.dev](https://docs.flutter.dev/get-started/install/macos) and extract to `~/development/flutter`.*
+
+2. Add Flutter to your PATH (if installed manually):
+   ```bash
+   echo 'export PATH="$PATH:$HOME/development/flutter/bin"' >> ~/.zshrc
+   source ~/.zshrc
+   ```
+
+3. Run Flutter Doctor:
+   ```bash
+   flutter doctor
+   ```
+
+---
+
+#### Step 4: Setup Xcode & iOS Simulator (For iOS Development)
+1. Install **Xcode** from the Mac App Store (version 15 or 16).
+2. Configure Xcode Command Line Tools:
+   ```bash
+   sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+   sudo xcodebuild -runFirstLaunch
+   ```
+3. Accept the Xcode License Agreement:
+   ```bash
+   sudo xcodebuild -license accept
+   ```
+4. Install **CocoaPods** (iOS dependency manager):
+   ```bash
+   sudo gem install cocoapods
+   ```
+   *(Or on Apple Silicon with Homebrew: `brew install cocoapods`)*
+5. Open an iOS Simulator:
+   ```bash
+   open -a Simulator
+   ```
+
+---
+
+#### Step 5: Setup Android Studio (For Android Development on Mac)
+1. Download and install **Android Studio** for Mac:
+   ```bash
+   brew install --cask android-studio
+   ```
+2. Open Android Studio -> **Settings / Preferences** -> **Languages & Frameworks** -> **Android SDK**:
+   - In **SDK Platforms**: Check **Android 15 (VanillaIceCream - API 35)** and **Android 14 (API 34)**.
+   - In **SDK Tools**: Check **Android SDK Command-line Tools (latest)**, **Android SDK Build-Tools**, and **Android Emulator**.
+3. Accept Android Licenses in Terminal:
+   ```bash
+   flutter doctor --android-licenses
+   ```
+   *(Press `y` to accept each agreement)*
+
+---
+
+#### Step 6: Clone and Configure the Project
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/AhmedElbasha97/al_furqan_school.git
+   cd al_furqan_school
+   ```
+
+2. Fetch all Dart dependencies:
+   ```bash
+   flutter pub get
+   ```
+
+3. Install iOS CocoaPods dependencies:
+   ```bash
+   cd ios
+   pod install --repo-update
+   cd ..
+   ```
+
+---
+
+### 2.2 Windows Setup Guide (Laptop & Desktop PC)
+
+#### System Requirements
+- **OS**: Windows 10 or Windows 11 (64-bit).
+- **Disk Space**: At least 25 GB of free space.
+- **PowerShell**: Version 5.0 or higher (pre-installed on Windows 10/11).
+
+---
+
+#### Step 1: Install Git for Windows
+1. Download Git from [git-scm.com](https://git-scm.com/download/win).
+2. Run the installer and keep all default settings selected (ensure *"Git from the command line and also from 3rd-party software"* is enabled).
+
+---
+
+#### Step 2: Install Java Development Kit (JDK 17)
+1. Download Microsoft OpenJDK 17 or Oracle JDK 17 (x64 MSI Installer) from [Microsoft OpenJDK](https://learn.microsoft.com/en-us/java/openjdk/download#openjdk-17).
+2. Install the package.
+3. Configure `JAVA_HOME` environment variable:
+   - Press `Win + S` -> Type **Environment Variables** -> Open **Edit the system environment variables**.
+   - Click **Environment Variables...**.
+   - Under **System Variables**, click **New**:
+     - Variable name: `JAVA_HOME`
+     - Variable value: `C:\Program Files\Microsoft\jdk-17.0.x.x-hotspot` (or your JDK installation path).
+   - Under **System Variables**, select `Path` -> Click **Edit** -> Click **New** -> Add `%JAVA_HOME%\bin`.
+
+---
+
+#### Step 3: Install Flutter SDK on Windows
+1. Download the Flutter Windows SDK zip bundle from [flutter.dev](https://docs.flutter.dev/get-started/install/windows/mobile).
+2. Extract the archive to `C:\src\flutter` (⚠️ *Do NOT install Flutter in `C:\Program Files\` as it requires elevated privileges*).
+3. Add Flutter to your User `Path`:
+   - In **Environment Variables** -> under **User variables for [User]**, select `Path` -> click **Edit**.
+   - Click **New** -> type `C:\src\flutter\bin` -> click **OK**.
+4. Open a new **PowerShell** or **Command Prompt** window and verify:
+   ```powershell
+   flutter --version
+   flutter doctor
+   ```
+
+---
+
+#### Step 4: Install Android Studio & Android SDK
+1. Download Android Studio from [developer.android.com/studio](https://developer.android.com/studio).
+2. Run the installer and check both **Android Studio** and **Android Virtual Device**.
+3. Launch Android Studio -> Click **More Actions** -> **SDK Manager**:
+   - **SDK Platforms**: Check **Android 15 (API 35)** and **Android 14 (API 34)**.
+   - **SDK Tools**: Check **Android SDK Command-line Tools (latest)**, **Android SDK Platform-Tools**, **Android SDK Build-Tools**, and **Android Emulator**.
+   - Click **Apply** to download.
+4. Create an Android Emulator:
+   - In Android Studio -> **More Actions** -> **Virtual Device Manager**.
+   - Click **Create Device** -> Select **Pixel 8 Pro** -> Download system image (e.g. **API 34 or 35**) -> Click **Finish**.
+5. Accept Android Licenses:
+   ```powershell
+   flutter doctor --android-licenses
+   ```
+   *(Type `y` to accept each license)*
+
+---
+
+#### Step 5: Clone and Setup Project on Windows
+1. Open PowerShell and navigate to your workspace directory:
+   ```powershell
+   cd C:\Users\<YourUsername>\Desktop
+   git clone https://github.com/AhmedElbasha97/al_furqan_school.git
+   cd al_furqan_school
+   ```
+
+2. Download all dependencies:
+   ```powershell
+   flutter pub get
+   ```
+
+3. Run verification tests:
+   ```powershell
+   flutter test
+   ```
+
+---
+
+### 2.3 Running & Testing the Application
+
+#### 1. Check Available Devices & Emulators
+```bash
+flutter devices
+```
+*Output will list connected physical phones, open simulators, emulators, and Chrome.*
+
+#### 2. Launch on a Connected Device / Emulator
+```bash
+# Run on default connected device
+flutter run
+
+# Run on a specific device
+flutter run -d <DEVICE_ID>
+
+# Example: Run on iOS Simulator
+flutter run -d "iPhone 16 Pro"
+
+# Example: Run on Android Emulator
+flutter run -d emulator-5554
+```
+
+#### 3. Useful Hotkeys during Debugging:
+- Press `r` -> **Hot Reload** (instant UI update without losing state).
+- Press `R` -> **Hot Restart** (re-initializes app state).
+- Press `h` -> Show list of all debugging commands.
+- Press `q` -> Quit debugging session.
+
+---
+
+### 2.4 Building Production Binaries (APK, App Bundle, iOS IPA)
+
+#### A. Android Release APK (for Direct Sideloading & Testing)
+```bash
+flutter build apk --release
+```
+- **Generated File**: `build/app/outputs/flutter-apk/app-release.apk`
+- For debug testing without signing keys:
+  ```bash
+  flutter build apk --debug
+  ```
+  *Output:* `build/app/outputs/flutter-apk/app-debug.apk`
+
+#### B. Android App Bundle (AAB - for Google Play Store Upload)
+```bash
+flutter build appbundle --release
+```
+- **Generated File**: `build/app/outputs/bundle/release/app-release.aab`
+
+#### C. iOS Archive & IPA (for Apple App Store / TestFlight)
+*(Requires macOS with Xcode and an active Apple Developer Program account)*
+
+```bash
+# Step 1: Build iOS Release Archive
+flutter build ipa --release
+
+# Step 2: Open the generated archive in Xcode Organizer for distribution
+open ios/Runner.xcworkspace
+```
+Inside Xcode:
+1. Select **Product** -> **Archive**.
+2. When the Organizer window opens, click **Distribute App**.
+3. Select **App Store Connect** (or **Ad Hoc** / **Development**) and follow the signing workflow.
+
+---
+
+## 3. Technical Architecture & System Design
+
+### 3.1 Layered Architecture Overview
+
+The codebase is engineered with strict separation of concerns into distinct architectural tiers:
+
+```mermaid
+graph TD
+    subgraph Presentation_Tier [1. Presentation Layer - Views & Widgets]
+        Views[Screens & Pages<br/>views/*]
+        GlobalWidgets[Reusable Global Widgets<br/>globals/widgets/*]
+        Styles[Color Tokens & Themes<br/>globals/commonStyles.dart]
+    end
+
+    subgraph State_Tier [2. State & Controller Layer]
+        GetControllers[GetX Controllers<br/>Lifecycle & Reactive State]
+        LangProvider[ChangeNotifier Provider<br/>AppLanguage Dynamic Locale]
+    end
+
+    subgraph Business_Tier [3. Business Logic & Services]
+        AuthServ[AuthService]
+        LogUserServ[LoggedUser Service]
+        ParentServ[ParentService]
+        TeacherServ[TeacherService]
+        AppInfoServ[AppInfoService]
+        StartServ[StarScreenServices]
+    end
+
+    subgraph Network_Tier [4. Centralized Network & Storage Layer]
+        ApiClientSingleton[ApiClient Singleton<br/>BaseOptions, 20s Timeouts, LogInterceptor]
+        SecStorage[FlutterSecureStorage<br/>AES-GCM / iOS Keychain]
+        SharedPrefs[SharedPreferences<br/>Language & Non-sensitive settings]
+    end
+
+    subgraph Cloud_Tier [5. Remote Cloud & Backend Services]
+        PHPBackend[(Al-Furqan Schools REST API<br/>https://alforqanschools.sch.qa/site/api/)]
+        FCMService[Firebase Cloud Messaging]
+        AnalyticsService[Firebase Analytics]
+    end
+
+    Presentation_Tier --> State_Tier
+    State_Tier --> Business_Tier
+    Business_Tier --> Network_Tier
+    Network_Tier --> Cloud_Tier
+```
+
+---
+
+### 3.2 State Management & Controller Strategy
+
+1. **GetX (`GetxController` / `GetBuilder`)**:
+   - Manages state, API loading triggers, validation, and lifecycle hooks (`onInit`, `onClose`) for each feature.
+   - Kept close to their views inside `views/<feature>/controller/<feature>_controller.dart`.
+   - Explicit method return types (`Future<void>`, `Future<bool>`) ensure robust type safety and zero static analysis warnings.
+
+2. **Provider (`ChangeNotifier` / `ChangeNotifierProvider`)**:
+   - Manages root-level **dynamic language switching** (`AppLanguage` in `lib/I10n/AppLanguage.dart`).
+   - Persists selected locale (`ar` or `en`) across app restarts.
+
+3. **Clean Controller Lifecycle**:
+   - Controllers implement proper disposal for text controllers and animation controllers to eliminate memory leaks:
+     ```dart
+     @override
+     void onClose() {
+       usernameController.dispose();
+       passwordController.dispose();
+       super.onClose();
+     }
+     ```
+
+---
+
+### 3.3 Centralized Network Layer (`ApiClient`)
+
+All HTTP communication passes through the singleton `ApiClient` (`lib/services/api_client.dart`):
+
+```dart
+class ApiClient {
+  ApiClient._internal();
+  static final ApiClient instance = ApiClient._internal();
+
+  late final Dio dio = Dio(
+    BaseOptions(
+      baseUrl: baseUrl, // https://alforqanschools.sch.qa/site/api/
+      connectTimeout: const Duration(seconds: 20),
+      receiveTimeout: const Duration(seconds: 20),
+      sendTimeout: const Duration(seconds: 20),
+      responseType: ResponseType.json,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    ),
+  );
+}
+```
+
+#### Key Advantages:
+- **Resilience**: 20-second connection and socket timeouts prevent screens from hanging indefinitely on weak cellular connections.
+- **Logging**: Detailed request and response telemetry output in `kDebugMode` via `LogInterceptor`.
+- **Clean Parameter Mapping**: Replaces unsafe string URL concatenation with structured `queryParameters: {...}` maps.
+
+---
+
+### 3.4 Security Hardening & Encrypted Storage
+
+#### Credential Encryption
+To support multi-student account switching without requiring parents to re-enter their password, parent credentials are saved using **`flutter_secure_storage`**:
+- **Android**: Secured with hardware-backed Keystore and `EncryptedSharedPreferences` (AES-256 GCM).
+- **iOS**: Secured inside the **Apple Keychain** with `first_unlock` accessibility.
+- **Sign-out**: Invoking `AuthService.clearSecureCredentials()` completely wipes the secure enclave storage.
+
+---
+
+### 3.5 Push Notifications & Deep-Link Routing
+
+Managed via `FirebaseMessaging` and `flutter_local_notifications` in `lib/services/notification.dart`:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User
+    participant App as Mobile App
+    participant FCM as Firebase Messaging
+    participant Local as Local Notifications
+    participant Router as Navigation Router
+
+    App->>FCM: Request permission & retrieve FCM Token
+    FCM-->>App: Registration Token
+    App->>Backend: Pass token in login request (login.php?token=...)
+    
+    Note over FCM,App: Server dispatches targeted notification:
+    alt Foreground State
+        FCM->>App: onMessage event
+        App->>Local: Show Heads-Up Banner Notification
+    else Background / Terminated State
+        FCM->>App: onBackgroundMessage / getInitialMessage
+    end
+
+    User->>Local: Taps Notification Banner
+    Local->>Router: Parse payload key ('route' / 'page')
+    Router->>App: Navigate to target screen (e.g. Messages, Homework)
 ```
 
 ---
@@ -210,18 +616,24 @@ graph LR
 
 **Base URL**: `https://alforqanschools.sch.qa/site/api/`  
 **Web Domain**: `https://www.alrayyanprivateschools.com`  
-**Network Client**: `Dio` (v5.9.1)
+**Network Client**: `Dio` (v5.11.0) via `ApiClient`
 
-### 4.1 Authentication & Registration API
+---
+
+### 4.1 Authentication & Registration
+
 | Endpoint | Method | Parameters | Description |
 | :--- | :--- | :--- | :--- |
 | `login.php` | `GET` | `type` (`STUDENT`, `PARENTS`, `TEACHER`), `username`, `password`, `token` (FCM) | Authenticates user and returns user info (ID, name, class). |
-| `application.php` | `GET` | `exp_fname`, `exp_email`, `exp_preschool`, `exp_mob`, `exp_date`, `exp_idstudent`, `exp_birthdate`, `exp_type`, `exp_religion`, `exp_birthplace`, `exp_nationalty`, `exp_citybrth`, `exp_provincebrth`, `exp_registnum`, `exp_address`, `exp_city`, `exp_zipcode`, `exp_tels`, `exp_year`, `exp_registstatus`, `exp_pname`, `exp_relation`, `exp_pjob`, `exp_notes` | Submits a new student admission request. |
+| `application.php` | `POST` | `exp_fname`, `exp_email`, `exp_preschool`, `exp_mob`, `exp_date`, `exp_idstudent`, `exp_birthdate`, `exp_type`, `exp_religion`, `exp_birthplace`, `exp_nationalty`, `exp_citybrth`, `exp_provincebrth`, `exp_registnum`, `exp_address`, `exp_city`, `exp_zipcode`, `exp_tels`, `exp_year`, `exp_registstatus`, `exp_pname`, `exp_relation`, `exp_pjob`, `exp_notes` | Submits a new student admission request. |
 
-### 4.2 Public & School Information API
+---
+
+### 4.2 Public Information & Media
+
 | Endpoint | Method | Parameters | Description |
 | :--- | :--- | :--- | :--- |
-| `slide.php` | `GET` | `school_type` (Optional) | Fetches hero banner slideshow images for home. |
+| `slide.php` | `GET` | `school_type` (Optional) | Fetches hero banner slideshow images. |
 | `slide_app.php` | `GET` | *None* | Fetches main portal slider images. |
 | `office_department_app.php` | `GET` | *None* | Lists administrative offices and educational departments. |
 | `office_department_app_articles.php` | `GET` | `dep_id` | Returns details, description, and articles of a specific department. |
@@ -230,14 +642,19 @@ graph LR
 | `school_desc.php` | `GET` | *None* | Returns the principal/director's address. |
 | `news.php` | `GET` | `school_type` | Retrieves latest news articles list. |
 | `news_view.php` | `GET` | `school_type`, `news_id` | Retrieves full content and metadata for a specific news article. |
+| `gallery.php` | `GET` | `school_type` / `gid` | Lists photo gallery albums or photos within an album. |
+| `videos.php` | `GET` | `school_type` | Lists video gallery items and video links. |
 | `subjects.php` | `GET` | *None* | Returns curricula and subject categories. |
 | `art.php` | `GET` | `dep_id` | Returns subject specifics and curriculum content. |
 | `privacy.php` | `GET` | *None* | Returns school privacy policy text. |
 | `agreament.php` | `GET` | *None* | Returns terms and conditions text. |
-| `social.php` | `GET` | *None* | Returns school social media links (FB, Instagram, Twitter, Snapchat, WhatsApp, App links). |
+| `social.php` | `GET` | *None* | Returns school social media links (FB, Instagram, Twitter, Snapchat, WhatsApp). |
 | `contact.php` | `POST` | `name`, `email`, `subject`, `message`, `mobile` | Submits feedback, inquiries, or complaints. |
 
-### 4.3 Student Portal API
+---
+
+### 4.3 Student Services API
+
 | Endpoint | Method | Parameters | Description |
 | :--- | :--- | :--- | :--- |
 | `student_download_files.php` | `GET` | `student_id` | Lists electronic downloadable course files. |
@@ -251,9 +668,14 @@ graph LR
 | `student_ask_income.php` | `GET` | `student_id` | Returns questions asked by the student and teacher replies. |
 | `student_ask_income_view.php` | `GET` | `student_id`, `msg_id` | Full thread view of an asked question. |
 | `sch.php` | `GET` | `class_id` | Retrieves weekly class timetable and schedule. |
-| `reportyear.php` | `GET` | `studentid` (External browser launch) | Web report card and academic grades. |
+| `student_msg_income.php` | `GET` | `student_id` | Incoming message inbox for the student. |
+| `student_msg_sent.php` | `GET` | `student_id` | Outbox of sent student messages. |
+| `student_msg_send.php` | `POST` | `student_id`, `sendto_type`, `teacher_id`, `title`, `text` | Dispatches a message to a teacher. |
 
-### 4.4 Parent Portal API
+---
+
+### 4.4 Parent Services API
+
 | Endpoint | Method | Parameters | Description |
 | :--- | :--- | :--- | :--- |
 | `parent_report_about.php` | `GET` | `parent_id` | Lists student evaluation and progress reports. |
@@ -267,26 +689,30 @@ graph LR
 | `parent_msg_sent_view.php` | `GET` | `parent_id`, `msg_id` | Content of a sent message. |
 | `teachers_list.php` | `POST` | *None* | Returns list of teachers for message recipient selection. |
 
-### 4.5 Teacher Portal API
+---
+
+### 4.5 Teacher Services API
+
 | Endpoint | Method | Parameters | Description |
 | :--- | :--- | :--- | :--- |
 | `teacher_reports.php` | `GET` | `teacher_id` | Lists student reports created by the teacher. |
 | `teacher_report_view.php` | `GET` | `teacher_id`, `report_id` | Details of a submitted report. |
-| `teacher_report_add.php` | `GET` | `teacher_id`, `student_id`, `date`, `text` | Submits a new evaluation report for a student. |
+| `teacher_report_add.php` | `POST` | `teacher_id`, `student_id`, `date`, `text` | Submits a new evaluation report for a student. |
 | `categories_list.php` | `GET` | `ctg_id` (Optional) | Returns stages, grades, and section levels. |
 | `student_list.php` | `GET` | `class_id` | Lists students enrolled in a specific class. |
 | `teacher_homework.php` | `GET` | `teacher_id` | Lists homework tasks created by the teacher. |
 | `teacher_homework_view.php` | `GET` | `teacher_id`, `homework_id` | Details of homework submission. |
 | `teacher_quest_bank.php` | `GET` | `teacher_id` | Question bank repository managed by the teacher. |
 | `teacher_msg_sent.php` | `GET` | `teacher_id` | Sent message outbox for the teacher. |
-| `teacher_msg_send.php` | `GET` | `teacher_id`, `sendto_type`, `to_id`, `title`, `text` | Sends a message to a student or parent. |
+| `teacher_msg_send.php` | `POST` | `teacher_id`, `sendto_type`, `to_id`, `title`, `text` | Sends a message to a student or parent. |
 | `teacher_msg_sent_view.php` | `GET` | `teacher_id`, `msg_id` | Details of a sent message. |
+| `teacher_table.php` | `GET` | `teacher_id` | Retrieves weekly teaching schedule. |
 
 ---
 
-## 5. Data Models Specification
+## 5. Data Models & Schema Reference
 
-All data entities are organized under `lib/models/` with JSON mapping logic:
+All data serialization logic is centralized under `lib/models/`:
 
 ```
 lib/models/
@@ -326,339 +752,82 @@ lib/models/
 
 ---
 
-## 6. Push Notification & Deep-Linking Lifecycle
+## 6. Design System & UI Components
 
-Push notifications are orchestrated through **Firebase Cloud Messaging (FCM)** and **Flutter Local Notifications Plugin** in [`lib/services/notification.dart`](lib/services/notification.dart).
+### Color Tokens ([`lib/globals/commonStyles.dart`](lib/globals/commonStyles.dart))
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor User
-    participant App as Flutter Application
-    participant FCM as Firebase Messaging
-    participant LocalNotif as Local Notifications Plugin
-    participant Storage as SharedPreferences
-    participant Router as Navigation Router (GetX)
-
-    App->>FCM: Initialize & request notification permission
-    FCM-->>App: Return FCM Device Registration Token
-    App->>Backend: Register token with login API (`login.php?token=...`)
-    
-    Note over FCM,App: When notification arrives:
-    alt App in Foreground
-        FCM->>App: `onMessage(RemoteMessage)`
-        App->>LocalNotif: Show high priority notification banner
-    else App in Background / Terminated
-        FCM->>App: `onBackgroundMessage` / `getInitialMessage`
-    end
-
-    User->>LocalNotif: Taps notification banner
-    LocalNotif->>Storage: Store target payload (`data["page"]`)
-    LocalNotif->>Router: `notificationSelectingAction()`
-    Router->>App: Navigate to target feature screen
-```
-
-### Notification Payload Routing Table
-
-| Payload `page` Value | Destination Screen | Arguments / Notes |
-| :--- | :--- | :--- |
-| `teacher_msg` | `MessagesScreenTeacher` | Navigates to Teacher Inbox |
-| `parent_msg` | `MessagesScreen` | Navigates to Parent Inbox (`arguments: [0]`) |
-| `student_msg` | `MessagesScreen` | Navigates to Student Inbox (`arguments: [1]`) |
-| `student_homework` | `HomeWorkScreen` | Opens student homework list |
-| `student_quest` / `parent_quest` | `QuestionBankScreen` | Opens Question Bank |
-| `student_report` | `HomeWorkScreen` | Opens Student Reports |
-| *Default / Other* | `ChooseStateScreen` | Opens School Stage Selector |
-
----
-
-## 7. Design System, Typography & Global Widgets
-
-### 7.1 Color Palette Tokens ([`lib/globals/commonStyles.dart`](lib/globals/commonStyles.dart))
-
-| Token Name | Hex Code | Visual Sample | Usage |
+| Token Name | Hex Code | Visual Preview | Description |
 | :--- | :--- | :---: | :--- |
-| `mainColor` | `#8A1538` | ![#8A1538](https://via.placeholder.com/15/8A1538/000000?text=+) | Primary brand color (Qatar Maroon) for AppBars, buttons, headers |
-| `white` | `#F5EEDC` | ![#F5EEDC](https://via.placeholder.com/15/F5EEDC/000000?text=+) | Soft cream background color for cards and scaffolds |
-| `teal` | `#97BFB4` | ![#97BFB4](https://via.placeholder.com/15/97BFB4/000000?text=+) | Secondary accent color for links, borders, sub-actions |
-| `mainTextColor` | `#0C1F38` | ![#0C1F38](https://via.placeholder.com/15/0C1F38/000000?text=+) | Primary dark body text |
-| `brandColor` | `#7E2670` | ![#7E2670](https://via.placeholder.com/15/7E2670/000000?text=+) | Secondary brand purple accent |
+| `mainColor` | `#8A1538` | ![#8A1538](https://via.placeholder.com/15/8A1538/000000?text=+) | Primary Brand Maroon (Qatar National Color) |
+| `white` | `#F5EEDC` | ![#F5EEDC](https://via.placeholder.com/15/F5EEDC/000000?text=+) | Warm Cream background for cards & scaffolds |
+| `teal` | `#97BFB4` | ![#97BFB4](https://via.placeholder.com/15/97BFB4/000000?text=+) | Secondary accent for buttons, borders & tags |
+| `mainTextColor` | `#0C1F38` | ![#0C1F38](https://via.placeholder.com/15/0C1F38/000000?text=+) | High-contrast dark navy body text |
+| `brandColor` | `#7E2670` | ![#7E2670](https://via.placeholder.com/15/7E2670/000000?text=+) | Accent purple for banners & highlights |
 
-### 7.2 Typography
-* **Primary Font Family**: `DroidKufi` (loaded from `assets/fonts/`).
-  * `DroidKufiRegular.ttf`: Normal body text, subtitles, and list titles.
-  * `DroidKufiBold.ttf` (`FontWeight.w700`): Section titles, button text, and AppBar headings.
-
-### 7.3 Reusable Widget Library ([`lib/globals/widgets/`](lib/globals/widgets/))
-1. **`AppDrawer`** ([`DrawerWidget.dart`](lib/globals/widgets/DrawerWidget.dart)): Full-featured side navigation drawer with session detection, role-aware account redirection, social media links, coordinates map launcher, and language switcher.
-2. **`HomeCard`** ([`HomeCard.dart`](lib/globals/widgets/HomeCard.dart)): Stylized rounded action tile for home dashboard shortcuts.
-3. **`ContainerCardWidget`** ([`news_card.dart`](lib/globals/widgets/news_card.dart)): News card with thumbnail and title preview.
-4. **`ExpandableText`** ([`expandable_text.dart`](lib/globals/widgets/expandable_text.dart)): Multi-line collapsible text block with animated "Show More / Show Less" toggle.
-5. **`OfflineWidget`** ([`offline_widget.dart`](lib/globals/widgets/offline_widget.dart)): Bottom persistent network alert banner with retry trigger.
-6. **`MainButton`** ([`mainButton.dart`](lib/globals/widgets/mainButton.dart)): Standardized full-width rounded primary button.
-7. **`AppTextField`** ([`textFiled.dart`](lib/globals/widgets/textFiled.dart)): Styled form text input with validation indicators.
+### Typography
+- **Font Family**: `DroidKufi` (`DroidKufiRegular.ttf`, `DroidKufiBold.ttf`) registered in `pubspec.yaml`.
+- Optimized for Arabic typography (Kufic Calligraphy style) with full English fallback glyphs.
 
 ---
 
-## 8. Project Architecture & Directory Structure
+## 7. Directory Structure
 
 ```
 al_furqan_school/
-├── android/                     # Android native platform project & Gradle configuration
-├── ios/                         # iOS native Xcode project & Podfile
+├── android/                     # Android Gradle build configuration & native code
+│   ├── app/build.gradle         # App-level build config (Desugaring, Signing, SDK 35)
+│   ├── build.gradle             # Top-level Gradle configuration (AGP 8.11.1)
+│   └── settings.gradle          # Plugin loader & dependency repositories
+├── ios/                         # iOS Xcode project, Podfile & capabilities
 ├── assets/
-│   ├── fonts/                   # Custom fonts (DroidKufiRegular.ttf, DroidKufiBold.ttf)
-│   └── images/                  # App brand logos, icons, placeholder images
+│   ├── fonts/                   # DroidKufi font assets
+│   └── images/                  # School logos, banners, placeholders
 ├── i18n/
-│   ├── ar.json                  # Arabic translation strings (Default)
-│   └── en.json                  # English translation strings
+│   ├── ar.json                  # Arabic localized strings
+│   └── en.json                  # English localized strings
 ├── lib/
-│   ├── firebase_options.dart    # Firebase initialization settings per platform
+│   ├── firebase_options.dart    # Firebase credentials & options
 │   ├── main.dart                # Application entrypoint & theme setup
-│   ├── I10n/                    # Localization controllers & AppLocalizations delegate
+│   ├── I10n/                    # Localization delegate & AppLanguage provider
 │   ├── globals/
-│   │   ├── CommonSetting.dart   # Base API URLs & Domain links
-│   │   ├── commonStyles.dart    # Brand colors, typography, screen dimension helpers
-│   │   ├── helpers.dart         # Connectivity checkers, dialogs, URL launchers
-│   │   └── widgets/             # Reusable UI widgets (Drawer, Cards, Buttons, Fields)
-│   ├── models/                  # Data entity models (AppInfo, Student, Parent, Teacher, etc.)
-│   ├── services/                # API integration services (Dio HTTP requests)
-│   └── views/                   # Screens & UI grouped by user role and feature
-│       ├── startScreens/        # School stage selection screen
-│       ├── homescreen/          # Main landing dashboard
-│       ├── auth/login/          # Multi-role authentication screen
-│       ├── loggedUser/          # Student portal screens & controllers
-│       ├── Student/             # Student schedules, books, asked questions
-│       ├── parents/             # Parent portal screens & controllers
-│       ├── teacher/             # Teacher portal screens & controllers
-│       ├── appData/             # Informational screens (About, News, Privacy, Terms)
-│       └── other/               # Join application form & multimedia albums
-├── pubspec.yaml                 # Flutter project dependencies & asset definitions
-└── README.md                    # Comprehensive Project Documentation & Setup Manual
+│   │   ├── CommonSetting.dart   # API Base URLs
+│   │   ├── commonStyles.dart    # Design tokens & color constants
+│   │   ├── helpers.dart         # Connectivity checkers & dialog utilities
+│   │   └── widgets/             # Reusable UI widgets (Drawer, Cards, Buttons, Inputs)
+│   ├── models/                  # JSON Data models
+│   ├── services/                # API integration services & ApiClient singleton
+│   └── views/                   # UI Screens & GetX controllers
+│       ├── startScreens/        # Stage selector
+│       ├── homescreen/          # Main dashboard
+│       ├── auth/login/          # Multi-role login screen
+│       ├── loggedUser/          # Student portal
+│       ├── parents/             # Parent portal
+│       ├── teacher/             # Teacher portal
+│       ├── Student/             # Schedules, books & asked questions
+│       ├── appData/             # News, about, terms & privacy views
+│       └── other/               # Admissions & multimedia albums
+├── test/
+│   └── widget_test.dart         # Flutter unit & widget tests
+├── pubspec.yaml                 # Dependencies & asset declarations
+└── README.md                    # This complete documentation manual
 ```
 
 ---
 
-## 9. Prerequisites
+## 8. Troubleshooting & FAQs
 
-Before setting up and running this project, ensure you have installed:
-
-1. **Flutter SDK**: Version `3.24.x` or higher (compatible with Dart `^3.5.3`).
-   * Verify installation with:
-     ```bash
-     flutter --version
-     flutter doctor
-     ```
-2. **Java Development Kit (JDK)**: JDK 11 or JDK 17.
-3. **Android Studio** (for Android development):
-   * Android SDK (API Level 25 minimum, target API Level 35).
-   * Android SDK Command-line Tools and Build-Tools.
-4. **Xcode & CocoaPods** (for iOS development, macOS only):
-   * Xcode 15+
-   * CocoaPods (`sudo gem install cocoapods`)
-5. **Git**: For version control.
+| Symptom / Error | Root Cause | Solution |
+| :--- | :--- | :--- |
+| **`CocoaPods could not find compatible versions`** (Mac) | Outdated local pod specs repository | Run: `cd ios && pod repo update && pod install && cd ..` |
+| **`Cannot convert 'null' to File`** (Android) | Missing `key.properties` during release evaluation | Fixed in `android/app/build.gradle`: Release signing config checks file existence and falls back to debug signing if not configured. |
+| **`Unsupported Android Gradle Plugin version`** | Older AGP version | We have upgraded AGP to **8.11.1** and Gradle to **9.2**. Ensure JDK 17 is active. |
+| **`Android licenses not accepted`** | Fresh Android SDK install | Run `flutter doctor --android-licenses` and accept all prompts (`y`). |
+| **Push notifications not received** | Missing or mismatched Firebase config | Ensure `google-services.json` is placed in `android/app/` and `GoogleService-Info.plist` is in `ios/Runner/`. |
+| **No internet / Connection Timeout** | Network unreachable or slow connection | `ApiClient` enforces 20s timeouts with built-in retry dialogs. Check device Wi-Fi/cellular connection. |
 
 ---
 
-## 10. Installation & Setup
+## 9. License & Intellectual Property
 
-### Step 1: Clone the Repository
-
-```bash
-git clone https://github.com/AhmedElbasha97/al_furqan_school.git
-cd al_furqan_school
-```
-
-### Step 2: Verify Flutter Environment
-
-Run `flutter doctor` to ensure all toolchains are operational:
-
-```bash
-flutter doctor
-```
-
-### Step 3: Install Dependencies
-
-Fetch all Dart and Flutter packages declared in `pubspec.yaml`:
-
-```bash
-flutter pub get
-```
-
-### Step 4: iOS CocoaPods Setup (macOS only)
-
-```bash
-cd ios
-pod install --repo-update
-cd ..
-```
-
----
-
-## 11. Firebase Configuration
-
-The app relies on Firebase for Push Notifications (FCM) and Analytics.
-
-1. **Android**: Place your `google-services.json` file inside the `android/app/` directory:
-   ```
-   android/app/google-services.json
-   ```
-2. **iOS**: Place your `GoogleService-Info.plist` file inside the `ios/Runner/` directory:
-   ```
-   ios/Runner/GoogleService-Info.plist
-   ```
-3. **Firebase Options**: The configuration is mapped in `lib/firebase_options.dart`. If connecting a new Firebase project, regenerate options using FlutterFire CLI:
-   ```bash
-   flutterfire configure
-   ```
-
----
-
-## 12. Running the Project
-
-### Running in Debug Mode
-
-```bash
-# Check connected devices
-flutter devices
-
-# Run the app on the default device
-flutter run
-
-# Run on a specific device
-flutter run -d <DEVICE_ID>
-```
-
-### Running with Flavor / Release Mode
-
-```bash
-flutter run --release
-```
-
----
-
-## 13. Building for Production
-
-### Android (APK & App Bundle)
-
-#### 1. Configure Keystore for Release Signing
-Ensure `key.properties` is configured in `android/key.properties`:
-```properties
-keyAlias=<YOUR_KEY_ALIAS>
-keyPassword=<YOUR_KEY_PASSWORD>
-storeFile=<PATH_TO_KEYSTORE_FILE>
-storePassword=<YOUR_STORE_PASSWORD>
-```
-
-#### 2. Build Release APK:
-```bash
-flutter build apk --release
-```
-*Output location:* `build/app/outputs/flutter-apk/app-release.apk`
-
-#### 3. Build Release Android App Bundle (for Google Play):
-```bash
-flutter build appbundle --release
-```
-*Output location:* `build/app/outputs/bundle/release/app-release.aab`
-
----
-
-### iOS (IPA & Archive)
-
-#### 1. Open in Xcode:
-```bash
-open ios/Runner.xcworkspace
-```
-
-#### 2. Configure Signing & Capabilities:
-* Select `Runner` target -> **Signing & Capabilities**.
-* Select your **Team** and set the **Bundle Identifier** (`com.sync.al_furqan_school`).
-* Ensure **Push Notifications** and **Background Modes (Remote notifications)** are enabled.
-
-#### 3. Build IPA:
-```bash
-flutter build ipa --release
-```
-
----
-
-## 14. Configuration & Customization
-
-### Base API Endpoints
-All backend API endpoints are configured in [`lib/globals/CommonSetting.dart`](lib/globals/CommonSetting.dart):
-```dart
-String url = "https://www.alrayyanprivateschools.com";
-String baseUrl = "https://alforqanschools.sch.qa/site/api/";
-```
-
-### Color Palette & Theme Tokens
-Brand colors and text styling can be customized in [`lib/globals/commonStyles.dart`](lib/globals/commonStyles.dart):
-* **Main Brand Color**: `#8A1538` (Al-Furqan Maroon)
-* **Secondary / Accent**: `#97BFB4` (Teal)
-* **Background Light**: `#F5EEDC` (Soft Cream White)
-
-### Localization Strings
-All localized text can be updated in:
-* Arabic: [`i18n/ar.json`](i18n/ar.json)
-* English: [`i18n/en.json`](i18n/en.json)
-
----
-
-## 15. Security Analysis & Data Protection
-
-### 🔒 Current Security Posture & Recommendations
-
-1. **Authentication Credentials in Local Storage**:
-   * *Status*: In [`authService.dart`](lib/services/authService.dart), parent credentials (`usernameParent` and `passwordParent`) are saved in plaintext `SharedPreferences` to facilitate multi-student switching.
-   * *Recommendation*: Replace with secure encrypted storage via [`flutter_secure_storage`](https://pub.dev/packages/flutter_secure_storage) or migrate to a server-side session token / JWT.
-
-2. **HTTP Parameter Handling**:
-   * *Status*: Several endpoints transmit user input and query parameters via GET URL concatenation without URL encoding.
-   * *Recommendation*: Migrate sensitive endpoints to HTTP `POST` requests and pass parameters inside `FormData` or JSON request bodies.
-
-3. **Keystore Management**:
-   * *Status*: Keystore files (`my-new-release-key.keystore`) are present in the repository root.
-   * *Recommendation*: Keystore files and passwords should be stored outside version control and managed via CI/CD environment secrets or local `key.properties` (which is excluded in `.gitignore`).
-
----
-
-## 16. Developer Guide & Contribution Workflows
-
-### 16.1 Adding a New Screen / Feature
-1. **Create the Model**: Add the entity class in `lib/models/<module>/<feature_model>.dart`.
-2. **Create the Service**: Add network retrieval methods in `lib/services/<service_name>.dart`.
-3. **Create the Controller**: Create `lib/views/<module>/controller/<feature>_controller.dart` extending `GetxController`.
-4. **Create the View**: Create `lib/views/<module>/<feature>_screen.dart` wrapping the UI inside a `GetBuilder<FeatureController>`.
-5. **Add Localization Keys**: Add all static text keys to both `i18n/ar.json` and `i18n/en.json`.
-
-### 16.2 Running Code Analysis & Quality Checks
-To verify there are no compilation errors or breaking issues:
-```bash
-# Fetch dependencies
-flutter pub get
-
-# Run static analyzer
-flutter analyze
-
-# Clean build cache if necessary
-flutter clean
-```
-
----
-
-## 17. Troubleshooting & FAQs
-
-| Issue | Solution |
-| :--- | :--- |
-| **`CocoaPods could not find compatible versions`** | Run `cd ios && pod repo update && pod install` |
-| **`Gradle build failed / Desugaring error`** | Ensure `coreLibraryDesugaringEnabled true` is set in `android/app/build.gradle` and your JDK is version 11 or 17. |
-| **Push notifications not appearing** | Verify that `google-services.json` (Android) and `GoogleService-Info.plist` (iOS) are properly registered in the Firebase console and APNs certificates / FCM tokens are active. |
-| **Image loading errors / CORS / HTTP issues** | Ensure network endpoints use HTTPS and Android `usesCleartextTraffic` is configured if testing local HTTP servers. |
-
----
-
-## 18. License & Intellectual Property
-
-Copyright © **Al-Furqan Private Schools** (Qatar) & **Sync Qatar**.  
-All rights reserved. Unauthorized reproduction, modification, distribution, or commercial use of this codebase is strictly prohibited.
+Copyright © **Al-Furqan Private Schools (مدارس الفرقان الخاصة - دولة قطر)** & **Sync Qatar**.  
+All rights reserved. Unauthorized copying, modification, distribution, or reverse engineering of this software is strictly prohibited.
